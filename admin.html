@@ -19,3 +19,8 @@ window.excluir=async function(id){if(confirm("Excluir produto?"))await deleteDoc
 window.novoProduto=async function(){let nome=document.getElementById("novoNome").value.trim();if(!nome)return alert("Digite o nome");await addDoc(collection(db,"produtos"),{nome,preco:parseFloat(document.getElementById("novoPreco").value||0),estoque:parseInt(document.getElementById("novoEstoque").value||0),img:document.getElementById("novaFoto").value.trim()||"img/sem-foto.jpeg",ativo:true});document.getElementById("novoNome").value="";document.getElementById("novoPreco").value="";document.getElementById("novoEstoque").value="";document.getElementById("novaFoto").value=""}
 window.carregarInicial=async function(){let ex=await getDocs(collection(db,"produtos"));if(ex.size>0&&!confirm("Já existem produtos. Continuar pode duplicar. Deseja continuar?"))return;for(const p of iniciais)await addDoc(collection(db,"produtos"),p);alert("Tabela inicial carregada.")}
 </script></body></html>
+<select onchange="atualizar('${p.id}','status',this.value)">
+<option value="estoque">Estoque</option>
+<option value="reservado">Reservado</option>
+<option value="vendido">Vendido</option>
+</select>
