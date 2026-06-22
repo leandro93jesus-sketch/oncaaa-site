@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,100 +6,27 @@
 <title>Onça Produtos de Limpeza</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4;color:#222}
-header{background:#003b80;color:white;text-align:center;padding:20px}
-.banner{
-background:linear-gradient(135deg,#005bbb,#0099ff);
-color:white;
-text-align:center;
-padding:40px;
-}
-.banner img{
-max-width:250px;
-border-radius:15px;
-background:white;
-padding:10px;
-}
-.categorias{
-display:flex;
-gap:10px;
-overflow:auto;
-padding:15px;
-background:white;
-}
-.categorias button{
-background:#003b80;
-color:white;
-border:none;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-}
-.produtos{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:20px;
-padding:20px;
-}
-.card{
-background:white;
-padding:15px;
-border-radius:15px;
-box-shadow:0 3px 10px #999;
-text-align:center;
-}
-.card img{
-width:100%;
-height:220px;
-object-fit:cover;
-border-radius:10px;
-}
-.preco{
-font-size:24px;
-color:green;
-font-weight:bold;
-}
-.promocao{
-background:red;
-color:white;
-padding:5px;
-border-radius:5px;
-display:inline-block;
-margin-bottom:10px;
-}
-button{
-background:#25d366;
-color:white;
-border:none;
-padding:10px;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-}
-.carrinho,.sobre,.avaliacoes{
-background:white;
-margin:20px;
-padding:20px;
-border-radius:15px;
-}
-.whats-fixo{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25d366;
-color:white;
-padding:15px;
-border-radius:50px;
-font-weight:bold;
-text-decoration:none;
-box-shadow:0 3px 10px #555;
-}
-footer{
-background:#003b80;
-color:white;
-text-align:center;
-padding:20px;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;color:#222}
+header{background:#003b80;color:white;text-align:center;padding:18px}
+.banner{background:#005bbb;color:white;text-align:center;padding:30px}
+.banner img{max-width:280px;border-radius:18px;background:white}
+.box{background:white;margin:20px;padding:20px;border-radius:15px;box-shadow:0 2px 8px #ccc}
+.categorias{display:flex;gap:10px;overflow:auto;padding:15px;background:white}
+.categorias button{background:#003b80;color:white;border:0;padding:10px 14px;border-radius:8px;font-weight:bold}
+.produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;padding:25px}
+.card{background:white;border-radius:15px;padding:15px;box-shadow:0 3px 10px #999;text-align:center}
+.card img{width:100%;height:230px;object-fit:cover;border-radius:12px;background:#ddd}
+.preco{font-size:24px;color:#008000;font-weight:bold}
+.esgotado{color:#c00;font-weight:bold}
+.reservado{background:#ffcc00;color:#111;padding:6px;border-radius:6px;font-weight:bold}
+button{background:#25d366;color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:bold;cursor:pointer;margin:4px}
+.danger{background:#c00}
+input,textarea,select{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border-radius:8px}
+.item{border-bottom:1px solid #ddd;padding:10px 0}
+.whats-fixo{position:fixed;bottom:20px;right:20px;background:#25d366;color:white;padding:15px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 3px 10px #555}
+footer{background:#003b80;color:white;text-align:center;padding:20px}
+@media(max-width:900px){.produtos{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -112,9 +38,19 @@ padding:20px;
 </header>
 
 <section class="banner">
-<img src="img/logo-da-loja.jpeg">
+<img src="img/logo-da-loja.jpeg" onerror="this.src='img/sem-foto.jpeg'">
 <h2>Produtos de limpeza com entrega rápida 🚚</h2>
 <p>Votorantim • Tapiraí • Região</p>
+</section>
+
+<section class="box">
+<h2>💳 Formas de pagamento</h2>
+<p>✅ Pix | 💵 Dinheiro | 💳 Débito | 💳 Crédito</p>
+</section>
+
+<section class="box">
+<h2>🔎 Buscar produto</h2>
+<input id="busca" placeholder="Digite o nome do produto" oninput="mostrarProdutos()">
 </section>
 
 <section class="categorias">
@@ -123,18 +59,18 @@ padding:20px;
 <button onclick="filtrar('automotivo')">Automotivo</button>
 <button onclick="filtrar('utensilios')">Utensílios</button>
 <button onclick="filtrar('promocoes')">Promoções</button>
-  <button onclick="filtrar('reservado')">Reservados</button>
+<button onclick="filtrar('reservado')">Reservados</button>
 </section>
 
-<section class="produtos" id="produtos"></section>
+<section class="produtos" id="produtos">Carregando produtos...</section>
 
-<section class="carrinho">
+<section class="box">
 <h2>🛒 Carrinho</h2>
 <div id="listaCarrinho">Carrinho vazio</div>
 <h3 id="total">Total: R$ 0,00</h3>
 
 <input id="nome" placeholder="Seu nome">
-<input id="endereco" placeholder="Endereço">
+<input id="endereco" placeholder="Endereço de entrega">
 
 <select id="pagamento">
 <option>Pix</option>
@@ -143,109 +79,165 @@ padding:20px;
 <option>Crédito</option>
 </select>
 
-<textarea id="obs" placeholder="Observações"></textarea>
+<textarea id="obs" placeholder="Observação"></textarea>
 
-<button onclick="enviarWhatsApp()">Enviar pedido</button>
+<button onclick="enviarWhatsApp()">Enviar pedido pelo WhatsApp</button>
 </section>
 
-<section class="sobre">
+<section class="box">
 <h2>Sobre a loja</h2>
-<p>
-A Onça Produtos de Limpeza oferece produtos de qualidade,
-preço justo e entrega rápida para sua casa ou empresa.
-</p>
+<p>A Onça Produtos de Limpeza oferece produtos de qualidade, preço justo e atendimento rápido para sua casa ou empresa.</p>
 </section>
 
-<section class="avaliacoes">
+<section class="box">
 <h2>Avaliações</h2>
-<p>⭐⭐⭐⭐⭐ "Entrega rápida e ótimo atendimento"</p>
-<p>⭐⭐⭐⭐⭐ "Produtos de qualidade e preço justo"</p>
+<p>⭐⭐⭐⭐⭐ Entrega rápida e ótimo atendimento.</p>
+<p>⭐⭐⭐⭐⭐ Produtos de qualidade e preço justo.</p>
 </section>
 
-<a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">
-WhatsApp
-</a>
+<a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">WhatsApp</a>
 
 <footer>
 <p>Onça Produtos de Limpeza</p>
 <p>WhatsApp: (15) 99793-1042</p>
 </footer>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+  authDomain: "oncas-produtos-de-limpeza.firebaseapp.com",
+  projectId: "oncas-produtos-de-limpeza",
+  storageBucket: "oncas-produtos-de-limpeza.firebasestorage.app",
+  messagingSenderId: "83163373018",
+  appId: "1:83163373018:web:cd9ddb90f2112c62a274e3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const whatsapp = "5515997931042";
-
-const produtos = [
-{nome:"Desinfetante Clineza 5L", preco:16, img:"img/desinfetante.jpeg", categoria:"promocoes"},
-{nome:"Benjamim", preco:4, img:"img/benjamim.jpeg", categoria:"promocoes"},
-{nome:"Percarbonato", preco:20, img:"img/percabonato.jpeg", categoria:"limpeza"},
-{nome:"Lava Canil", preco:22, img:"img/lava-canil.jpeg", categoria:"limpeza"},
-{nome:"Pretinho Pneu", preco:15, img:"img/pretinho.jpeg", categoria:"automotivo"}
-];
-
-let carrinho=[];
+let produtos = [];
+let carrinho = [];
+let filtroAtual = "todos";
 
 function moeda(v){
-return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  return Number(v || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
 
-function mostrar(lista){
-document.getElementById("produtos").innerHTML = lista.map((p,i)=>`
-<div class="card">
-${p.categoria=="promocoes" ? '<div class="promocao">OFERTA</div>' : ''}
-<img src="${p.img}">
-<h3>${p.nome}</h3>
-<p class="preco">${moeda(p.preco)}</p>
-<button onclick="add(${i})">Adicionar</button>
-</div>
-`).join("");
+onSnapshot(query(collection(db,"produtos"), orderBy("nome")), snap => {
+  produtos = snap.docs.map(d => ({id:d.id, ...d.data()})).filter(p => p.ativo !== false);
+  mostrarProdutos();
+}, erro => {
+  document.getElementById("produtos").innerHTML = "Erro ao carregar produtos: " + erro.message;
+});
+
+window.filtrar = function(cat){
+  filtroAtual = cat;
+  mostrarProdutos();
 }
 
-function filtrar(cat){
-if(cat=="todos"){
-mostrar(produtos);
-}else{
-mostrar(produtos.filter(p=>p.categoria==cat));
-}
+window.mostrarProdutos = function(){
+  let termo = (document.getElementById("busca").value || "").toLowerCase();
+
+  let lista = produtos.filter(p => (p.nome || "").toLowerCase().includes(termo));
+
+  if(filtroAtual !== "todos"){
+    lista = lista.filter(p => {
+      if(filtroAtual === "reservado") return p.status === "reservado";
+      if(filtroAtual === "promocoes") return p.categoria === "promocoes";
+      return p.categoria === filtroAtual;
+    });
+  }
+
+  document.getElementById("produtos").innerHTML = lista.map(p => {
+    let semEstoque = Number(p.estoque || 0) <= 0;
+    let reservado = p.status === "reservado";
+
+    return `
+    <div class="card">
+      ${reservado ? '<div class="reservado">RESERVADO</div>' : ''}
+      <img src="${p.img || 'img/sem-foto.jpeg'}" onerror="this.src='img/sem-foto.jpeg'">
+      <h3>${p.nome}</h3>
+      <p class="preco">${moeda(p.preco)}</p>
+      <p>Estoque: ${p.estoque ?? 0}</p>
+      ${semEstoque ? '<p class="esgotado">ESGOTADO</p>' : `
+      <input type="number" id="qtd_${p.id}" value="1" min="1" max="${p.estoque}">
+      <button onclick="add('${p.id}')">Adicionar</button>`}
+    </div>`;
+  }).join("") || "Nenhum produto encontrado.";
 }
 
-function add(i){
-carrinho.push(produtos[i]);
-mostrarCarrinho();
+window.add = function(id){
+  let p = produtos.find(x => x.id === id);
+  let qtd = parseInt(document.getElementById("qtd_"+id).value || 1);
+
+  if(qtd > Number(p.estoque || 0)){
+    alert("Quantidade maior que o estoque.");
+    return;
+  }
+
+  let item = carrinho.find(x => x.id === id);
+  if(item){
+    item.qtd += qtd;
+  }else{
+    carrinho.push({...p, qtd});
+  }
+
+  mostrarCarrinho();
+  alert("Produto adicionado!");
 }
 
 function mostrarCarrinho(){
-let total=0;
-document.getElementById("listaCarrinho").innerHTML = carrinho.map(p=>{
-total += p.preco;
-return `${p.nome} - ${moeda(p.preco)}<br>`;
-}).join("");
+  let total = 0;
 
-document.getElementById("total").innerText = "Total: " + moeda(total);
+  document.getElementById("listaCarrinho").innerHTML = carrinho.map((p,i) => {
+    total += Number(p.preco || 0) * p.qtd;
+    return `
+    <div class="item">
+      ${p.qtd}x ${p.nome} - <b>${moeda(Number(p.preco || 0) * p.qtd)}</b>
+      <button class="danger" onclick="remover(${i})">Remover</button>
+    </div>`;
+  }).join("") || "Carrinho vazio";
+
+  document.getElementById("total").innerText = "Total: " + moeda(total);
 }
 
-function enviarWhatsApp(){
-let nome=document.getElementById("nome").value;
-let endereco=document.getElementById("endereco").value;
-let pagamento=document.getElementById("pagamento").value;
-let obs=document.getElementById("obs").value;
-
-let msg="Pedido Onça Produtos:%0A";
-carrinho.forEach(p=>{
-msg += `${p.nome} - ${moeda(p.preco)}%0A`;
-});
-
-msg += `%0ANome: ${nome}`;
-msg += `%0AEndereço: ${endereco}`;
-msg += `%0APagamento: ${pagamento}`;
-msg += `%0AObs: ${obs}`;
-
-window.open(`https://wa.me/${whatsapp}?text=${msg}`);
+window.remover = function(i){
+  carrinho.splice(i,1);
+  mostrarCarrinho();
 }
 
-mostrar(produtos);
+window.enviarWhatsApp = function(){
+  if(!carrinho.length){
+    alert("Carrinho vazio");
+    return;
+  }
+
+  let nome = document.getElementById("nome").value;
+  let endereco = document.getElementById("endereco").value;
+  let pagamento = document.getElementById("pagamento").value;
+  let obs = document.getElementById("obs").value;
+
+  let total = carrinho.reduce((s,p) => s + Number(p.preco || 0) * p.qtd, 0);
+
+  let msg = "Olá! Quero fazer um pedido na Onça Produtos de Limpeza:\\n\\n";
+
+  carrinho.forEach(p => {
+    msg += `${p.qtd}x ${p.nome} - ${moeda(Number(p.preco || 0) * p.qtd)}\\n`;
+  });
+
+  msg += `\\nTotal: ${moeda(total)}`;
+  msg += `\\nForma de pagamento: ${pagamento}`;
+  msg += `\\nNome: ${nome}`;
+  msg += `\\nEndereço: ${endereco}`;
+  msg += `\\nObservação: ${obs}`;
+
+  window.open("https://wa.me/" + whatsapp + "?text=" + encodeURIComponent(msg), "_blank");
+}
 </script>
 
 </body>
 </html>
-```
-<button onclick="filtrar('reservado')">Reservados</button>
