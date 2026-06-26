@@ -8,10 +8,14 @@
 <style>
 body{margin:0;font-family:Arial;background:#f4f4f4}
 header{background:#003b80;color:white;text-align:center;padding:20px}
+header a{color:white;font-weight:bold;text-decoration:none}
 .box{background:white;margin:20px;padding:20px;border-radius:12px;box-shadow:0 2px 8px #ccc}
 input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
-button{background:#25d366;color:white;font-weight:bold;border:0}
-.produto,.pedido{border-bottom:1px solid #ddd;padding:10px}
+button{background:#25d366;color:white;font-weight:bold;border:0;cursor:pointer}
+.danger{background:#c00}
+.azul{background:#003b80}
+.produto,.pedido{border-bottom:1px solid #ddd;padding:15px}
+.produto img{max-width:120px;border-radius:8px}
 </style>
 </head>
 
@@ -19,7 +23,23 @@ button{background:#25d366;color:white;font-weight:bold;border:0}
 
 <header>
 <h1>🔒 Painel Admin Onça</h1>
+<a href="index.html">⬅ Voltar ao site</a>
 </header>
+
+<div class="box" id="loginBox">
+<h2>Entrar no painel</h2>
+<input id="email" type="email" placeholder="E-mail">
+<input id="senha" type="password" placeholder="Senha">
+<button onclick="entrar()">Entrar</button>
+<p id="erroLogin" style="color:red;"></p>
+</div>
+
+<div id="painelBox" style="display:none;">
+
+<div class="box">
+<button onclick="sair()" class="danger">Sair do painel</button>
+<a href="index.html"><button class="azul">Ir para o site</button></a>
+</div>
 
 <div class="box">
 <h2>Adicionar Produto</h2>
@@ -28,8 +48,7 @@ button{background:#25d366;color:white;font-weight:bold;border:0}
 <input id="preco" type="number" placeholder="Preço">
 <input id="estoque" type="number" placeholder="Estoque">
 
-<input type="file" id="foto">
-
+<input type="file" id="foto" accept="image/*">
 <button onclick="uploadFoto()">Enviar foto</button>
 
 <input id="img" placeholder="Link da imagem">
@@ -47,8 +66,18 @@ button{background:#25d366;color:white;font-weight:bold;border:0}
 <div id="listaPedidos"></div>
 </div>
 
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+
+import {
+getAuth,
+signInWithEmailAndPassword,
+signOut,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
 import {
 getFirestore,
 collection,
@@ -76,43 +105,67 @@ appId: "1:83163373018:web:cd9ddb90f2112c62a274e3"
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+window.entrar = async function(){
+try{
+await signInWithEmailAndPassword(auth, email.value, senha.value);
+}catch(e){
+erroLogin.innerText = "Erro no login: " + e.code;
+}
+}
+
+window.sair = function(){
+signOut(auth);
+}
+
+onAuthStateChanged(auth, user=>{
+if(user){
+loginBox.style.display = "none";
+painelBox.style.display = "block";
+}else{
+loginBox.style.display = "block";
+painelBox.style.display = "none";
+}
+});
+
 window.uploadFoto = async function(){
-let file = document.getElementById("foto").files[0];
+let file = foto.files[0];
 
 if(!file){
 alert("Escolha uma foto");
 return;
 }
 
-let storageRef = ref(storage, "produtos/" + file.name);
+let nomeArquivo = Date.now() + "_" + file.name.replaceAll(" ","_").toLowerCase();
+let storageRef = ref(storage, "produtos/" + nomeArquivo);
 
 await uploadBytes(storageRef, file);
 
 let url = await getDownloadURL(storageRef);
 
-document.getElementById("img").value = url;
+img.value = url;
 
 alert("Foto enviada com sucesso!");
 }
 
 window.salvarProduto = async function(){
-let nome = document.getElementById("nome").value;
-let preco = document.getElementById("preco").value;
-let estoque = document.getElementById("estoque").value;
-let img = document.getElementById("img").value;
-
 await addDoc(collection(db,"produtos"),{
-nome,
-preco:Number(preco),
-estoque:Number(estoque),
-img,
+nome:nome.value,
+preco:Number(preco.value),
+estoque:Number(estoque.value),
+img:img.value,
 ativo:true
 });
 
 alert("Produto salvo!");
+nome.value="";
+preco.value="";
+estoque.value="";
+img.value="";
+foto.value="";
 }
 
 onSnapshot(collection(db,"produtos"), snap=>{
@@ -126,18 +179,60 @@ html += `
 <b>${p.nome}</b><br>
 Preço: R$ ${p.preco}<br>
 Estoque: ${p.estoque}<br>
-<img src="${p.img}" width="100"><br>
+<img src="${p.img || 'img/sem-foto.jpeg'}"><br>
 
-<button onclick="deletar('${docu.id}')">Excluir</button>
+<input id="nome_${docu.id}" value="${p.nome || ''}">
+<input id="preco_${docu.id}" type="number" value="${p.preco || 0}">
+<input id="estoque_${docu.id}" type="number" value="${p.estoque || 0}">
+
+<input type="file" id="fotoTroca_${docu.id}" accept="image/*">
+<button onclick="trocarFoto('${docu.id}')">Trocar foto</button>
+
+<button onclick="editarProduto('${docu.id}')">Editar produto</button>
+<button class="danger" onclick="deletar('${docu.id}')">Excluir produto</button>
 </div>
 `;
 });
 
-document.getElementById("listaProdutos").innerHTML = html;
+listaProdutos.innerHTML = html;
 });
 
+window.editarProduto = async function(id){
+await updateDoc(doc(db,"produtos",id),{
+nome:document.getElementById("nome_"+id).value,
+preco:Number(document.getElementById("preco_"+id).value),
+estoque:Number(document.getElementById("estoque_"+id).value)
+});
+
+alert("Produto editado!");
+}
+
+window.trocarFoto = async function(id){
+let file = document.getElementById("fotoTroca_"+id).files[0];
+
+if(!file){
+alert("Escolha uma foto nova");
+return;
+}
+
+let nomeArquivo = Date.now() + "_" + file.name.replaceAll(" ","_").toLowerCase();
+let storageRef = ref(storage, "produtos/" + nomeArquivo);
+
+await uploadBytes(storageRef, file);
+
+let url = await getDownloadURL(storageRef);
+
+await updateDoc(doc(db,"produtos",id),{
+img:url
+});
+
+alert("Foto trocada com sucesso!");
+}
+
 window.deletar = async function(id){
+if(confirm("Deseja excluir este produto?")){
 await deleteDoc(doc(db,"produtos",id));
+}
 }
 
 onSnapshot(collection(db,"pedidos"), snap=>{
@@ -149,6 +244,10 @@ let p = docu.data();
 html += `
 <div class="pedido">
 <b>${p.cliente || "Cliente"}</b><br>
+Telefone: ${p.telefone || ""}<br>
+Endereço: ${p.endereco || ""}<br>
+Total: R$ ${p.total || 0}<br>
+
 Status:
 <select onchange="mudarStatus('${docu.id}',this.value)">
 <option ${p.status=="Novo"?"selected":""}>Novo</option>
@@ -161,12 +260,12 @@ Status:
 `;
 });
 
-document.getElementById("listaPedidos").innerHTML = html;
+listaPedidos.innerHTML = html;
 });
 
 window.mudarStatus = async function(id,status){
 await updateDoc(doc(db,"pedidos",id),{
-status
+status:status
 });
 }
 </script>
