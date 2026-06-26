@@ -1,26 +1,175 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Admin Onça</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f4f4f4;color:#222}header{background:#003b80;color:white;text-align:center;padding:18px}header a{color:white}.banner{background:#005bbb;color:white;text-align:center;padding:30px}.banner img{max-width:280px;border-radius:18px}.box{background:white;margin:20px;padding:20px;border-radius:15px;box-shadow:0 2px 8px #ccc}.produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;padding:25px}.card{background:white;border-radius:15px;padding:15px;box-shadow:0 3px 10px #999;text-align:center}.card img{width:100%;height:230px;object-fit:cover;border-radius:12px;background:#ddd}.preco{font-size:24px;color:#080;font-weight:bold}.esgotado{color:#c00;font-weight:bold}button{background:#25d366;color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:bold;cursor:pointer;margin:4px}.danger{background:#c00}.azul{background:#003b80}input,textarea,select{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border-radius:8px}.item{border-bottom:1px solid #ddd;padding:10px 0}.linha{display:grid;grid-template-columns:2fr 1fr 1fr 1.7fr 1fr auto;gap:8px;border-bottom:1px solid #ddd;padding:8px 0}.msg{padding:12px;border-radius:8px;background:#fff3cd;margin:10px 0}footer{background:#003b80;color:white;text-align:center;padding:20px}@media(max-width:900px){.linha{grid-template-columns:1fr}.produtos{grid-template-columns:1fr}}</style></head><body>
-<header><h1>🔒 Painel Admin Onça</h1><p><a href="index.html">Ver site</a></p></header>
-<section class="box" id="loginBox"><h2>Entrar no painel</h2><input id="email" type="email" placeholder="E-mail do Firebase"><input id="senha" type="password" placeholder="Senha"><button onclick="entrar()">Entrar</button><div id="erroLogin" class="msg" style="display:none"></div></section>
-<section class="box" id="painelBox" style="display:none"><h2>Controle de estoque, preço e produtos</h2><button onclick="carregarInicial()" class="azul">Carregar tabela inicial</button><button onclick="sair()" class="danger">Sair</button><div class="msg">Foto nova: envie a foto para a pasta <b>img</b> no GitHub e coloque o caminho. Ex: <b>img/cloro.jpeg</b></div><h3>Novo produto</h3><input id="novoNome" placeholder="Nome"><input id="novoPreco" type="number" step="0.01" placeholder="Preço"><input id="novoEstoque" type="number" placeholder="Estoque"><input id="novaFoto" placeholder="Foto: img/sem-foto.jpeg"><button onclick="novoProduto()">Cadastrar</button><h3>Produtos</h3><div id="listaProdutos">Carregando...</div></section>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel Admin Onça</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#f4f4f4}
+header{background:#003b80;color:white;text-align:center;padding:20px}
+.box{background:white;margin:20px;padding:20px;border-radius:12px;box-shadow:0 2px 8px #ccc}
+input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
+button{background:#25d366;color:white;font-weight:bold;border:0}
+.produto,.pedido{border-bottom:1px solid #ddd;padding:10px}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🔒 Painel Admin Onça</h1>
+</header>
+
+<div class="box">
+<h2>Adicionar Produto</h2>
+
+<input id="nome" placeholder="Nome do produto">
+<input id="preco" type="number" placeholder="Preço">
+<input id="estoque" type="number" placeholder="Estoque">
+
+<input type="file" id="foto">
+
+<button onclick="uploadFoto()">Enviar foto</button>
+
+<input id="img" placeholder="Link da imagem">
+
+<button onclick="salvarProduto()">Salvar produto</button>
+</div>
+
+<div class="box">
+<h2>Produtos cadastrados</h2>
+<div id="listaProdutos"></div>
+</div>
+
+<div class="box">
+<h2>Pedidos</h2>
+<div id="listaPedidos"></div>
+</div>
+
 <script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import{getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-import{getFirestore,collection,addDoc,updateDoc,deleteDoc,doc,onSnapshot,query,orderBy,getDocs}from"https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",projectId:"oncas-produtos-de-limpeza",storageBucket:"oncas-produtos-de-limpeza.firebasestorage.app",messagingSenderId:"83163373018",appId:"1:83163373018:web:cd9ddb90f2112c62a274e3"};
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);const iniciais=[{"nome": "AMACIANTE BONRRUQUE 2L", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LAVA ROUPAS BONRRUQUE 5L", "preco": 28.5, "estoque": 20, "img": "img/sabao-liquido-clineza.jpeg", "ativo": true}, {"nome": "LIMPA ALUMÍNIO BONRRUQUE 1L", "preco": 10, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DETERGENTE MAÇÃ BONRRUQUE 5L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DETERGENTE LIMÃO BONRRUQUE 5L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ÁGUA SANITÁRIA GIRASOL 5L", "preco": 10, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ALVEJANTE SEM CLORO CLINEZA 2L", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LAVA ROUPAS CLINEZA 2L", "preco": 15, "estoque": 20, "img": "img/sabao-liquido-clineza.jpeg", "ativo": true}, {"nome": "DESINFETANTE CLINEZA 2L", "preco": 7.5, "estoque": 20, "img": "img/desinfetante.jpeg", "ativo": true}, {"nome": "DESINFETANTE CLINEZA 5L", "preco": 16, "estoque": 20, "img": "img/desinfetante.jpeg", "ativo": true}, {"nome": "AMACIANTE URCA 2L", "preco": 8, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "AMACIANTE CLINEZA 2L", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "AMACIANTE CLINEZA 5L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ALVEJANTE SEM CLORO CLINEZA 5L", "preco": 24, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DESENGORDURANTE CLINEZA 1L", "preco": 11, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DESENGORDURANTE CLINEZA 5L", "preco": 40, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "CLORO ATIVO CLINEZA 2L", "preco": 11.5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "CLORO ATIVO CLINEZA 5L", "preco": 29, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ÁGUA SANITÁRIA CLINEZA 2L", "preco": 5.5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ÁGUA SANITÁRIA CLINEZA 5L", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LUSTRA MÓVEIS CLINEZA 500ML", "preco": 10, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "REMOVEDOR PERFUMADO CLINEZA 500ML", "preco": 7.5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DESENGORDURANTE CLINEZA 500ML", "preco": 5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LIMPADOR COM QUEROSENE CLINEZA 2L", "preco": 23, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LAVA CANIL CLINEZA 2L", "preco": 22, "estoque": 20, "img": "img/lava-canil.jpeg", "ativo": true}, {"nome": "ÁLCOOL PERFUMADO CLINEZA 2L", "preco": 18.9, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "CLORO GEL CLINEZA 2L", "preco": 22, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "PERCARBONATO ORIGINAL CLINEZA 500G", "preco": 20, "estoque": 20, "img": "img/percabonato.jpeg", "ativo": true}, {"nome": "ANTI MOFO HIPPO 180G", "preco": 12, "estoque": 20, "img": "img/seccar-hippo.jpeg", "ativo": true}, {"nome": "ANTI MOFO SECAR 100G", "preco": 10, "estoque": 20, "img": "img/seccar-hippo.jpeg", "ativo": true}, {"nome": "ODORIZADOR DE AMBIENTE SECAR 100ML", "preco": 5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DETERGENTE NEUTRO GIRASOL 5L", "preco": 5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DETERGENTE MAÇÃ BONRRUQUE 2L", "preco": 5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DETERGENTE BONRRUQUE 2L", "preco": 5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "BASE ALCALINA SODA BONRRUQUE 1L", "preco": 23, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "BASE ALCALINA SODA CLINEZA 1L", "preco": 23, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "DETERGENTE DE USO GERAL BONRRUQUE 1L", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LIMPADOR DE USO GERAL MARIDÃO CLINEZA 1L", "preco": 13, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "PANO DE LIMPEZA MICROFIBRA KIT 4 UN", "preco": 22, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ESCORREDOR DE LOUÇAS", "preco": 15, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "BACIA 25L", "preco": 22.5, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "BALDE 10L", "preco": 15, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "BALDE 20L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LIXEIRA ESCRITÓRIO ARQPLAST 10L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LIXEIRA ARQPLAST 60L", "preco": 38, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LIXEIRA ARQPLAST 30L", "preco": 26, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "SHAMPOO AUTOMOTIVO CLINEZA 1L", "preco": 13.9, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "PRETINHO PNEU CLINEZA 1L", "preco": 15, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "SILICONE AUTOMOTIVO CLINEZA 250G", "preco": 15, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "RODO 30CM", "preco": 9.9, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "RODO 40CM", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "RODO 60CM", "preco": 15, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "VASSOURA PAULISTINHA", "preco": 9.9, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "VASSOURA SAPEKA", "preco": 12, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ESFREGÃO VIDRO", "preco": 7, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ESFREGÃO AZULEJO", "preco": 7, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "ESFREGÃO PORCELANATO", "preco": 7, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "SABÃO DE COCO GIRASOL 5L", "preco": 25, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "SABÃO OMEX CONCENTRADO GIRASOL 5L", "preco": 25, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "SABÃO OMEX GIRASOL 5L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "AMACIANTE CONFORTE GIRASOL 5L", "preco": 20, "estoque": 20, "img": "img/sem-foto.jpeg", "ativo": true}, {"nome": "LIMPADOR DE CANIL BACTERICIDA GIRASOL 5L", "preco": 22, "estoque": 20, "img": "img/lava-canil.jpeg", "ativo": true}, {"nome": "BENJAMIM", "preco": 4, "estoque": 20, "img": "img/benjamim.jpeg", "ativo": true}];let produtos=[];
-const loginBox=document.getElementById("loginBox"),painelBox=document.getElementById("painelBox"),listaProdutos=document.getElementById("listaProdutos"),erroLogin=document.getElementById("erroLogin");
-window.entrar=async function(){erroLogin.style.display="none";try{await signInWithEmailAndPassword(auth,document.getElementById("email").value,document.getElementById("senha").value)}catch(e){erroLogin.style.display="block";erroLogin.innerText="Erro no login: "+e.code+" - "+e.message}}
-window.sair=async function(){await signOut(auth)}
-onAuthStateChanged(auth,u=>{if(u){loginBox.style.display="none";painelBox.style.display="block";carregarProdutos()}else{loginBox.style.display="block";painelBox.style.display="none"}})
-function carregarProdutos(){onSnapshot(query(collection(db,"produtos"),orderBy("nome")),s=>{produtos=s.docs.map(d=>({id:d.id,...d.data()}));render()},e=>{listaProdutos.innerHTML="Erro Firestore: "+e.message})}
-function render(){listaProdutos.innerHTML=produtos.map(p=>`<div class="linha"><input value="${p.nome||''}" onchange="atualizar('${p.id}','nome',this.value)"><input type="number" step="0.01" value="${p.preco||0}" onchange="atualizar('${p.id}','preco',parseFloat(this.value||0))"><input type="number" value="${p.estoque||0}" onchange="atualizar('${p.id}','estoque',parseInt(this.value||0))"><input value="${p.img||'img/sem-foto.jpeg'}" onchange="atualizar('${p.id}','img',this.value)"><select onchange="atualizar('${p.id}','ativo',this.value==='true')"><option value="true" ${p.ativo!==false?'selected':''}>Ativo</option><option value="false" ${p.ativo===false?'selected':''}>Oculto</option></select><button class="danger" onclick="excluir('${p.id}')">Excluir</button></div>`).join("")||"Nenhum produto cadastrado."}
-window.atualizar=async function(id,campo,valor){await updateDoc(doc(db,"produtos",id),{[campo]:valor})}
-window.excluir=async function(id){if(confirm("Excluir produto?"))await deleteDoc(doc(db,"produtos",id))}
-window.novoProduto=async function(){let nome=document.getElementById("novoNome").value.trim();if(!nome)return alert("Digite o nome");await addDoc(collection(db,"produtos"),{nome,preco:parseFloat(document.getElementById("novoPreco").value||0),estoque:parseInt(document.getElementById("novoEstoque").value||0),img:document.getElementById("novaFoto").value.trim()||"img/sem-foto.jpeg",ativo:true});document.getElementById("novoNome").value="";document.getElementById("novoPreco").value="";document.getElementById("novoEstoque").value="";document.getElementById("novaFoto").value=""}
-window.carregarInicial=async function(){let ex=await getDocs(collection(db,"produtos"));if(ex.size>0&&!confirm("Já existem produtos. Continuar pode duplicar. Deseja continuar?"))return;for(const p of iniciais)await addDoc(collection(db,"produtos"),p);alert("Tabela inicial carregada.")}
-</script></body></html>
-<select onchange="atualizar('${p.id}','status',this.value)">
-<option value="estoque">Estoque</option>
-<option value="reservado">Reservado</option>
-<option value="vendido">Vendido</option>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc,
+onSnapshot,
+deleteDoc,
+doc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+import {
+getStorage,
+ref,
+uploadBytes,
+getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+authDomain: "oncas-produtos-de-limpeza.firebaseapp.com",
+projectId: "oncas-produtos-de-limpeza",
+storageBucket: "oncas-produtos-de-limpeza.firebasestorage.app",
+messagingSenderId: "83163373018",
+appId: "1:83163373018:web:cd9ddb90f2112c62a274e3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+window.uploadFoto = async function(){
+let file = document.getElementById("foto").files[0];
+
+if(!file){
+alert("Escolha uma foto");
+return;
+}
+
+let storageRef = ref(storage, "produtos/" + file.name);
+
+await uploadBytes(storageRef, file);
+
+let url = await getDownloadURL(storageRef);
+
+document.getElementById("img").value = url;
+
+alert("Foto enviada com sucesso!");
+}
+
+window.salvarProduto = async function(){
+let nome = document.getElementById("nome").value;
+let preco = document.getElementById("preco").value;
+let estoque = document.getElementById("estoque").value;
+let img = document.getElementById("img").value;
+
+await addDoc(collection(db,"produtos"),{
+nome,
+preco:Number(preco),
+estoque:Number(estoque),
+img,
+ativo:true
+});
+
+alert("Produto salvo!");
+}
+
+onSnapshot(collection(db,"produtos"), snap=>{
+let html="";
+
+snap.forEach(docu=>{
+let p = docu.data();
+
+html += `
+<div class="produto">
+<b>${p.nome}</b><br>
+Preço: R$ ${p.preco}<br>
+Estoque: ${p.estoque}<br>
+<img src="${p.img}" width="100"><br>
+
+<button onclick="deletar('${docu.id}')">Excluir</button>
+</div>
+`;
+});
+
+document.getElementById("listaProdutos").innerHTML = html;
+});
+
+window.deletar = async function(id){
+await deleteDoc(doc(db,"produtos",id));
+}
+
+onSnapshot(collection(db,"pedidos"), snap=>{
+let html="";
+
+snap.forEach(docu=>{
+let p = docu.data();
+
+html += `
+<div class="pedido">
+<b>${p.cliente || "Cliente"}</b><br>
+Status:
+<select onchange="mudarStatus('${docu.id}',this.value)">
+<option ${p.status=="Novo"?"selected":""}>Novo</option>
+<option ${p.status=="Em separação"?"selected":""}>Em separação</option>
+<option ${p.status=="Saiu para entrega"?"selected":""}>Saiu para entrega</option>
+<option ${p.status=="Finalizado"?"selected":""}>Finalizado</option>
+<option ${p.status=="Cancelado"?"selected":""}>Cancelado</option>
 </select>
+</div>
+`;
+});
+
+document.getElementById("listaPedidos").innerHTML = html;
+});
+
+window.mudarStatus = async function(id,status){
+await updateDoc(doc(db,"pedidos",id),{
+status
+});
+}
+</script>
+
+</body>
+</html>
