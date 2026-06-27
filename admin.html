@@ -1,4 +1,100 @@
-async function enviarImagem(file) {
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Onça 3.0</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f4f8;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+}
+
+input, button{
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+button{
+    background:#28a745;
+    color:white;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#218838;
+}
+
+img{
+    max-width:200px;
+    display:none;
+    margin:auto;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Painel Admin Onça</h2>
+
+    <input type="text" id="nome" placeholder="Nome do produto">
+    <input type="number" id="preco" placeholder="Preço">
+    <input type="number" id="estoque" placeholder="Estoque">
+
+    <input type="file" id="foto" accept="image/*">
+    <button onclick="uploadFoto()">Enviar Foto</button>
+
+    <img id="preview">
+
+    <input type="text" id="imgUrl" placeholder="URL da imagem">
+
+    <button onclick="salvarProduto()">Salvar Produto</button>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+    authDomain: "oncas-produtos-de-limpeza.firebaseapp.com",
+    projectId: "oncas-produtos-de-limpeza"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.uploadFoto = async function(){
+
+    const file = document.getElementById("foto").files[0];
+
+    if(!file){
+        alert("Escolha uma foto primeiro");
+        return;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "ONCA_UPLOAD");
@@ -13,10 +109,48 @@ async function enviarImagem(file) {
 
     const data = await response.json();
 
-    if (data.secure_url) {
-        return data.secure_url;
-    } else {
+    if(data.secure_url){
+        document.getElementById("imgUrl").value = data.secure_url;
+        document.getElementById("preview").src = data.secure_url;
+        document.getElementById("preview").style.display = "block";
+        alert("Foto enviada com sucesso!");
+    }else{
+        alert("Erro: " + JSON.stringify(data));
         console.log(data);
-        throw new Error("Erro no upload");
     }
 }
+
+window.salvarProduto = async function(){
+
+    const nome = document.getElementById("nome").value;
+    const preco = document.getElementById("preco").value;
+    const estoque = document.getElementById("estoque").value;
+    const img = document.getElementById("imgUrl").value;
+
+    if(!img){
+        alert("Envie a foto primeiro");
+        return;
+    }
+
+    await addDoc(collection(db,"produtos"),{
+        nome:nome,
+        preco:Number(preco),
+        estoque:Number(estoque),
+        img:img,
+        ativo:Number(estoque) > 0
+    });
+
+    alert("Produto salvo com sucesso!");
+
+    document.getElementById("nome").value = "";
+    document.getElementById("preco").value = "";
+    document.getElementById("estoque").value = "";
+    document.getElementById("foto").value = "";
+    document.getElementById("imgUrl").value = "";
+    document.getElementById("preview").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
