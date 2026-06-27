@@ -25,6 +25,7 @@ img{max-width:180px}
 <img id="preview" style="display:none">
 
 <button onclick="uploadFoto()">Enviar foto</button>
+
 <input id="imgUrl" placeholder="URL da imagem">
 
 <button onclick="salvarProduto()">Salvar produto</button>
@@ -45,36 +46,56 @@ const db = getFirestore(app);
 
 window.uploadFoto = async function(){
  const file = document.getElementById("foto").files[0];
- if(!file) return alert("Escolha uma foto");
+
+ if(!file){
+   alert("Escolha uma foto primeiro");
+   return;
+ }
 
  const formData = new FormData();
  formData.append("file", file);
  formData.append("upload_preset", "difiv4ogr");
 
- const res = await fetch("https://api.cloudinary.com/v1_1/ONCA_UPLOAD/image/upload", {
+ const res = await fetch("https://api.cloudinary.com/v1_1/onca_upload/image/upload", {
    method:"POST",
    body:formData
  });
 
  const data = await res.json();
 
- document.getElementById("imgUrl").value = data.secure_url;
- document.getElementById("preview").src = data.secure_url;
- document.getElementById("preview").style.display = "block";
-
- alert("Foto enviada!");
+ if(data.secure_url){
+   document.getElementById("imgUrl").value = data.secure_url;
+   document.getElementById("preview").src = data.secure_url;
+   document.getElementById("preview").style.display = "block";
+   alert("Foto enviada com sucesso!");
+ } else {
+   alert("Erro ao enviar: " + JSON.stringify(data));
+ }
 }
 
 window.salvarProduto = async function(){
+
+ if(!document.getElementById("imgUrl").value){
+   alert("Envie a foto primeiro");
+   return;
+ }
+
  await addDoc(collection(db,"produtos"),{
    nome:document.getElementById("nome").value,
-   preco:Number(document.getElementById("preco").value||0),
-   estoque:Number(document.getElementById("estoque").value||0),
+   preco:Number(document.getElementById("preco").value || 0),
+   estoque:Number(document.getElementById("estoque").value || 0),
    img:document.getElementById("imgUrl").value,
-   ativo:Number(document.getElementById("estoque").value||0)>0
+   ativo:Number(document.getElementById("estoque").value || 0) > 0
  });
 
- alert("Produto salvo!");
+ alert("Produto salvo com sucesso!");
+
+ document.getElementById("nome").value = "";
+ document.getElementById("preco").value = "";
+ document.getElementById("estoque").value = "";
+ document.getElementById("foto").value = "";
+ document.getElementById("imgUrl").value = "";
+ document.getElementById("preview").style.display = "none";
 }
 </script>
 
