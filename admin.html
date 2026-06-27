@@ -2,273 +2,302 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Painel Admin Onça</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Onça Produtos</title>
 <style>
-body{margin:0;font-family:Arial;background:#f4f4f4}
-header{background:#003b80;color:white;text-align:center;padding:20px}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#eef3f8;color:#222}
+header{background:linear-gradient(135deg,#003b80,#0066cc);color:white;text-align:center;padding:20px}
 header a{color:white;font-weight:bold;text-decoration:none}
-.box{background:white;margin:20px;padding:20px;border-radius:12px;box-shadow:0 2px 8px #ccc}
-input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
-button{background:#25d366;color:white;font-weight:bold;border:0;cursor:pointer}
-.danger{background:#c00}
-.azul{background:#003b80}
-.produto,.pedido{border-bottom:1px solid #ddd;padding:15px}
-.produto img{max-width:120px;border-radius:8px}
+.box{background:white;margin:18px auto;padding:18px;border-radius:16px;box-shadow:0 3px 12px #b9c4d1;max-width:1180px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+input,select,textarea,button{width:100%;padding:12px;margin:7px 0;border-radius:9px;border:1px solid #c8d2dc}
+button{background:#25d366;color:white;border:0;font-weight:bold;cursor:pointer}
+.azul{background:#003b80}.danger{background:#c00}.cinza{background:#555}.amarelo{background:#f0b400;color:#111}
+.produto,.pedido{border:1px solid #d7dee8;border-radius:14px;padding:14px;margin:12px 0;background:#fafcff}
+.produto img{max-width:140px;max-height:140px;object-fit:contain;background:white;border:1px solid #ddd;border-radius:10px;padding:4px}
+.status{display:inline-block;padding:5px 9px;border-radius:999px;background:#e8f1ff;color:#003b80;font-weight:bold}
+.small{font-size:13px;color:#555}.tabs{display:flex;gap:8px;overflow:auto}.tabs button{min-width:150px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.box{margin:10px}.tabs button{min-width:130px}}
 </style>
 </head>
-
 <body>
-
 <header>
-<h1>🔒 Painel Admin Onça</h1>
+<h1>🐆 Painel Admin Onça</h1>
 <a href="index.html">⬅ Voltar ao site</a>
+<p>Admin sem senha + produtos enviados</p>
 </header>
 
-<div class="box" id="loginBox">
-<h2>Entrar no painel</h2>
-<input id="email" type="email" placeholder="E-mail">
-<input id="senha" type="password" placeholder="Senha">
-<button onclick="entrar()">Entrar</button>
-<p id="erroLogin" style="color:red;"></p>
+<div class="box tabs">
+<button onclick="abrirAba('produtosBox')" class="azul">Produtos</button>
+<button onclick="abrirAba('pedidosBox')" class="azul">Pedidos</button>
+<button onclick="abrirAba('backupBox')" class="cinza">Backup</button>
+<a href="index.html" style="width:100%"><button class="amarelo">Ir para o site</button></a>
 </div>
 
-<div id="painelBox" style="display:none;">
+<div class="box" id="produtosBox">
+<h2>➕ Cadastro rápido de produto</h2>
 
-<div class="box">
-<button onclick="sair()" class="danger">Sair do painel</button>
-<a href="index.html"><button class="azul">Ir para o site</button></a>
+<button onclick="carregarProdutosEnviados()" class="amarelo">Carregar produtos enviados</button>
+<p class="small">Clique uma vez. Depois ajuste preço e estoque dos que estiverem com valor 0.</p>
+
+<div class="grid">
+<input id="novoNome" placeholder="Nome do produto">
+<input id="novoPreco" type="number" step="0.01" placeholder="Preço">
+<input id="novoPrecoAntigo" type="number" step="0.01" placeholder="Preço antigo / De">
+<input id="novoEstoque" type="number" placeholder="Estoque">
+<select id="novaCategoria">
+<option value="limpeza">Limpeza</option>
+<option value="automotivo">Automotivo</option>
+<option value="utensilios">Utensílios</option>
+<option value="promocoes">Promoções</option>
+</select>
+<select id="novoStatus">
+<option value="">Normal</option>
+<option value="reservado">Reservado</option>
+</select>
 </div>
 
-<div class="box">
-<h2>Adicionar Produto</h2>
-
-<input id="nome" placeholder="Nome do produto">
-<input id="preco" type="number" placeholder="Preço">
-<input id="estoque" type="number" placeholder="Estoque">
-
-<input type="file" id="foto" accept="image/*">
-<button onclick="uploadFoto()">Enviar foto</button>
-
-<input id="img" placeholder="Link da imagem">
-
+<input id="novaFoto" placeholder="Foto: img/nome-da-foto.jpg">
+<button onclick="gerarNomeFoto()" class="cinza">Gerar nome da foto</button>
 <button onclick="salvarProduto()">Salvar produto</button>
+
+<h2>📦 Produtos cadastrados</h2>
+<input id="buscaProduto" placeholder="Buscar produto no admin" oninput="renderProdutos()">
+<select id="filtroProduto" onchange="renderProdutos()">
+<option value="todos">Todos</option>
+<option value="ativos">Ativos</option>
+<option value="ocultos">Ocultos</option>
+<option value="zerados">Estoque zerado</option>
+<option value="reservados">Reservados</option>
+<option value="promocoes">Promoções</option>
+</select>
+<div id="listaProdutos">Carregando...</div>
 </div>
 
-<div class="box">
-<h2>Produtos cadastrados</h2>
-<div id="listaProdutos"></div>
+<div class="box" id="pedidosBox" style="display:none">
+<h2>📦 Pedidos</h2>
+<select id="filtroPedido" onchange="renderPedidos()">
+<option>Todos</option>
+<option>Novo</option>
+<option>Em separação</option>
+<option>Separado</option>
+<option>Saiu para entrega</option>
+<option>Finalizado</option>
+<option>Cancelado</option>
+</select>
+<div id="listaPedidos">Carregando...</div>
 </div>
 
-<div class="box">
-<h2>Pedidos</h2>
-<div id="listaPedidos"></div>
-</div>
-
+<div class="box" id="backupBox" style="display:none">
+<h2>💾 Backup</h2>
+<button onclick="exportarProdutos()" class="azul">Exportar produtos JSON</button>
+<button onclick="exportarPedidos()" class="azul">Exportar pedidos JSON</button>
+<textarea id="backupSaida" rows="10" placeholder="O backup aparece aqui"></textarea>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-
-import {
-getAuth,
-signInWithEmailAndPassword,
-signOut,
-onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
-
-import {
-getFirestore,
-collection,
-addDoc,
-onSnapshot,
-deleteDoc,
-doc,
-updateDoc
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-
-import {
-getStorage,
-ref,
-uploadBytes,
-getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-storage.js";
+import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
-authDomain: "oncas-produtos-de-limpeza.firebaseapp.com",
-projectId: "oncas-produtos-de-limpeza",
-storageBucket: "oncas-produtos-de-limpeza.firebasestorage.app",
-messagingSenderId: "83163373018",
-appId: "1:83163373018:web:cd9ddb90f2112c62a274e3"
+  apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+  authDomain: "oncas-produtos-de-limpeza.firebaseapp.com",
+  projectId: "oncas-produtos-de-limpeza",
+  storageBucket: "oncas-produtos-de-limpeza.firebasestorage.app",
+  messagingSenderId: "83163373018",
+  appId: "1:83163373018:web:cd9ddb90f2112c62a274e3"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
-const storage = getStorage(app);
+const produtosEnviados = [{"nome": "Silicone Gel Clineza", "preco": 0, "estoque": 10, "categoria": "automotivo", "img": "img/1000995656.jpg", "ativo": true, "status": ""}, {"nome": "Shampoo Automotivo Clineza 1L", "preco": 0, "estoque": 10, "categoria": "automotivo", "img": "img/shampoo-automotivo-clineza.jpg", "ativo": true, "status": ""}, {"nome": "Brilho Rápido Clineza 1L", "preco": 0, "estoque": 10, "categoria": "automotivo", "img": "img/brilho-rapido-clineza.jpg", "ativo": true, "status": ""}, {"nome": "Maridão Clineza 1L", "preco": 13, "estoque": 10, "categoria": "limpeza", "img": "img/maridao-clineza.jpg", "ativo": true, "status": ""}, {"nome": "Álcool Clineza 2L", "preco": 20, "estoque": 10, "categoria": "limpeza", "img": "img/alcool-clineza-2l.jpg", "ativo": true, "status": ""}, {"nome": "Linha Girassol 5L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/linha-girassol-5l.jpg", "ativo": true, "status": ""}, {"nome": "Pinho Gel Clineza 2L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/pinho-gel-clineza-2l.jpg", "ativo": true, "status": ""}, {"nome": "Desinfetante Clineza Fluorita 2L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/desinfetante-clineza-fluorita-2l.jpg", "ativo": true, "status": ""}, {"nome": "Cloro Gel Clineza 2L", "preco": 20, "estoque": 10, "categoria": "limpeza", "img": "img/cloro-gel-clineza-2l.jpg", "ativo": true, "status": ""}, {"nome": "Desinfetante Clineza Ametista 2L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/desinfetante-clineza-ametista-2l.jpg", "ativo": true, "status": ""}, {"nome": "Desinfetante Clineza Safira 5L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/desinfetante-clineza-safira-5l.jpg", "ativo": true, "status": ""}, {"nome": "Multiuso Clineza Original 500ml", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/multiuso-clineza-original-500ml.jpg", "ativo": true, "status": ""}, {"nome": "Desinfetante Clineza Ametista 5L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/desinfetante-clineza-ametista-5l.jpg", "ativo": true, "status": ""}, {"nome": "Desinfetante Clineza Esmeralda 2L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/desinfetante-clineza-esmeralda-2l.jpg", "ativo": true, "status": ""}, {"nome": "Sabão Líquido Clineza 5L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/sabao-liquido-clineza-5l.jpg", "ativo": true, "status": ""}, {"nome": "Desinfetante Clineza Safira 2L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/desinfetante-clineza-safira-2l.jpg", "ativo": true, "status": ""}, {"nome": "Sabão Líquido Clineza 2L", "preco": 14.5, "estoque": 10, "categoria": "limpeza", "img": "img/sabao-liquido-clineza-2l.jpg", "ativo": true, "status": ""}, {"nome": "Amaciante Clineza Blue Iris 5L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/amaciante-clineza-blue-iris-5l.jpg", "ativo": true, "status": ""}, {"nome": "Água Sanitária Clineza 2L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/agua-sanitaria-clineza-2l.jpg", "ativo": true, "status": ""}, {"nome": "Água Sanitária Clineza 1L", "preco": 0, "estoque": 10, "categoria": "limpeza", "img": "img/agua-sanitaria-clineza-1l.jpg", "ativo": true, "status": ""}];
 
-window.entrar = async function(){
-try{
-await signInWithEmailAndPassword(auth, email.value, senha.value);
-}catch(e){
-erroLogin.innerText = "Erro no login: " + e.code;
-}
-}
+let produtos = [];
+let pedidos = [];
 
-window.sair = function(){
-signOut(auth);
+function moeda(v) {
+  return Number(v || 0).toLocaleString("pt-BR", {style:"currency", currency:"BRL"});
 }
 
-onAuthStateChanged(auth, user=>{
-if(user){
-loginBox.style.display = "none";
-painelBox.style.display = "block";
-}else{
-loginBox.style.display = "block";
-painelBox.style.display = "none";
-}
-});
-
-window.uploadFoto = async function(){
-let file = foto.files[0];
-
-if(!file){
-alert("Escolha uma foto");
-return;
+function slug(txt) {
+  return (txt || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 }
 
-let nomeArquivo = Date.now() + "_" + file.name.replaceAll(" ","_").toLowerCase();
-let storageRef = ref(storage, "produtos/" + nomeArquivo);
-
-await uploadBytes(storageRef, file);
-
-let url = await getDownloadURL(storageRef);
-
-img.value = url;
-
-alert("Foto enviada com sucesso!");
+window.abrirAba = function(id) {
+  produtosBox.style.display = "none";
+  pedidosBox.style.display = "none";
+  backupBox.style.display = "none";
+  document.getElementById(id).style.display = "block";
 }
 
-window.salvarProduto = async function(){
-await addDoc(collection(db,"produtos"),{
-nome:nome.value,
-preco:Number(preco.value),
-estoque:Number(estoque.value),
-img:img.value,
-ativo:true
-});
-
-alert("Produto salvo!");
-nome.value="";
-preco.value="";
-estoque.value="";
-img.value="";
-foto.value="";
+window.carregarProdutosEnviados = async function() {
+  if(!confirm("Adicionar os 20 produtos enviados? Use apenas uma vez para não duplicar.")) return;
+  for (const p of produtosEnviados) {
+    await addDoc(collection(db,"produtos"), p);
+  }
+  alert("Produtos enviados cadastrados!");
 }
 
-onSnapshot(collection(db,"produtos"), snap=>{
-let html="";
-
-snap.forEach(docu=>{
-let p = docu.data();
-
-html += `
-<div class="produto">
-<b>${p.nome}</b><br>
-Preço: R$ ${p.preco}<br>
-Estoque: ${p.estoque}<br>
-<img src="${p.img || 'img/sem-foto.jpeg'}"><br>
-
-<input id="nome_${docu.id}" value="${p.nome || ''}">
-<input id="preco_${docu.id}" type="number" value="${p.preco || 0}">
-<input id="estoque_${docu.id}" type="number" value="${p.estoque || 0}">
-
-<input type="file" id="fotoTroca_${docu.id}" accept="image/*">
-<button onclick="trocarFoto('${docu.id}')">Trocar foto</button>
-
-<button onclick="editarProduto('${docu.id}')">Editar produto</button>
-<button class="danger" onclick="deletar('${docu.id}')">Excluir produto</button>
-</div>
-`;
-});
-
-listaProdutos.innerHTML = html;
-});
-
-window.editarProduto = async function(id){
-await updateDoc(doc(db,"produtos",id),{
-nome:document.getElementById("nome_"+id).value,
-preco:Number(document.getElementById("preco_"+id).value),
-estoque:Number(document.getElementById("estoque_"+id).value)
-});
-
-alert("Produto editado!");
+window.gerarNomeFoto = function() {
+  if(!novoNome.value) return alert("Digite o nome do produto primeiro");
+  novaFoto.value = "img/" + slug(novoNome.value) + ".jpg";
 }
 
-window.trocarFoto = async function(id){
-let file = document.getElementById("fotoTroca_"+id).files[0];
-
-if(!file){
-alert("Escolha uma foto nova");
-return;
+window.salvarProduto = async function() {
+  if(!novoNome.value) return alert("Digite o nome");
+  await addDoc(collection(db,"produtos"), {
+    nome: novoNome.value,
+    preco: Number(novoPreco.value || 0),
+    precoAntigo: Number(novoPrecoAntigo.value || 0),
+    estoque: Number(novoEstoque.value || 0),
+    categoria: novaCategoria.value,
+    status: novoStatus.value,
+    img: novaFoto.value || "img/sem-foto.jpeg",
+    ativo: Number(novoEstoque.value || 0) > 0
+  });
+  alert("Produto salvo!");
+  novoNome.value = novoPreco.value = novoPrecoAntigo.value = novoEstoque.value = novaFoto.value = "";
+  novoStatus.value = "";
 }
 
-let nomeArquivo = Date.now() + "_" + file.name.replaceAll(" ","_").toLowerCase();
-let storageRef = ref(storage, "produtos/" + nomeArquivo);
+onSnapshot(query(collection(db,"produtos"), orderBy("nome")), snap => {
+  produtos = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  renderProdutos();
+}, e => listaProdutos.innerHTML = "Erro: " + e.message);
 
-await uploadBytes(storageRef, file);
+window.renderProdutos = function() {
+  let termo = (buscaProduto.value || "").toLowerCase();
+  let filtro = filtroProduto.value;
+  let lista = produtos.filter(p => (p.nome || "").toLowerCase().includes(termo));
 
-let url = await getDownloadURL(storageRef);
+  if(filtro === "ativos") lista = lista.filter(p => p.ativo !== false);
+  if(filtro === "ocultos") lista = lista.filter(p => p.ativo === false);
+  if(filtro === "zerados") lista = lista.filter(p => Number(p.estoque || 0) <= 0);
+  if(filtro === "reservados") lista = lista.filter(p => p.status === "reservado");
+  if(filtro === "promocoes") lista = lista.filter(p => p.categoria === "promocoes" || Number(p.precoAntigo || 0) > 0);
 
-await updateDoc(doc(db,"produtos",id),{
-img:url
-});
+  listaProdutos.innerHTML = lista.map(p => `
+    <div class="produto">
+      <img src="${p.img || 'img/sem-foto.jpeg'}" onerror="this.src='img/sem-foto.jpeg'">
+      <h3>${p.nome || ''}</h3>
+      <p><b>Preço:</b> ${moeda(p.preco)} ${p.precoAntigo ? `<span class="small">De ${moeda(p.precoAntigo)}</span>` : ''}</p>
+      <p><b>Estoque:</b> <span style="color:${Number(p.estoque||0)<=0?'red':'green'}">${p.estoque || 0}</span></p>
+      <p><span class="status">${p.ativo===false?'Oculto':'Ativo'}</span> <span class="status">${p.status || 'Normal'}</span></p>
 
-alert("Foto trocada com sucesso!");
+      <div class="grid">
+        <input id="nome_${p.id}" value="${p.nome || ''}">
+        <input id="preco_${p.id}" type="number" step="0.01" value="${p.preco || 0}">
+        <input id="precoAntigo_${p.id}" type="number" step="0.01" value="${p.precoAntigo || 0}">
+        <input id="estoque_${p.id}" type="number" value="${p.estoque || 0}">
+        <select id="categoria_${p.id}">
+          <option value="limpeza" ${p.categoria==='limpeza'?'selected':''}>Limpeza</option>
+          <option value="automotivo" ${p.categoria==='automotivo'?'selected':''}>Automotivo</option>
+          <option value="utensilios" ${p.categoria==='utensilios'?'selected':''}>Utensílios</option>
+          <option value="promocoes" ${p.categoria==='promocoes'?'selected':''}>Promoções</option>
+        </select>
+        <select id="status_${p.id}">
+          <option value="" ${!p.status?'selected':''}>Normal</option>
+          <option value="reservado" ${p.status==='reservado'?'selected':''}>Reservado</option>
+        </select>
+      </div>
+
+      <input id="img_${p.id}" value="${p.img || ''}" placeholder="Caminho da foto">
+      <button onclick="editarProduto('${p.id}')">Salvar edição</button>
+      <button onclick="toggleProduto('${p.id}', ${p.ativo===false})" class="amarelo">${p.ativo===false?'Reativar':'Ocultar'}</button>
+      <button onclick="zerarProduto('${p.id}')" class="cinza">Zerar estoque</button>
+      <button onclick="duplicarProduto('${p.id}')" class="azul">Duplicar</button>
+      <button onclick="excluirProduto('${p.id}')" class="danger">Excluir</button>
+    </div>
+  `).join("") || "Nenhum produto.";
 }
 
-window.deletar = async function(id){
-if(confirm("Deseja excluir este produto?")){
-await deleteDoc(doc(db,"produtos",id));
+window.editarProduto = async function(id) {
+  let estoqueNovo = Number(document.getElementById("estoque_"+id).value || 0);
+  await updateDoc(doc(db,"produtos",id), {
+    nome: document.getElementById("nome_"+id).value,
+    preco: Number(document.getElementById("preco_"+id).value || 0),
+    precoAntigo: Number(document.getElementById("precoAntigo_"+id).value || 0),
+    estoque: estoqueNovo,
+    categoria: document.getElementById("categoria_"+id).value,
+    status: document.getElementById("status_"+id).value,
+    img: document.getElementById("img_"+id).value || "img/sem-foto.jpeg",
+    ativo: estoqueNovo > 0
+  });
+  alert("Produto editado!");
 }
+
+window.toggleProduto = async function(id, reativar) {
+  await updateDoc(doc(db,"produtos",id), { ativo: reativar ? true : false });
 }
 
-onSnapshot(collection(db,"pedidos"), snap=>{
-let html="";
+window.zerarProduto = async function(id) {
+  await updateDoc(doc(db,"produtos",id), { estoque: 0, ativo: false });
+}
 
-snap.forEach(docu=>{
-let p = docu.data();
+window.duplicarProduto = async function(id) {
+  let p = produtos.find(x => x.id === id);
+  if(!p) return;
+  let copia = {...p};
+  delete copia.id;
+  copia.nome = copia.nome + " (cópia)";
+  await addDoc(collection(db,"produtos"), copia);
+}
 
-html += `
-<div class="pedido">
-<b>${p.cliente || "Cliente"}</b><br>
-Telefone: ${p.telefone || ""}<br>
-Endereço: ${p.endereco || ""}<br>
-Total: R$ ${p.total || 0}<br>
+window.excluirProduto = async function(id) {
+  if(confirm("Excluir definitivamente este produto?")) {
+    await deleteDoc(doc(db,"produtos",id));
+  }
+}
 
-Status:
-<select onchange="mudarStatus('${docu.id}',this.value)">
-<option ${p.status=="Novo"?"selected":""}>Novo</option>
-<option ${p.status=="Em separação"?"selected":""}>Em separação</option>
-<option ${p.status=="Saiu para entrega"?"selected":""}>Saiu para entrega</option>
-<option ${p.status=="Finalizado"?"selected":""}>Finalizado</option>
-<option ${p.status=="Cancelado"?"selected":""}>Cancelado</option>
-</select>
-</div>
-`;
-});
+onSnapshot(query(collection(db,"pedidos"), orderBy("criadoEm","desc")), snap => {
+  pedidos = snap.docs.map(d => ({id:d.id, ...d.data()}));
+  renderPedidos();
+}, e => listaPedidos.innerHTML = "Erro: " + e.message);
 
-listaPedidos.innerHTML = html;
-});
+window.renderPedidos = function() {
+  let f = filtroPedido.value;
+  let lista = pedidos.filter(p => f === "Todos" || p.status === f);
 
-window.mudarStatus = async function(id,status){
-await updateDoc(doc(db,"pedidos",id),{
-status:status
-});
+  listaPedidos.innerHTML = lista.map(p => `
+    <div class="pedido">
+      <h3>${p.cliente || 'Cliente'} <span class="status">${p.status || 'Novo'}</span></h3>
+      <p><b>Telefone:</b> ${p.telefone || ''}</p>
+      <p><b>Endereço:</b> ${p.endereco || ''}</p>
+      <p><b>Pagamento:</b> ${p.pagamento || ''}</p>
+      <p><b>Total:</b> ${moeda(p.total || 0)}</p>
+      <p>${(p.itens||[]).map(i => `${i.qtd}x ${i.nome} - ${moeda(i.preco*i.qtd)}`).join("<br>")}</p>
+      <select onchange="mudarStatus('${p.id}', this.value)">
+        <option ${p.status==='Novo'?'selected':''}>Novo</option>
+        <option ${p.status==='Em separação'?'selected':''}>Em separação</option>
+        <option ${p.status==='Separado'?'selected':''}>Separado</option>
+        <option ${p.status==='Saiu para entrega'?'selected':''}>Saiu para entrega</option>
+        <option ${p.status==='Finalizado'?'selected':''}>Finalizado</option>
+        <option ${p.status==='Cancelado'?'selected':''}>Cancelado</option>
+      </select>
+      <button onclick="imprimirPedido('${p.id}')" class="azul">Imprimir pedido</button>
+    </div>
+  `).join("") || "Nenhum pedido.";
+}
+
+window.mudarStatus = async function(id,status) {
+  await updateDoc(doc(db,"pedidos",id), {status});
+}
+
+window.imprimirPedido = function(id) {
+  let p = pedidos.find(x => x.id === id);
+  let w = window.open("", "print");
+  w.document.write(`<h2>Onça Produtos de Limpeza</h2><p><b>Cliente:</b> ${p.cliente||''}</p><p><b>Tel:</b> ${p.telefone||''}</p><p><b>Endereço:</b> ${p.endereco||''}</p><hr>${(p.itens||[]).map(i=>`<p>${i.qtd}x ${i.nome}</p>`).join("")}<hr><h3>Total: ${moeda(p.total||0)}</h3>`);
+  w.print();
+}
+
+window.exportarProdutos = function() {
+  backupSaida.value = JSON.stringify(produtos, null, 2);
+}
+
+window.exportarPedidos = function() {
+  backupSaida.value = JSON.stringify(pedidos, null, 2);
 }
 </script>
-
 </body>
 </html>
