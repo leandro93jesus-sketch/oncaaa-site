@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -120,24 +121,25 @@ alert("Erro: " + JSON.stringify(data));
 window.salvarProduto = async function(){
 
 await addDoc(collection(db,"produtos"),{
-nome:nome.value,
-preco:Number(preco.value),
-precoAntigo:Number(precoAntigo.value || 0),
-estoque:Number(estoque.value),
-categoria:categoria.value,
-status:status.value,
-img:imgUrl.value,
-ativo:Number(estoque.value) > 0
+nome:document.getElementById("nome").value,
+preco:Number(document.getElementById("preco").value),
+precoAntigo:Number(document.getElementById("precoAntigo").value || 0),
+estoque:Number(document.getElementById("estoque").value),
+categoria:document.getElementById("categoria").value,
+status:document.getElementById("status").value,
+img:document.getElementById("imgUrl").value,
+ativo:Number(document.getElementById("estoque").value) > 0
 });
 
 alert("Produto salvo!");
 
-nome.value="";
-preco.value="";
-precoAntigo.value="";
-estoque.value="";
-imgUrl.value="";
-foto.value="";
+document.getElementById("nome").value = "";
+document.getElementById("preco").value = "";
+document.getElementById("precoAntigo").value = "";
+document.getElementById("estoque").value = "";
+document.getElementById("imgUrl").value = "";
+document.getElementById("foto").value = "";
+
 }
 
 onSnapshot(collection(db,"produtos"), snap => {
@@ -150,13 +152,13 @@ listarProdutos();
 
 window.listarProdutos = function(){
 
-const busca = (buscar.value || "").toLowerCase();
+const busca = (document.getElementById("buscar").value || "").toLowerCase();
 
 const filtrados = produtos.filter(p =>
 (p.nome || "").toLowerCase().includes(busca)
 );
 
-listaProdutos.innerHTML = filtrados.map(p => `
+document.getElementById("listaProdutos").innerHTML = filtrados.map(p => `
 <div class="produto">
 <img src="${p.img}">
 <b>${p.nome}</b><br>
@@ -170,9 +172,11 @@ Estoque: ${p.estoque}<br>
 Categoria: ${p.categoria || "-"}<br><br>
 
 <button onclick="editarProduto('${p.id}')">Editar</button>
+
 <button class="ativo" onclick="ativarProduto('${p.id}', ${p.ativo===false})">
 ${p.ativo===false ? 'Ativar' : 'Desativar'}
 </button>
+
 <button class="excluir" onclick="excluirProduto('${p.id}')">Excluir</button>
 </div>
 `).join("");
@@ -200,7 +204,7 @@ alert("Atualizado!");
 
 }
 
-window.ativarProduto = async function(id, status){
+window.ativarProduto = async function(id,status){
 
 await updateDoc(doc(db,"produtos",id),{
 ativo:status
@@ -213,8 +217,11 @@ alert("Status alterado!");
 window.excluirProduto = async function(id){
 
 if(confirm("Excluir produto?")){
+
 await deleteDoc(doc(db,"produtos",id));
+
 alert("Excluído");
+
 }
 
 }
