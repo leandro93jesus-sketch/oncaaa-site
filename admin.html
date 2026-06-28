@@ -3,28 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Onça 4.1</title>
+<title>Admin Onça 4.2</title>
 
 <style>
 body{font-family:Arial;background:#f2f4f8;margin:0;padding:20px}
-.container{max-width:700px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,.1)}
+.container{max-width:750px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 0 10px rgba(0,0,0,.1)}
 input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #ccc}
-button{background:#28a745;color:white;border:none;font-weight:bold}
+button{background:#28a745;color:white;border:none;font-weight:bold;cursor:pointer}
 img{max-width:180px;display:block;margin:auto}
 .produto{border:1px solid #ddd;padding:12px;margin:10px 0;border-radius:10px}
 .excluir{background:#c00}
+.ativo{background:#007bff}
+.badge{display:inline-block;padding:5px 10px;border-radius:20px;font-size:12px;font-weight:bold;margin:4px}
+.promo{background:#ffcc00}
+.reservado{background:#111;color:#fff}
+.inativo{background:#c00;color:#fff}
 </style>
 </head>
 <body>
 
 <div class="container">
 
-<h2>Painel Admin Onça 4.1</h2>
+<h2>Painel Admin Onça 4.2</h2>
 
 <input type="text" id="nome" placeholder="Nome do produto">
 <input type="number" id="preco" placeholder="Preço">
-<input type="number" id="precoAntigo" placeholder="Preço antigo (promoção)">
-
+<input type="number" id="precoAntigo" placeholder="Preço antigo">
 <input type="number" id="estoque" placeholder="Estoque">
 
 <select id="categoria">
@@ -99,8 +103,7 @@ const response = await fetch(
 {
 method:"POST",
 body:formData
-}
-);
+});
 
 const data = await response.json();
 
@@ -117,17 +120,24 @@ alert("Erro: " + JSON.stringify(data));
 window.salvarProduto = async function(){
 
 await addDoc(collection(db,"produtos"),{
-nome:document.getElementById("nome").value,
-preco:Number(document.getElementById("preco").value),
-precoAntigo:Number(document.getElementById("precoAntigo").value || 0),
-estoque:Number(document.getElementById("estoque").value),
-categoria:document.getElementById("categoria").value,
-status:document.getElementById("status").value,
-img:document.getElementById("imgUrl").value,
-ativo:Number(document.getElementById("estoque").value) > 0
+nome:nome.value,
+preco:Number(preco.value),
+precoAntigo:Number(precoAntigo.value || 0),
+estoque:Number(estoque.value),
+categoria:categoria.value,
+status:status.value,
+img:imgUrl.value,
+ativo:Number(estoque.value) > 0
 });
 
 alert("Produto salvo!");
+
+nome.value="";
+preco.value="";
+precoAntigo.value="";
+estoque.value="";
+imgUrl.value="";
+foto.value="";
 }
 
 onSnapshot(collection(db,"produtos"), snap => {
@@ -140,23 +150,29 @@ listarProdutos();
 
 window.listarProdutos = function(){
 
-const busca = (document.getElementById("buscar").value || "").toLowerCase();
+const busca = (buscar.value || "").toLowerCase();
 
 const filtrados = produtos.filter(p =>
 (p.nome || "").toLowerCase().includes(busca)
 );
 
-document.getElementById("listaProdutos").innerHTML =
-filtrados.map(p => `
+listaProdutos.innerHTML = filtrados.map(p => `
 <div class="produto">
 <img src="${p.img}">
 <b>${p.nome}</b><br>
+
+${p.precoAntigo ? '<span class="badge promo">Promoção</span>' : ''}
+${p.status==="reservado" ? '<span class="badge reservado">Reservado</span>' : ''}
+${p.ativo===false ? '<span class="badge inativo">Inativo</span>' : ''}
+
 Preço: R$ ${p.preco}<br>
 Estoque: ${p.estoque}<br>
-Categoria: ${p.categoria || "-"}<br>
-Status: ${p.status || "normal"}<br><br>
+Categoria: ${p.categoria || "-"}<br><br>
 
 <button onclick="editarProduto('${p.id}')">Editar</button>
+<button class="ativo" onclick="ativarProduto('${p.id}', ${p.ativo===false})">
+${p.ativo===false ? 'Ativar' : 'Desativar'}
+</button>
 <button class="excluir" onclick="excluirProduto('${p.id}')">Excluir</button>
 </div>
 `).join("");
@@ -184,14 +200,21 @@ alert("Atualizado!");
 
 }
 
+window.ativarProduto = async function(id, status){
+
+await updateDoc(doc(db,"produtos",id),{
+ativo:status
+});
+
+alert("Status alterado!");
+
+}
+
 window.excluirProduto = async function(id){
 
 if(confirm("Excluir produto?")){
-
 await deleteDoc(doc(db,"produtos",id));
-
 alert("Excluído");
-
 }
 
 }
