@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onça Produtos de Limpeza</title>
+
 <style>
 :root{
  --azul:#003b80;
@@ -5,168 +12,202 @@
  --verde:#25d366;
  --fundo:#eef3f8;
  --texto:#1f2937;
+ --amarelo:#ffcc00;
 }
 *{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,Helvetica,sans-serif;
- background:var(--fundo);
- color:var(--texto);
-}
-header{
- background:linear-gradient(135deg,#002b5f,#005bbb);
- color:white;
- text-align:center;
- padding:22px 12px;
-}
-header h1{margin:0;font-size:28px}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fundo);color:var(--texto)}
+header{background:linear-gradient(135deg,#001f4d,#005bbb);color:white;text-align:center;padding:24px 12px}
+header h1{margin:0;font-size:30px}
 header p{margin:6px 0 0}
-
-.banner{
- background:linear-gradient(135deg,#005bbb,#003b80);
- color:white;
- text-align:center;
- padding:35px 15px;
-}
-.banner img{
- max-width:220px;
- border-radius:24px;
- background:white;
- padding:10px;
- box-shadow:0 8px 25px rgba(0,0,0,.25);
-}
-.banner h2{font-size:28px;margin:18px 0 8px}
-.banner p{font-size:17px}
-
-.box{
- background:white;
- margin:18px auto;
- padding:20px;
- border-radius:18px;
- box-shadow:0 4px 14px rgba(0,0,0,.12);
- max-width:1150px;
-}
-.categorias{
- display:flex;
- gap:10px;
- overflow:auto;
- padding:14px;
- background:white;
- position:sticky;
- top:0;
- z-index:5;
- box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-.categorias button{
- background:var(--azul);
- color:white;
- border:0;
- padding:12px 18px;
- border-radius:50px;
- font-weight:bold;
- white-space:nowrap;
-}
-.produtos{
- display:grid;
- grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
- gap:24px;
- padding:24px;
- max-width:1250px;
- margin:auto;
-}
-.card{
- background:white;
- border-radius:22px;
- padding:16px;
- box-shadow:0 6px 20px rgba(0,0,0,.18);
- text-align:center;
- transition:.2s;
-}
-.card:hover{transform:translateY(-4px)}
-.card img{
- width:100%;
- height:250px;
- object-fit:contain;
- border-radius:16px;
- background:white;
- border:1px solid #eef2f7;
-}
-.card h3{
- font-size:18px;
- min-height:48px;
- margin:14px 0 6px;
-}
-.preco{
- font-size:28px;
- color:#078227;
- font-weight:bold;
- margin:10px 0;
-}
-.reservado{
- background:#ffcc00;
- color:#111;
- padding:7px 12px;
- border-radius:50px;
- font-weight:bold;
- display:inline-block;
- margin-bottom:8px;
-}
-.esgotado{
- color:#c00;
- font-weight:bold;
-}
-button{
- background:var(--verde);
- color:white;
- border:0;
- padding:13px 18px;
- border-radius:12px;
- font-weight:bold;
- cursor:pointer;
- margin:4px;
-}
-button:hover{filter:brightness(.95)}
-.danger{background:#c00}
-input,textarea,select{
- width:100%;
- padding:13px;
- margin:8px 0;
- border:1px solid #cbd5e1;
- border-radius:12px;
- font-size:15px;
-}
-.item{
- border-bottom:1px solid #ddd;
- padding:12px 0;
-}
-.whats-fixo{
- position:fixed;
- bottom:18px;
- right:18px;
- background:#25d366;
- color:white;
- padding:16px 20px;
- border-radius:50px;
- font-weight:bold;
- text-decoration:none;
- box-shadow:0 4px 15px rgba(0,0,0,.35);
- z-index:20;
-}
-footer{
- background:#003b80;
- color:white;
- text-align:center;
- padding:22px;
- margin-top:25px;
-}
+.banner{background:linear-gradient(135deg,#006ee6,#003b80);color:white;text-align:center;padding:38px 15px}
+.banner img{max-width:220px;border-radius:26px;background:white;padding:10px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+.banner h2{font-size:30px;margin:18px 0 8px}
+.box{background:white;margin:18px auto;padding:22px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-width:1150px}
+.categorias{display:flex;gap:10px;overflow:auto;padding:14px;background:white;position:sticky;top:0;z-index:5;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+.categorias button{background:var(--azul);color:white;border:0;padding:12px 20px;border-radius:50px;font-weight:bold;white-space:nowrap}
+.produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;padding:24px;max-width:1280px;margin:auto}
+.card{background:white;border-radius:24px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.18);text-align:center;border:1px solid #e6edf5}
+.card img{width:100%;height:260px;object-fit:contain;border-radius:18px;background:white}
+.card h3{font-size:18px;min-height:48px}
+.preco{font-size:30px;color:#078227;font-weight:bold}
+.preco-antigo{text-decoration:line-through;color:#888}
+.reservado{background:var(--amarelo);color:#111;padding:8px 14px;border-radius:50px;font-weight:bold;display:inline-block;margin-bottom:8px}
+button{background:var(--verde);color:white;border:0;padding:14px 20px;border-radius:14px;font-weight:bold;cursor:pointer;margin:4px}
+input,textarea,select{width:100%;padding:14px;margin:8px 0;border:1px solid #cbd5e1;border-radius:14px;font-size:16px}
+.item{border-bottom:1px solid #ddd;padding:12px 0}
+.whats-fixo{position:fixed;bottom:18px;right:18px;background:#25d366;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none}
+footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:25px}
 @media(max-width:900px){
- header h1{font-size:23px}
- .banner h2{font-size:23px}
- .produtos{
-  grid-template-columns:1fr;
-  padding:12px;
- }
- .card img{height:280px}
- .box{margin:12px}
+ .produtos{grid-template-columns:1fr;padding:12px}
+ .card img{height:290px}
 }
 </style>
+</head>
+
+<body>
+
+<header>
+<h1>🐆 Onça Produtos de Limpeza</h1>
+<p>Atender bem para atender sempre</p>
+</header>
+
+<section class="banner">
+<img src="img/logo-da-loja.jpeg" onerror="this.src='img/sem-foto.jpeg'">
+<h2>Produtos de limpeza com entrega rápida 🚚</h2>
+<p>Votorantim • Tapiraí • Região</p>
+</section>
+
+<section class="box">
+<h2>🔎 Buscar produto</h2>
+<input id="busca" placeholder="Digite o nome do produto" oninput="mostrarProdutos()">
+</section>
+
+<section class="categorias">
+<button onclick="filtrar('todos')">Todos</button>
+<button onclick="filtrar('limpeza')">Limpeza</button>
+<button onclick="filtrar('automotivo')">Automotivo</button>
+<button onclick="filtrar('utensilios')">Utensílios</button>
+<button onclick="filtrar('promocoes')">Promoções</button>
+<button onclick="filtrar('reservado')">Reservados</button>
+</section>
+
+<section class="produtos" id="produtos">Carregando...</section>
+
+<section class="box">
+<h2>🛒 Carrinho</h2>
+<div id="listaCarrinho">Carrinho vazio</div>
+<h3 id="total">Total: R$ 0,00</h3>
+
+<input id="nome" placeholder="Seu nome">
+<input id="endereco" placeholder="Endereço">
+
+<select id="pagamento">
+<option>Pix</option>
+<option>Dinheiro</option>
+<option>Débito</option>
+<option>Crédito</option>
+</select>
+
+<textarea id="obs" placeholder="Observação"></textarea>
+
+<button onclick="enviarWhatsApp()">Enviar pedido</button>
+</section>
+
+<a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">WhatsApp</a>
+
+<footer>
+<p>Onça Produtos de Limpeza</p>
+<p>WhatsApp: (15) 99793-1042</p>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+ authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
+ projectId:"oncas-produtos-de-limpeza"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let produtos = [];
+let carrinho = [];
+let filtroAtual = "todos";
+
+function moeda(v){
+ return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+
+onSnapshot(collection(db,"produtos"), snap=>{
+ produtos = snap.docs.map(d=>({id:d.id,...d.data()}));
+ mostrarProdutos();
+});
+
+window.filtrar=function(cat){
+ filtroAtual=cat;
+ mostrarProdutos();
+}
+
+window.mostrarProdutos=function(){
+ let busca=(document.getElementById("busca").value||"").toLowerCase();
+
+ let lista=produtos.filter(p=>
+ (p.nome||"").toLowerCase().includes(busca)
+ );
+
+ if(filtroAtual==="reservado"){
+   lista=lista.filter(p=>p.status==="reservado");
+ }
+
+ if(filtroAtual==="promocoes"){
+   lista=lista.filter(p=>p.precoAntigo>0);
+ }
+
+ if(filtroAtual!=="todos" && filtroAtual!=="reservado" && filtroAtual!=="promocoes"){
+   lista=lista.filter(p=>p.categoria===filtroAtual);
+ }
+
+ document.getElementById("produtos").innerHTML = lista.map(p=>`
+ <div class="card">
+ ${p.status==="reservado" ? '<div class="reservado">RESERVADO</div>' : ''}
+ <img src="${p.img}">
+ <h3>${p.nome}</h3>
+ ${p.precoAntigo ? `<p class="preco-antigo">${moeda(p.precoAntigo)}</p>` : ""}
+ <p class="preco">${moeda(p.preco)}</p>
+ <p>Estoque: ${p.estoque}</p>
+ <button onclick="add('${p.id}')">Adicionar</button>
+ </div>
+ `).join("");
+}
+
+window.add=function(id){
+ let p=produtos.find(x=>x.id===id);
+ carrinho.push(p);
+ mostrarCarrinho();
+}
+
+function mostrarCarrinho(){
+ let total=0;
+
+ document.getElementById("listaCarrinho").innerHTML=
+ carrinho.map(p=>{
+   total+=Number(p.preco||0);
+   return `<div class="item">${p.nome} - ${moeda(p.preco)}</div>`;
+ }).join("");
+
+ document.getElementById("total").innerText="Total: "+moeda(total);
+}
+
+window.enviarWhatsApp=function(){
+
+ let nome=document.getElementById("nome").value;
+ let endereco=document.getElementById("endereco").value;
+ let pagamento=document.getElementById("pagamento").value;
+ let obs=document.getElementById("obs").value;
+
+ let total=0;
+ let msg="🛒 Pedido - Onça Produtos\n\nProdutos:\n";
+
+ carrinho.forEach(p=>{
+   total+=Number(p.preco||0);
+   msg+=`${p.nome} - ${moeda(p.preco)}\n`;
+ });
+
+ msg+=`\nTotal: ${moeda(total)}\n`;
+ msg+=`\nCliente: ${nome}`;
+ msg+=`\nEndereço: ${endereco}`;
+ msg+=`\nPagamento: ${pagamento}`;
+
+ if(obs){
+   msg+=`\nObs: ${obs}`;
+ }
+
+ window.open("https://wa.me/5515997931042?text="+encodeURIComponent(msg));
+}
+</script>
+
+</body>
+</html>
