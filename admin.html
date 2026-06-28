@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Onça 3.0</title>
+<title>Admin Onça 4.0</title>
 
 <style>
 body{
@@ -12,20 +12,17 @@ body{
     margin:0;
     padding:20px;
 }
-
 .container{
-    max-width:600px;
+    max-width:700px;
     margin:auto;
     background:#fff;
     padding:20px;
     border-radius:12px;
     box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
-
-h2{
+h2,h3{
     text-align:center;
 }
-
 input, button{
     width:100%;
     padding:12px;
@@ -33,7 +30,6 @@ input, button{
     border-radius:8px;
     border:1px solid #ccc;
 }
-
 button{
     background:#28a745;
     color:white;
@@ -41,22 +37,29 @@ button{
     font-weight:bold;
     cursor:pointer;
 }
-
 button:hover{
     background:#218838;
 }
-
 img{
     max-width:200px;
-    display:none;
+    display:block;
     margin:auto;
+}
+.produto{
+    border:1px solid #ddd;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+}
+.excluir{
+    background:#c00;
 }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Painel Admin Onça</h2>
+    <h2>Painel Admin Onça 4.0</h2>
 
     <input type="text" id="nome" placeholder="Nome do produto">
     <input type="number" id="preco" placeholder="Preço">
@@ -70,12 +73,28 @@ img{
     <input type="text" id="imgUrl" placeholder="URL da imagem">
 
     <button onclick="salvarProduto()">Salvar Produto</button>
+
+    <hr>
+
+    <h3>Produtos cadastrados</h3>
+
+    <input type="text" id="buscar" placeholder="Buscar produto" oninput="listarProdutos()">
+
+    <div id="listaProdutos"></div>
 </div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    doc,
+    updateDoc,
+    deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
@@ -85,6 +104,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+let produtos = [];
 
 window.uploadFoto = async function(){
 
@@ -112,11 +133,9 @@ window.uploadFoto = async function(){
     if(data.secure_url){
         document.getElementById("imgUrl").value = data.secure_url;
         document.getElementById("preview").src = data.secure_url;
-        document.getElementById("preview").style.display = "block";
         alert("Foto enviada com sucesso!");
     }else{
         alert("Erro: " + JSON.stringify(data));
-        console.log(data);
     }
 }
 
@@ -140,14 +159,73 @@ window.salvarProduto = async function(){
         ativo:Number(estoque) > 0
     });
 
-    alert("Produto salvo com sucesso!");
+    alert("Produto salvo!");
 
     document.getElementById("nome").value = "";
     document.getElementById("preco").value = "";
     document.getElementById("estoque").value = "";
     document.getElementById("foto").value = "";
     document.getElementById("imgUrl").value = "";
-    document.getElementById("preview").style.display = "none";
+}
+
+onSnapshot(collection(db,"produtos"), (snap)=>{
+    produtos = snap.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    listarProdutos();
+});
+
+window.listarProdutos = function(){
+
+    const busca = (document.getElementById("buscar").value || "").toLowerCase();
+
+    const filtrados = produtos.filter(p =>
+        (p.nome || "").toLowerCase().includes(busca)
+    );
+
+    document.getElementById("listaProdutos").innerHTML =
+    filtrados.map(p => `
+        <div class="produto">
+            <img src="${p.img}">
+            <b>${p.nome}</b><br>
+            Preço: R$ ${p.preco}<br>
+            Estoque: ${p.estoque}<br><br>
+
+            <button onclick="editarProduto('${p.id}')">Editar</button>
+            <button class="excluir" onclick="excluirProduto('${p.id}')">Excluir</button>
+        </div>
+    `).join("");
+}
+
+window.editarProduto = async function(id){
+
+    const p = produtos.find(x => x.id === id);
+
+    let novoPreco = prompt("Novo preço:", p.preco);
+    let novoEstoque = prompt("Novo estoque:", p.estoque);
+
+    if(novoPreco !== null && novoEstoque !== null){
+
+        await updateDoc(doc(db,"produtos",id),{
+            preco:Number(novoPreco),
+            estoque:Number(novoEstoque),
+            ativo:Number(novoEstoque) > 0
+        });
+
+        alert("Produto atualizado!");
+    }
+}
+
+window.excluirProduto = async function(id){
+
+    if(confirm("Deseja excluir esse produto?")){
+
+        await deleteDoc(doc(db,"produtos",id));
+
+        alert("Produto excluído!");
+    }
 }
 
 </script>
