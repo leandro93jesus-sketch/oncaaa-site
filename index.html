@@ -6,27 +6,117 @@
 <title>Onça Produtos de Limpeza</title>
 
 <style>
+:root{
+ --azul:#003b80;
+ --azul2:#005bbb;
+ --verde:#25d366;
+ --fundo:#eef3f8;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f4f4f4;color:#222}
-header{background:#003b80;color:white;text-align:center;padding:18px}
-.banner{background:#005bbb;color:white;text-align:center;padding:30px}
-.banner img{max-width:280px;border-radius:18px;background:white}
-.box{background:white;margin:20px;padding:20px;border-radius:15px;box-shadow:0 2px 8px #ccc}
-.categorias{display:flex;gap:10px;overflow:auto;padding:15px;background:white}
-.categorias button{background:#003b80;color:white;border:0;padding:10px 14px;border-radius:8px;font-weight:bold}
-.produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;padding:25px}
-.card{background:white;border-radius:15px;padding:15px;box-shadow:0 3px 10px #999;text-align:center}
-.card img{width:100%;height:230px;object-fit:cover;border-radius:12px;background:#ddd}
-.preco{font-size:24px;color:#008000;font-weight:bold}
-.esgotado{color:#c00;font-weight:bold}
-.reservado{background:#ffcc00;color:#111;padding:6px;border-radius:6px;font-weight:bold}
-button{background:#25d366;color:white;border:0;padding:12px 18px;border-radius:8px;font-weight:bold;cursor:pointer;margin:4px}
-.danger{background:#c00}
-input,textarea,select{width:100%;padding:12px;margin:7px 0;border:1px solid #ccc;border-radius:8px}
-.item{border-bottom:1px solid #ddd;padding:10px 0}
-.whats-fixo{position:fixed;bottom:20px;right:20px;background:#25d366;color:white;padding:15px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 3px 10px #555}
-footer{background:#003b80;color:white;text-align:center;padding:20px}
-@media(max-width:900px){.produtos{grid-template-columns:1fr}}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--fundo);
+}
+header{
+ background:linear-gradient(135deg,var(--azul),var(--azul2));
+ color:white;
+ text-align:center;
+ padding:20px;
+}
+.banner{
+ background:linear-gradient(135deg,#005bbb,#002b5f);
+ color:white;
+ text-align:center;
+ padding:30px;
+}
+.banner img{
+ max-width:220px;
+ border-radius:20px;
+ background:white;
+ padding:8px;
+}
+.box{
+ background:white;
+ margin:18px auto;
+ padding:18px;
+ border-radius:18px;
+ box-shadow:0 3px 12px rgba(0,0,0,.12);
+ max-width:1150px;
+}
+.produtos{
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+ gap:20px;
+ padding:20px;
+}
+.card{
+ background:white;
+ border-radius:20px;
+ padding:15px;
+ box-shadow:0 5px 18px rgba(0,0,0,.18);
+ text-align:center;
+}
+.card img{
+ width:100%;
+ height:240px;
+ object-fit:contain;
+ border-radius:14px;
+ background:white;
+}
+.preco{
+ font-size:26px;
+ color:#078227;
+ font-weight:bold;
+}
+.preco-antigo{
+ text-decoration:line-through;
+ color:#777;
+}
+.badge{
+ display:inline-block;
+ padding:6px 10px;
+ border-radius:999px;
+ font-size:12px;
+ font-weight:bold;
+ margin:3px;
+}
+.badge-promo{background:#ffcc00;color:#111}
+.badge-reservado{background:#111;color:#ffcc00}
+.badge-estoque{background:#e8f5e9;color:#137333}
+button{
+ background:var(--verde);
+ color:white;
+ border:0;
+ padding:12px 18px;
+ border-radius:10px;
+ font-weight:bold;
+ cursor:pointer;
+}
+input,textarea,select{
+ width:100%;
+ padding:12px;
+ margin:7px 0;
+ border:1px solid #ccc;
+ border-radius:10px;
+}
+.whats-fixo{
+ position:fixed;
+ bottom:18px;
+ right:18px;
+ background:#25d366;
+ color:white;
+ padding:15px 18px;
+ border-radius:50px;
+ text-decoration:none;
+}
+footer{
+ background:#003b80;
+ color:white;
+ text-align:center;
+ padding:22px;
+ margin-top:25px;
+}
 </style>
 </head>
 
@@ -44,22 +134,8 @@ footer{background:#003b80;color:white;text-align:center;padding:20px}
 </section>
 
 <section class="box">
-<h2>💳 Formas de pagamento</h2>
-<p>✅ Pix | 💵 Dinheiro | 💳 Débito | 💳 Crédito</p>
-</section>
-
-<section class="box">
 <h2>🔎 Buscar produto</h2>
 <input id="busca" placeholder="Digite o nome do produto" oninput="mostrarProdutos()">
-</section>
-
-<section class="categorias">
-<button onclick="filtrar('todos')">Todos</button>
-<button onclick="filtrar('limpeza')">Limpeza</button>
-<button onclick="filtrar('automotivo')">Automotivo</button>
-<button onclick="filtrar('utensilios')">Utensílios</button>
-<button onclick="filtrar('promocoes')">Promoções</button>
-<button onclick="filtrar('reservado')">Reservados</button>
 </section>
 
 <section class="produtos" id="produtos">Carregando produtos...</section>
@@ -70,7 +146,8 @@ footer{background:#003b80;color:white;text-align:center;padding:20px}
 <h3 id="total">Total: R$ 0,00</h3>
 
 <input id="nome" placeholder="Seu nome">
-<input id="endereco" placeholder="Endereço de entrega">
+<input id="telefone" placeholder="Seu WhatsApp">
+<input id="endereco" placeholder="Endereço">
 
 <select id="pagamento">
 <option>Pix</option>
@@ -81,18 +158,7 @@ footer{background:#003b80;color:white;text-align:center;padding:20px}
 
 <textarea id="obs" placeholder="Observação"></textarea>
 
-<button onclick="enviarWhatsApp()">Enviar pedido pelo WhatsApp</button>
-</section>
-
-<section class="box">
-<h2>Sobre a loja</h2>
-<p>A Onça Produtos de Limpeza oferece produtos de qualidade, preço justo e atendimento rápido para sua casa ou empresa.</p>
-</section>
-
-<section class="box">
-<h2>Avaliações</h2>
-<p>⭐⭐⭐⭐⭐ Entrega rápida e ótimo atendimento.</p>
-<p>⭐⭐⭐⭐⭐ Produtos de qualidade e preço justo.</p>
+<button onclick="enviarWhatsApp()">Enviar pedido</button>
 </section>
 
 <a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">WhatsApp</a>
@@ -107,135 +173,74 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/fireba
 import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
-  authDomain: "oncas-produtos-de-limpeza.firebaseapp.com",
-  projectId: "oncas-produtos-de-limpeza",
-  storageBucket: "oncas-produtos-de-limpeza.firebasestorage.app",
-  messagingSenderId: "83163373018",
-  appId: "1:83163373018:web:cd9ddb90f2112c62a274e3"
+ apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+ authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
+ projectId:"oncas-produtos-de-limpeza"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const whatsapp = "5515997931042";
 let produtos = [];
 let carrinho = [];
-let filtroAtual = "todos";
 
 function moeda(v){
-  return Number(v || 0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+ return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
 
 onSnapshot(query(collection(db,"produtos"), orderBy("nome")), snap => {
-  produtos = snap.docs.map(d => ({id:d.id, ...d.data()})).filter(p => p.ativo !== false);
-  mostrarProdutos();
-}, erro => {
-  document.getElementById("produtos").innerHTML = "Erro ao carregar produtos: " + erro.message;
+ produtos = snap.docs.map(d => ({id:d.id,...d.data()})).filter(p=>p.ativo!==false);
+ mostrarProdutos();
 });
 
-window.filtrar = function(cat){
-  filtroAtual = cat;
-  mostrarProdutos();
-}
-
 window.mostrarProdutos = function(){
-  let termo = (document.getElementById("busca").value || "").toLowerCase();
+ let termo = (document.getElementById("busca").value || "").toLowerCase();
 
-  let lista = produtos.filter(p => (p.nome || "").toLowerCase().includes(termo));
+ let lista = produtos.filter(p =>
+   (p.nome || "").toLowerCase().includes(termo)
+ );
 
-  if(filtroAtual !== "todos"){
-    lista = lista.filter(p => {
-      if(filtroAtual === "reservado") return p.status === "reservado";
-      if(filtroAtual === "promocoes") return p.categoria === "promocoes";
-      return p.categoria === filtroAtual;
-    });
-  }
-
-  document.getElementById("produtos").innerHTML = lista.map(p => {
-    let semEstoque = Number(p.estoque || 0) <= 0;
-    let reservado = p.status === "reservado";
-
-    return `
-    <div class="card">
-      ${reservado ? '<div class="reservado">RESERVADO</div>' : ''}
-      <img src="${p.img || 'img/sem-foto.jpeg'}" onerror="this.src='img/sem-foto.jpeg'">
-      <h3>${p.nome}</h3>
-      <p class="preco">${moeda(p.preco)}</p>
-      <p>Estoque: ${p.estoque ?? 0}</p>
-      ${semEstoque ? '<p class="esgotado">ESGOTADO</p>' : `
-      <input type="number" id="qtd_${p.id}" value="1" min="1" max="${p.estoque}">
-      <button onclick="add('${p.id}')">Adicionar</button>`}
-    </div>`;
-  }).join("") || "Nenhum produto encontrado.";
+ document.getElementById("produtos").innerHTML = lista.map(p => `
+ <div class="card">
+   ${p.status==="reservado" ? '<span class="badge badge-reservado">RESERVADO</span>' : ''}
+   ${p.precoAntigo ? '<span class="badge badge-promo">PROMOÇÃO</span>' : ''}
+   <img src="${p.img}">
+   <h3>${p.nome}</h3>
+   ${p.precoAntigo ? `<p class="preco-antigo">${moeda(p.precoAntigo)}</p>` : ''}
+   <p class="preco">${moeda(p.preco)}</p>
+   <span class="badge badge-estoque">Estoque: ${p.estoque}</span>
+   <br><br>
+   <button onclick="add('${p.id}')">Adicionar</button>
+ </div>
+ `).join("");
 }
 
 window.add = function(id){
-  let p = produtos.find(x => x.id === id);
-  let qtd = parseInt(document.getElementById("qtd_"+id).value || 1);
-
-  if(qtd > Number(p.estoque || 0)){
-    alert("Quantidade maior que o estoque.");
-    return;
-  }
-
-  let item = carrinho.find(x => x.id === id);
-  if(item){
-    item.qtd += qtd;
-  }else{
-    carrinho.push({...p, qtd});
-  }
-
-  mostrarCarrinho();
-  alert("Produto adicionado!");
+ let p = produtos.find(x=>x.id===id);
+ carrinho.push(p);
+ mostrarCarrinho();
 }
 
 function mostrarCarrinho(){
-  let total = 0;
+ let total = 0;
 
-  document.getElementById("listaCarrinho").innerHTML = carrinho.map((p,i) => {
-    total += Number(p.preco || 0) * p.qtd;
-    return `
-    <div class="item">
-      ${p.qtd}x ${p.nome} - <b>${moeda(Number(p.preco || 0) * p.qtd)}</b>
-      <button class="danger" onclick="remover(${i})">Remover</button>
-    </div>`;
-  }).join("") || "Carrinho vazio";
+ document.getElementById("listaCarrinho").innerHTML =
+ carrinho.map(p=>{
+   total += Number(p.preco||0);
+   return `<p>${p.nome} - ${moeda(p.preco)}</p>`;
+ }).join("");
 
-  document.getElementById("total").innerText = "Total: " + moeda(total);
-}
-
-window.remover = function(i){
-  carrinho.splice(i,1);
-  mostrarCarrinho();
+ document.getElementById("total").innerText =
+ "Total: " + moeda(total);
 }
 
 window.enviarWhatsApp = function(){
-  if(!carrinho.length){
-    alert("Carrinho vazio");
-    return;
-  }
+ let msg = "Pedido:%0A";
+ carrinho.forEach(p=>{
+   msg += `${p.nome} - ${moeda(p.preco)}%0A`;
+ });
 
-  let nome = document.getElementById("nome").value;
-  let endereco = document.getElementById("endereco").value;
-  let pagamento = document.getElementById("pagamento").value;
-  let obs = document.getElementById("obs").value;
-
-  let total = carrinho.reduce((s,p) => s + Number(p.preco || 0) * p.qtd, 0);
-
-  let msg = "Olá! Quero fazer um pedido na Onça Produtos de Limpeza:\\n\\n";
-
-  carrinho.forEach(p => {
-    msg += `${p.qtd}x ${p.nome} - ${moeda(Number(p.preco || 0) * p.qtd)}\\n`;
-  });
-
-  msg += `\\nTotal: ${moeda(total)}`;
-  msg += `\\nForma de pagamento: ${pagamento}`;
-  msg += `\\nNome: ${nome}`;
-  msg += `\\nEndereço: ${endereco}`;
-  msg += `\\nObservação: ${obs}`;
-
-  window.open("https://wa.me/" + whatsapp + "?text=" + encodeURIComponent(msg), "_blank");
+ window.open("https://wa.me/5515997931042?text=" + msg);
 }
 </script>
 
