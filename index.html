@@ -1,104 +1,143 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Onça Produtos de Limpeza</title>
-
 <style>
 :root{
  --azul:#003b80;
- --azul2:#005bbb;
+ --azul2:#006ee6;
  --verde:#25d366;
  --fundo:#eef3f8;
+ --texto:#1f2937;
 }
 *{box-sizing:border-box}
 body{
  margin:0;
  font-family:Arial,Helvetica,sans-serif;
  background:var(--fundo);
+ color:var(--texto);
 }
 header{
- background:linear-gradient(135deg,var(--azul),var(--azul2));
+ background:linear-gradient(135deg,#002b5f,#005bbb);
  color:white;
  text-align:center;
- padding:20px;
+ padding:22px 12px;
 }
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0}
+
 .banner{
- background:linear-gradient(135deg,#005bbb,#002b5f);
+ background:linear-gradient(135deg,#005bbb,#003b80);
  color:white;
  text-align:center;
- padding:30px;
+ padding:35px 15px;
 }
 .banner img{
  max-width:220px;
- border-radius:20px;
+ border-radius:24px;
  background:white;
- padding:8px;
+ padding:10px;
+ box-shadow:0 8px 25px rgba(0,0,0,.25);
 }
+.banner h2{font-size:28px;margin:18px 0 8px}
+.banner p{font-size:17px}
+
 .box{
  background:white;
  margin:18px auto;
- padding:18px;
+ padding:20px;
  border-radius:18px;
- box-shadow:0 3px 12px rgba(0,0,0,.12);
+ box-shadow:0 4px 14px rgba(0,0,0,.12);
  max-width:1150px;
+}
+.categorias{
+ display:flex;
+ gap:10px;
+ overflow:auto;
+ padding:14px;
+ background:white;
+ position:sticky;
+ top:0;
+ z-index:5;
+ box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+.categorias button{
+ background:var(--azul);
+ color:white;
+ border:0;
+ padding:12px 18px;
+ border-radius:50px;
+ font-weight:bold;
+ white-space:nowrap;
 }
 .produtos{
  display:grid;
- grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
- gap:20px;
- padding:20px;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:24px;
+ padding:24px;
+ max-width:1250px;
+ margin:auto;
 }
 .card{
  background:white;
- border-radius:20px;
- padding:15px;
- box-shadow:0 5px 18px rgba(0,0,0,.18);
+ border-radius:22px;
+ padding:16px;
+ box-shadow:0 6px 20px rgba(0,0,0,.18);
  text-align:center;
+ transition:.2s;
 }
+.card:hover{transform:translateY(-4px)}
 .card img{
  width:100%;
- height:240px;
+ height:250px;
  object-fit:contain;
- border-radius:14px;
+ border-radius:16px;
  background:white;
+ border:1px solid #eef2f7;
+}
+.card h3{
+ font-size:18px;
+ min-height:48px;
+ margin:14px 0 6px;
 }
 .preco{
- font-size:26px;
+ font-size:28px;
  color:#078227;
  font-weight:bold;
+ margin:10px 0;
 }
-.preco-antigo{
- text-decoration:line-through;
- color:#777;
-}
-.badge{
- display:inline-block;
- padding:6px 10px;
- border-radius:999px;
- font-size:12px;
+.reservado{
+ background:#ffcc00;
+ color:#111;
+ padding:7px 12px;
+ border-radius:50px;
  font-weight:bold;
- margin:3px;
+ display:inline-block;
+ margin-bottom:8px;
 }
-.badge-promo{background:#ffcc00;color:#111}
-.badge-reservado{background:#111;color:#ffcc00}
-.badge-estoque{background:#e8f5e9;color:#137333}
+.esgotado{
+ color:#c00;
+ font-weight:bold;
+}
 button{
  background:var(--verde);
  color:white;
  border:0;
- padding:12px 18px;
- border-radius:10px;
+ padding:13px 18px;
+ border-radius:12px;
  font-weight:bold;
  cursor:pointer;
+ margin:4px;
 }
+button:hover{filter:brightness(.95)}
+.danger{background:#c00}
 input,textarea,select{
  width:100%;
- padding:12px;
- margin:7px 0;
- border:1px solid #ccc;
- border-radius:10px;
+ padding:13px;
+ margin:8px 0;
+ border:1px solid #cbd5e1;
+ border-radius:12px;
+ font-size:15px;
+}
+.item{
+ border-bottom:1px solid #ddd;
+ padding:12px 0;
 }
 .whats-fixo{
  position:fixed;
@@ -106,9 +145,12 @@ input,textarea,select{
  right:18px;
  background:#25d366;
  color:white;
- padding:15px 18px;
+ padding:16px 20px;
  border-radius:50px;
+ font-weight:bold;
  text-decoration:none;
+ box-shadow:0 4px 15px rgba(0,0,0,.35);
+ z-index:20;
 }
 footer{
  background:#003b80;
@@ -117,132 +159,14 @@ footer{
  padding:22px;
  margin-top:25px;
 }
+@media(max-width:900px){
+ header h1{font-size:23px}
+ .banner h2{font-size:23px}
+ .produtos{
+  grid-template-columns:1fr;
+  padding:12px;
+ }
+ .card img{height:280px}
+ .box{margin:12px}
+}
 </style>
-</head>
-
-<body>
-
-<header>
-<h1>🐆 Onça Produtos de Limpeza</h1>
-<p>Atender bem para atender sempre</p>
-</header>
-
-<section class="banner">
-<img src="img/logo-da-loja.jpeg" onerror="this.src='img/sem-foto.jpeg'">
-<h2>Produtos de limpeza com entrega rápida 🚚</h2>
-<p>Votorantim • Tapiraí • Região</p>
-</section>
-
-<section class="box">
-<h2>🔎 Buscar produto</h2>
-<input id="busca" placeholder="Digite o nome do produto" oninput="mostrarProdutos()">
-</section>
-
-<section class="produtos" id="produtos">Carregando produtos...</section>
-
-<section class="box">
-<h2>🛒 Carrinho</h2>
-<div id="listaCarrinho">Carrinho vazio</div>
-<h3 id="total">Total: R$ 0,00</h3>
-
-<input id="nome" placeholder="Seu nome">
-<input id="telefone" placeholder="Seu WhatsApp">
-<input id="endereco" placeholder="Endereço">
-
-<select id="pagamento">
-<option>Pix</option>
-<option>Dinheiro</option>
-<option>Débito</option>
-<option>Crédito</option>
-</select>
-
-<textarea id="obs" placeholder="Observação"></textarea>
-
-<button onclick="enviarWhatsApp()">Enviar pedido</button>
-</section>
-
-<a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">WhatsApp</a>
-
-<footer>
-<p>Onça Produtos de Limpeza</p>
-<p>WhatsApp: (15) 99793-1042</p>
-</footer>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
-import { getFirestore, collection, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
-
-const firebaseConfig = {
- apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
- authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
- projectId:"oncas-produtos-de-limpeza"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-let produtos = [];
-let carrinho = [];
-
-function moeda(v){
- return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
-}
-
-onSnapshot(query(collection(db,"produtos"), orderBy("nome")), snap => {
- produtos = snap.docs.map(d => ({id:d.id,...d.data()})).filter(p=>p.ativo!==false);
- mostrarProdutos();
-});
-
-window.mostrarProdutos = function(){
- let termo = (document.getElementById("busca").value || "").toLowerCase();
-
- let lista = produtos.filter(p =>
-   (p.nome || "").toLowerCase().includes(termo)
- );
-
- document.getElementById("produtos").innerHTML = lista.map(p => `
- <div class="card">
-   ${p.status==="reservado" ? '<span class="badge badge-reservado">RESERVADO</span>' : ''}
-   ${p.precoAntigo ? '<span class="badge badge-promo">PROMOÇÃO</span>' : ''}
-   <img src="${p.img}">
-   <h3>${p.nome}</h3>
-   ${p.precoAntigo ? `<p class="preco-antigo">${moeda(p.precoAntigo)}</p>` : ''}
-   <p class="preco">${moeda(p.preco)}</p>
-   <span class="badge badge-estoque">Estoque: ${p.estoque}</span>
-   <br><br>
-   <button onclick="add('${p.id}')">Adicionar</button>
- </div>
- `).join("");
-}
-
-window.add = function(id){
- let p = produtos.find(x=>x.id===id);
- carrinho.push(p);
- mostrarCarrinho();
-}
-
-function mostrarCarrinho(){
- let total = 0;
-
- document.getElementById("listaCarrinho").innerHTML =
- carrinho.map(p=>{
-   total += Number(p.preco||0);
-   return `<p>${p.nome} - ${moeda(p.preco)}</p>`;
- }).join("");
-
- document.getElementById("total").innerText =
- "Total: " + moeda(total);
-}
-
-window.enviarWhatsApp = function(){
- let msg = "Pedido:%0A";
- carrinho.forEach(p=>{
-   msg += `${p.nome} - ${moeda(p.preco)}%0A`;
- });
-
- window.open("https://wa.me/5515997931042?text=" + msg);
-}
-</script>
-
-</body>
-</html>
