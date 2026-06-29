@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Onça 4.4</title>
+
+<style>
+body{font-family:Arial;background:#f2f4f8;margin:0;padding:20px}
+.container{max-width:750px;margin:auto;background:#fff;padding:20px;border-radius:12px}
+input,select,button{width:100%;padding:12px;margin:8px 0}
+button{background:#28a745;color:white;border:none}
+.produto{border:1px solid #ddd;padding:12px;margin:10px 0}
+.excluir{background:#c00}
+.ocultar{background:#ff9800}
+img{max-width:180px}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Painel Admin Onça 4.4</h2>
+
+<input id="nome" placeholder="Nome do produto">
+<input id="preco" type="number" placeholder="Preço">
+<input id="precoAntigo" type="number" placeholder="Preço antigo">
+<input id="estoque" type="number" placeholder="Estoque">
+
+<select id="categoria">
+<option value="limpeza">Limpeza</option>
+<option value="automotivo">Automotivo</option>
+<option value="utensilios">Utensílios</option>
+<option value="promocoes">Promoções</option>
+</select>
+
+<select id="status">
+<option value="">Normal</option>
+<option value="reservado">Reservado</option>
+</select>
+
+<input type="file" id="foto" accept="image/*">
+<button onclick="uploadFoto()">Enviar Foto</button>
+
+<img id="preview">
+
+<input id="imgUrl" placeholder="URL da imagem">
+
+<button onclick="salvarProduto()">Salvar Produto</button>
+
+<hr>
+
+<div id="listaProdutos"></div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+getFirestore,
+collection,
+addDoc,
+onSnapshot,
+doc,
+updateDoc,
+deleteDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
+projectId:"oncas-produtos-de-limpeza"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let produtos=[];
+
+window.uploadFoto = async function(){
+try{
+const file=document.getElementById("foto").files[0];
+
+if(!file){
+alert("Escolha uma foto");
+return;
+}
+
+const formData=new FormData();
+formData.append("file",file);
+formData.append("upload_preset","ONCA_UPLOAD");
+
+const response=await fetch(
+"https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
+{
+method:"POST",
+body:formData
+});
+
+const data=await response.json();
+
+if(data.secure_url){
+document.getElementById("imgUrl").value=data.secure_url;
+document.getElementById("preview").src=data.secure_url;
+alert("Foto enviada!");
+}else{
+console.log(data);
+alert("Erro ao enviar foto");
+}
+}catch(e){
+console.error(e);
+alert("Erro no upload");
+}
+}
+
+window.salvarProduto = async function(){
+try{
+const nome=document.getElementById("nome").value;
+const preco=document.getElementById("preco").value;
+
+if(!nome || !preco){
+alert("Preencha nome e preço");
+return;
+}
+
+await addDoc(collection(db,"produtos"),{
+nome:nome,
+preco:Number(preco),
+precoAntigo:Number(document.getElementById("precoAntigo").value||0),
+estoque:Number(document.getElementById("estoque").value||0),
+categoria:document.getElementById("categoria").value,
+status:document.getElementById("status").value,
+img:document.getElementById("imgUrl").value,
+ativo:true
+});
+
+alert("Produto salvo!");
+
+document.querySelectorAll("input").forEach(i=>i.value="");
+document.getElementById("preview").src="";
+
+}catch(e){
+console.error(e);
+alert("Erro ao salvar");
+}
+}
+
+onSnapshot(collection(db,"produtos"),(snap)=>{
+produtos=snap.docs.map(doc=>({
+id:doc.id,
+...doc.data()
+}));
+listarProdutos();
+});
+
+function listarProdutos(){
+document.getElementById("listaProdutos").innerHTML=produtos.map(p=>`
+<div class="produto">
+<img src="${p.img || ''}">
+<b>${p.nome}</b><br>
+Preço: R$ ${p.preco}<br>
+Estoque: ${p.estoque}<br>
+
+<button onclick="excluirProduto('${p.id}')" class="excluir">Excluir</button>
+</div>
+`).join("");
+}
+
+window.excluirProduto = async function(id){
+try{
+await deleteDoc(doc(db,"produtos",id));
+alert("Excluído");
+}catch(e){
+console.error(e);
+alert("Erro ao excluir");
+}
+}
+
+</script>
+
+</body>
+</html>
