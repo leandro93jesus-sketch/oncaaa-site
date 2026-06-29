@@ -19,12 +19,15 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--fundo);col
 header{background:linear-gradient(135deg,#001f4d,#005bbb);color:white;text-align:center;padding:24px 12px}
 header h1{margin:0;font-size:30px}
 header p{margin:6px 0 0}
+
 .banner{background:linear-gradient(135deg,#006ee6,#003b80);color:white;text-align:center;padding:38px 15px}
 .banner img{max-width:220px;border-radius:26px;background:white;padding:10px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
 .banner h2{font-size:30px;margin:18px 0 8px}
+
 .box{background:white;margin:18px auto;padding:22px;border-radius:22px;box-shadow:0 6px 18px rgba(0,0,0,.12);max-width:1150px}
 .categorias{display:flex;gap:10px;overflow:auto;padding:14px;background:white;position:sticky;top:0;z-index:5;box-shadow:0 3px 10px rgba(0,0,0,.15)}
 .categorias button{background:var(--azul);color:white;border:0;padding:12px 20px;border-radius:50px;font-weight:bold;white-space:nowrap}
+
 .produtos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:26px;padding:24px;max-width:1280px;margin:auto}
 .card{background:white;border-radius:24px;padding:16px;box-shadow:0 8px 24px rgba(0,0,0,.18);text-align:center;border:1px solid #e6edf5}
 .card img{width:100%;height:260px;object-fit:contain;border-radius:18px;background:white}
@@ -32,14 +35,21 @@ header p{margin:6px 0 0}
 .preco{font-size:30px;color:#078227;font-weight:bold}
 .preco-antigo{text-decoration:line-through;color:#888}
 .reservado{background:var(--amarelo);color:#111;padding:8px 14px;border-radius:50px;font-weight:bold;display:inline-block;margin-bottom:8px}
+
 button{background:var(--verde);color:white;border:0;padding:14px 20px;border-radius:14px;font-weight:bold;cursor:pointer;margin:4px}
+.danger{background:#c00}
 input,textarea,select{width:100%;padding:14px;margin:8px 0;border:1px solid #cbd5e1;border-radius:14px;font-size:16px}
 .item{border-bottom:1px solid #ddd;padding:12px 0}
-.whats-fixo{position:fixed;bottom:18px;right:18px;background:#25d366;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none}
+
+.whats-fixo{position:fixed;bottom:18px;right:18px;background:#25d366;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.35);z-index:20}
+.insta-fixo{position:fixed;bottom:85px;right:18px;background:#E1306C;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.35);z-index:20}
+
 footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:25px}
+
 @media(max-width:900px){
  .produtos{grid-template-columns:1fr;padding:12px}
  .card img{height:290px}
+ .banner h2{font-size:23px}
 }
 </style>
 </head>
@@ -55,6 +65,12 @@ footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:
 <img src="img/logo-da-loja.jpeg" onerror="this.src='img/sem-foto.jpeg'">
 <h2>Produtos de limpeza com entrega rápida 🚚</h2>
 <p>Votorantim • Tapiraí • Região</p>
+</section>
+
+<section class="box">
+<h3>🚚 Entregas a combinar</h3>
+<p>✅ Pedido confirmado somente após confirmação do pagamento.</p>
+<p>💳 Pix | Dinheiro | Débito | Crédito</p>
 </section>
 
 <section class="box">
@@ -93,11 +109,13 @@ footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:
 <button onclick="enviarWhatsApp()">Enviar pedido</button>
 </section>
 
+<a class="insta-fixo" href="https://instagram.com/onca_limpeza" target="_blank">@ONCA_LIMPEZA</a>
 <a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">WhatsApp</a>
 
 <footer>
 <p>Onça Produtos de Limpeza</p>
 <p>WhatsApp: (15) 99793-1042</p>
+<p>Instagram: @ONCA_LIMPEZA</p>
 </footer>
 
 <script type="module">
@@ -122,7 +140,7 @@ function moeda(v){
 }
 
 onSnapshot(collection(db,"produtos"), snap=>{
- produtos = snap.docs.map(d=>({id:d.id,...d.data()}));
+ produtos = snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.ativo!==false);
  mostrarProdutos();
 });
 
@@ -134,33 +152,23 @@ window.filtrar=function(cat){
 window.mostrarProdutos=function(){
  let busca=(document.getElementById("busca").value||"").toLowerCase();
 
- let lista=produtos.filter(p=>
- (p.nome||"").toLowerCase().includes(busca)
- );
+ let lista=produtos.filter(p=>(p.nome||"").toLowerCase().includes(busca));
 
- if(filtroAtual==="reservado"){
-   lista=lista.filter(p=>p.status==="reservado");
- }
-
- if(filtroAtual==="promocoes"){
-   lista=lista.filter(p=>p.precoAntigo>0);
- }
-
- if(filtroAtual!=="todos" && filtroAtual!=="reservado" && filtroAtual!=="promocoes"){
-   lista=lista.filter(p=>p.categoria===filtroAtual);
- }
+ if(filtroAtual==="reservado") lista=lista.filter(p=>p.status==="reservado");
+ if(filtroAtual==="promocoes") lista=lista.filter(p=>p.precoAntigo>0 || p.categoria==="promocoes");
+ if(filtroAtual!=="todos" && filtroAtual!=="reservado" && filtroAtual!=="promocoes") lista=lista.filter(p=>p.categoria===filtroAtual);
 
  document.getElementById("produtos").innerHTML = lista.map(p=>`
  <div class="card">
  ${p.status==="reservado" ? '<div class="reservado">RESERVADO</div>' : ''}
- <img src="${p.img}">
+ <img src="${p.img}" onerror="this.src='img/sem-foto.jpeg'">
  <h3>${p.nome}</h3>
  ${p.precoAntigo ? `<p class="preco-antigo">${moeda(p.precoAntigo)}</p>` : ""}
  <p class="preco">${moeda(p.preco)}</p>
- <p>Estoque: ${p.estoque}</p>
+ <p>Estoque: ${p.estoque ?? 0}</p>
  <button onclick="add('${p.id}')">Adicionar</button>
  </div>
- `).join("");
+ `).join("") || "Nenhum produto encontrado.";
 }
 
 window.add=function(id){
@@ -171,17 +179,24 @@ window.add=function(id){
 
 function mostrarCarrinho(){
  let total=0;
-
- document.getElementById("listaCarrinho").innerHTML=
- carrinho.map(p=>{
+ document.getElementById("listaCarrinho").innerHTML=carrinho.map((p,i)=>{
    total+=Number(p.preco||0);
-   return `<div class="item">${p.nome} - ${moeda(p.preco)}</div>`;
- }).join("");
+   return `<div class="item">${p.nome} - ${moeda(p.preco)} <button class="danger" onclick="remover(${i})">Remover</button></div>`;
+ }).join("") || "Carrinho vazio";
 
  document.getElementById("total").innerText="Total: "+moeda(total);
 }
 
+window.remover=function(i){
+ carrinho.splice(i,1);
+ mostrarCarrinho();
+}
+
 window.enviarWhatsApp=function(){
+ if(!carrinho.length){
+   alert("Carrinho vazio");
+   return;
+ }
 
  let nome=document.getElementById("nome").value;
  let endereco=document.getElementById("endereco").value;
@@ -189,20 +204,22 @@ window.enviarWhatsApp=function(){
  let obs=document.getElementById("obs").value;
 
  let total=0;
- let msg="🛒 Pedido - Onça Produtos\n\nProdutos:\n";
+ let msg="🛒 Pedido - Onça Produtos\\n\\nProdutos:\\n";
 
  carrinho.forEach(p=>{
    total+=Number(p.preco||0);
-   msg+=`${p.nome} - ${moeda(p.preco)}\n`;
+   msg+=`${p.nome} - ${moeda(p.preco)}\\n`;
  });
 
- msg+=`\nTotal: ${moeda(total)}\n`;
- msg+=`\nCliente: ${nome}`;
- msg+=`\nEndereço: ${endereco}`;
- msg+=`\nPagamento: ${pagamento}`;
+ msg+=`\\nTotal: ${moeda(total)}\\n`;
+ msg+=`\\nCliente: ${nome}`;
+ msg+=`\\nEndereço: ${endereco}`;
+ msg+=`\\nPagamento: ${pagamento}`;
+ msg+=`\\n\\n🚚 Entrega a combinar`;
+ msg+=`\\n✅ Pedido confirmado somente após confirmação do pagamento`;
 
  if(obs){
-   msg+=`\nObs: ${obs}`;
+   msg+=`\\nObs: ${obs}`;
  }
 
  window.open("https://wa.me/5515997931042?text="+encodeURIComponent(msg));
