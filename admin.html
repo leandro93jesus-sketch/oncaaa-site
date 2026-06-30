@@ -19,18 +19,21 @@ button:hover{filter:brightness(.95)}
 .produto.oculto{background:#fff7ed;border-color:#fdba74}
 .acoes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 .foto-acoes{display:grid;grid-template-columns:1fr 160px;gap:8px;align-items:end}
+.filtros{display:grid;grid-template-columns:1fr 130px 110px 160px;gap:8px;align-items:end;margin:8px 0 14px}
 .excluir{background:#c00}
 .ocultar{background:#ff9800}
 .salvar{background:#2563eb}
+.limpar{background:#64748b}
 .foto-produto{max-width:180px;max-height:140px;object-fit:contain;display:block;margin:0 0 10px;background:#f8fafc;border-radius:8px}
 #preview{max-width:180px;max-height:140px;object-fit:contain;display:block;margin:8px 0;border-radius:8px}
 .grade{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:bold;background:#dcfce7;color:#166534;margin-bottom:8px}
 .status.oculto{background:#fed7aa;color:#9a3412}
+.contador{color:#475569;display:block;margin:0 0 10px}
 @media(max-width:650px){
 body{padding:10px}
 .container{padding:14px}
-.grade,.acoes,.foto-acoes{grid-template-columns:1fr}
+.grade,.acoes,.foto-acoes,.filtros{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -92,6 +95,16 @@ body{padding:10px}
 <hr>
 
 <h3>Produtos cadastrados</h3>
+<div class="filtros">
+<div>
+<label for="pesquisa">Pesquisar produto</label>
+<input id="pesquisa" placeholder="Digite o nome do produto">
+</div>
+<button onclick="pesquisarProdutos()" class="salvar">Pesquisar</button>
+<button onclick="limparPesquisa()" class="limpar">Limpar</button>
+<button onclick="alternarFiltroOcultos()" class="ocultar" id="botaoOcultos">Mostrar ocultos</button>
+</div>
+<small class="contador" id="contadorProdutos"></small>
 <div id="listaProdutos"></div>
 </div>
 
@@ -118,6 +131,8 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let produtos=[];
+let termoPesquisa="";
+let mostrarSomenteOcultos=false;
 
 window.uploadFoto = async function(){
 try{
@@ -219,6 +234,12 @@ id:doc.id,
 listarProdutos();
 });
 
+document.getElementById("pesquisa").addEventListener("keydown",(evento)=>{
+if(evento.key === "Enter"){
+pesquisarProdutos();
+}
+});
+
 function textoPreco(valor){
 return Number(valor||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
@@ -232,8 +253,26 @@ return String(valor ?? "")
 .replaceAll("'","&#039;");
 }
 
+function produtosFiltrados(){
+return produtos.filter((p)=>{
+const texto=`${p.nome || ""} ${p.categoria || ""} ${p.status || ""}`.toLowerCase();
+const combinaPesquisa=!termoPesquisa || texto.includes(termoPesquisa);
+const combinaOculto=!mostrarSomenteOcultos || p.ativo === false;
+return combinaPesquisa && combinaOculto;
+});
+}
+
 function listarProdutos(){
-document.getElementById("listaProdutos").innerHTML=produtos.map(p=>`
+const lista=produtosFiltrados();
+document.getElementById("botaoOcultos").textContent=mostrarSomenteOcultos ? "Mostrar todos" : "Mostrar ocultos";
+document.getElementById("contadorProdutos").textContent=`Mostrando ${lista.length} de ${produtos.length} produtos`;
+
+if(lista.length === 0){
+document.getElementById("listaProdutos").innerHTML="<p>Nenhum produto encontrado.</p>";
+return;
+}
+
+document.getElementById("listaProdutos").innerHTML=lista.map(p=>`
 <div class="produto ${p.ativo === false ? 'oculto' : ''}">
 <span class="status ${p.ativo === false ? 'oculto' : ''}">${p.ativo === false ? 'Oculto' : 'Visivel'}</span>
 ${p.img ? `<img class="foto-produto" src="${escapar(p.img)}" alt="${escapar(p.nome || 'Produto')}">` : ''}
@@ -294,6 +333,23 @@ ${p.img ? `<img class="foto-produto" src="${escapar(p.img)}" alt="${escapar(p.no
 </div>
 </div>
 `).join("");
+}
+
+window.pesquisarProdutos = function(){
+termoPesquisa=document.getElementById("pesquisa").value.trim().toLowerCase();
+listarProdutos();
+}
+
+window.limparPesquisa = function(){
+document.getElementById("pesquisa").value="";
+termoPesquisa="";
+mostrarSomenteOcultos=false;
+listarProdutos();
+}
+
+window.alternarFiltroOcultos = function(){
+mostrarSomenteOcultos=!mostrarSomenteOcultos;
+listarProdutos();
 }
 
 window.alterarProduto = async function(id){
