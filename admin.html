@@ -3,53 +3,95 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Onça 4.4</title>
+<title>Admin Onca 4.4</title>
 
 <style>
-body{font-family:Arial;background:#f2f4f8;margin:0;padding:20px}
-.container{max-width:750px;margin:auto;background:#fff;padding:20px;border-radius:12px}
-input,select,button{width:100%;padding:12px;margin:8px 0}
-button{background:#28a745;color:white;border:none}
-.produto{border:1px solid #ddd;padding:12px;margin:10px 0}
+*{box-sizing:border-box}
+body{font-family:Arial,sans-serif;background:#f2f4f8;margin:0;padding:20px;color:#1f2937}
+.container{max-width:850px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
+h2{margin:0 0 18px}
+h3{margin:24px 0 10px}
+label{display:block;font-size:13px;font-weight:bold;color:#475569;margin-top:8px}
+input,select,button{width:100%;padding:12px;margin:6px 0 10px;border-radius:8px;border:1px solid #cbd5e1;font-size:15px}
+button{background:#28a745;color:white;border:none;font-weight:bold;cursor:pointer}
+button:hover{filter:brightness(.95)}
+.produto{border:1px solid #ddd;padding:12px;margin:10px 0;border-radius:10px;background:#fff}
+.produto.oculto{background:#fff7ed;border-color:#fdba74}
+.acoes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.foto-acoes{display:grid;grid-template-columns:1fr 160px;gap:8px;align-items:end}
 .excluir{background:#c00}
 .ocultar{background:#ff9800}
-img{max-width:180px}
+.salvar{background:#2563eb}
+.foto-produto{max-width:180px;max-height:140px;object-fit:contain;display:block;margin:0 0 10px;background:#f8fafc;border-radius:8px}
+#preview{max-width:180px;max-height:140px;object-fit:contain;display:block;margin:8px 0;border-radius:8px}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:bold;background:#dcfce7;color:#166534;margin-bottom:8px}
+.status.oculto{background:#fed7aa;color:#9a3412}
+@media(max-width:650px){
+body{padding:10px}
+.container{padding:14px}
+.grade,.acoes,.foto-acoes{grid-template-columns:1fr}
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-<h2>Painel Admin Onça 4.4</h2>
+<h2>Painel Admin Onca 4.4</h2>
 
+<h3>Cadastrar produto</h3>
+
+<label for="nome">Nome do produto</label>
 <input id="nome" placeholder="Nome do produto">
-<input id="preco" type="number" placeholder="Preço">
-<input id="precoAntigo" type="number" placeholder="Preço antigo">
+
+<div class="grade">
+<div>
+<label for="preco">Preco</label>
+<input id="preco" type="number" step="0.01" placeholder="Preco">
+</div>
+<div>
+<label for="precoAntigo">Preco antigo</label>
+<input id="precoAntigo" type="number" step="0.01" placeholder="Preco antigo">
+</div>
+</div>
+
+<label for="estoque">Estoque</label>
 <input id="estoque" type="number" placeholder="Estoque">
 
+<div class="grade">
+<div>
+<label for="categoria">Categoria</label>
 <select id="categoria">
 <option value="limpeza">Limpeza</option>
 <option value="automotivo">Automotivo</option>
-<option value="utensilios">Utensílios</option>
-<option value="promocoes">Promoções</option>
+<option value="utensilios">Utensilios</option>
+<option value="promocoes">Promocoes</option>
 </select>
-
+</div>
+<div>
+<label for="status">Status</label>
 <select id="status">
 <option value="">Normal</option>
 <option value="reservado">Reservado</option>
 </select>
+</div>
+</div>
 
+<label for="foto">Foto</label>
 <input type="file" id="foto" accept="image/*">
 <button onclick="uploadFoto()">Enviar Foto</button>
 
-<img id="preview">
+<img id="preview" alt="">
 
+<label for="imgUrl">URL da imagem</label>
 <input id="imgUrl" placeholder="URL da imagem">
 
 <button onclick="salvarProduto()">Salvar Produto</button>
 
 <hr>
 
+<h3>Produtos cadastrados</h3>
 <div id="listaProdutos"></div>
 </div>
 
@@ -113,13 +155,35 @@ alert("Erro no upload");
 }
 }
 
+async function enviarFotoCloudinary(file){
+const formData=new FormData();
+formData.append("file",file);
+formData.append("upload_preset","ONCA_UPLOAD");
+
+const response=await fetch(
+"https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
+{
+method:"POST",
+body:formData
+});
+
+const data=await response.json();
+
+if(!data.secure_url){
+console.log(data);
+throw new Error("Upload sem URL");
+}
+
+return data.secure_url;
+}
+
 window.salvarProduto = async function(){
 try{
-const nome=document.getElementById("nome").value;
+const nome=document.getElementById("nome").value.trim();
 const preco=document.getElementById("preco").value;
 
 if(!nome || !preco){
-alert("Preencha nome e preço");
+alert("Preencha nome e preco");
 return;
 }
 
@@ -138,6 +202,8 @@ alert("Produto salvo!");
 
 document.querySelectorAll("input").forEach(i=>i.value="");
 document.getElementById("preview").src="";
+document.getElementById("status").value="";
+document.getElementById("categoria").value="limpeza";
 
 }catch(e){
 console.error(e);
@@ -153,23 +219,151 @@ id:doc.id,
 listarProdutos();
 });
 
+function textoPreco(valor){
+return Number(valor||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+
+function escapar(valor){
+return String(valor ?? "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+}
+
 function listarProdutos(){
 document.getElementById("listaProdutos").innerHTML=produtos.map(p=>`
-<div class="produto">
-<img src="${p.img || ''}">
-<b>${p.nome}</b><br>
-Preço: R$ ${p.preco}<br>
-Estoque: ${p.estoque}<br>
+<div class="produto ${p.ativo === false ? 'oculto' : ''}">
+<span class="status ${p.ativo === false ? 'oculto' : ''}">${p.ativo === false ? 'Oculto' : 'Visivel'}</span>
+${p.img ? `<img class="foto-produto" src="${escapar(p.img)}" alt="${escapar(p.nome || 'Produto')}">` : ''}
 
+<label for="nome-${p.id}">Nome</label>
+<input id="nome-${p.id}" value="${escapar(p.nome)}">
+
+<div class="grade">
+<div>
+<label for="preco-${p.id}">Preco</label>
+<input id="preco-${p.id}" type="number" step="0.01" value="${escapar(p.preco || 0)}">
+</div>
+<div>
+<label for="precoAntigo-${p.id}">Preco antigo</label>
+<input id="precoAntigo-${p.id}" type="number" step="0.01" value="${escapar(p.precoAntigo || 0)}">
+</div>
+</div>
+
+<label for="estoque-${p.id}">Estoque</label>
+<input id="estoque-${p.id}" type="number" value="${escapar(p.estoque || 0)}">
+
+<div class="grade">
+<div>
+<label for="categoria-${p.id}">Categoria</label>
+<select id="categoria-${p.id}">
+<option value="limpeza" ${p.categoria === 'limpeza' ? 'selected' : ''}>Limpeza</option>
+<option value="automotivo" ${p.categoria === 'automotivo' ? 'selected' : ''}>Automotivo</option>
+<option value="utensilios" ${p.categoria === 'utensilios' ? 'selected' : ''}>Utensilios</option>
+<option value="promocoes" ${p.categoria === 'promocoes' ? 'selected' : ''}>Promocoes</option>
+</select>
+</div>
+<div>
+<label for="status-${p.id}">Status</label>
+<select id="status-${p.id}">
+<option value="" ${!p.status ? 'selected' : ''}>Normal</option>
+<option value="reservado" ${p.status === 'reservado' ? 'selected' : ''}>Reservado</option>
+</select>
+</div>
+</div>
+
+<label for="img-${p.id}">URL da imagem</label>
+<input id="img-${p.id}" value="${escapar(p.img)}">
+
+<div class="foto-acoes">
+<div>
+<label for="foto-${p.id}">Trocar foto sem excluir</label>
+<input type="file" id="foto-${p.id}" accept="image/*">
+</div>
+<button onclick="trocarFotoProduto('${p.id}')" class="salvar">Trocar foto</button>
+</div>
+
+<small>Preco atual: ${textoPreco(p.preco)} | Estoque atual: ${p.estoque || 0}</small>
+
+<div class="acoes">
+<button onclick="alterarProduto('${p.id}')" class="salvar">Salvar alteracoes</button>
+<button onclick="alternarProduto('${p.id}', ${p.ativo === false ? 'true' : 'false'})" class="ocultar">${p.ativo === false ? 'Mostrar' : 'Ocultar'}</button>
 <button onclick="excluirProduto('${p.id}')" class="excluir">Excluir</button>
+</div>
 </div>
 `).join("");
 }
 
+window.alterarProduto = async function(id){
+try{
+const nome=document.getElementById(`nome-${id}`).value.trim();
+
+if(!nome){
+alert("Informe o nome do produto");
+return;
+}
+
+await updateDoc(doc(db,"produtos",id),{
+nome:nome,
+preco:Number(document.getElementById(`preco-${id}`).value||0),
+precoAntigo:Number(document.getElementById(`precoAntigo-${id}`).value||0),
+estoque:Number(document.getElementById(`estoque-${id}`).value||0),
+categoria:document.getElementById(`categoria-${id}`).value,
+status:document.getElementById(`status-${id}`).value,
+img:document.getElementById(`img-${id}`).value
+});
+
+alert("Produto alterado!");
+}catch(e){
+console.error(e);
+alert("Erro ao alterar");
+}
+}
+
+window.trocarFotoProduto = async function(id){
+try{
+const file=document.getElementById(`foto-${id}`).files[0];
+
+if(!file){
+alert("Escolha uma nova foto");
+return;
+}
+
+const url=await enviarFotoCloudinary(file);
+
+await updateDoc(doc(db,"produtos",id),{
+img:url
+});
+
+alert("Foto do produto alterada!");
+}catch(e){
+console.error(e);
+alert("Erro ao trocar foto");
+}
+}
+
+window.alternarProduto = async function(id, ativo){
+try{
+await updateDoc(doc(db,"produtos",id),{
+ativo:ativo
+});
+alert(ativo ? "Produto visivel" : "Produto oculto");
+}catch(e){
+console.error(e);
+alert("Erro ao ocultar ou mostrar");
+}
+}
+
 window.excluirProduto = async function(id){
 try{
+if(!confirm("Tem certeza que deseja excluir este produto?")){
+return;
+}
+
 await deleteDoc(doc(db,"produtos",id));
-alert("Excluído");
+alert("Excluido");
 }catch(e){
 console.error(e);
 alert("Erro ao excluir");
