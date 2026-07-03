@@ -235,7 +235,7 @@ function mostrarCarrinho(){
    let qtd=Number(p.qtd||1);
    totalItens+=qtd;
    total+=Number(p.preco||0)*qtd;
-   return `<div class="item">${p.nome}<br>Qtd: ${qtd} | Unitário: ${moeda(p.preco)} | Subtotal: ${moeda(Number(p.preco||0)*qtd)} <button class="danger" onclick="remover(${i})">Remover</button></div>`;
+   return `<div class="item">${p.nome}<br>Qtd: ${qtd} | Unitário: ${moeda(p.preco)} <button class="danger" onclick="remover(${i})">Remover</button></div>`;
  }).join("") || "Carrinho vazio";
 
  document.getElementById("total").innerText="Total: "+moeda(total);
@@ -271,8 +271,7 @@ window.enviarWhatsApp=function(){
    total+=subtotal;
    msg+=`${i+1}. ${p.nome}\n`;
    msg+=`   Qtd: ${qtd}\n`;
-   msg+=`   Unitário: ${moeda(p.preco)}\n`;
-   msg+=`   Subtotal: ${moeda(subtotal)}\n\n`;
+   msg+=`   Unitário: ${moeda(p.preco)}\n\n`;
  });
 
  msg+=`*TOTAL:* ${moeda(total)}\n`;
