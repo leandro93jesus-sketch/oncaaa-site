@@ -41,8 +41,10 @@ button{background:var(--verde);color:white;border:0;padding:14px 20px;border-rad
 input,textarea,select{width:100%;padding:14px;margin:8px 0;border:1px solid #cbd5e1;border-radius:14px;font-size:16px}
 .item{border-bottom:1px solid #ddd;padding:12px 0}
 
-.whats-fixo{position:fixed;bottom:18px;right:18px;background:#25d366;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.35);z-index:20}
-.insta-fixo{position:fixed;bottom:85px;right:18px;background:#E1306C;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.35);z-index:20}
+.whats-fixo,.insta-fixo,.cart-fixo{position:fixed;right:18px;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.35);z-index:20}
+.insta-fixo{bottom:18px;background:#E1306C}
+.whats-fixo{bottom:85px;background:#25d366}
+.cart-fixo{bottom:152px;background:#003b80}
 
 footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:25px}
 
@@ -50,31 +52,44 @@ footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:
  .produtos{grid-template-columns:1fr;padding:12px}
  .card img{height:290px}
  .banner h2{font-size:23px}
+ .whats-fixo,.insta-fixo,.cart-fixo{padding:13px 16px;font-size:14px}
+ .whats-fixo,.insta-fixo,.cart-fixo{right:12px}
 }
 </style>
+
+<script>
+window.semFoto = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">
+  <rect width="640" height="420" fill="#eef3f8"/>
+  <rect x="72" y="68" width="496" height="284" rx="26" fill="#ffffff" stroke="#cbd5e1" stroke-width="8"/>
+  <circle cx="238" cy="178" r="45" fill="#006ee6" opacity=".22"/>
+  <path d="M126 318l125-121 74 73 59-54 130 102z" fill="#003b80" opacity=".22"/>
+  <text x="320" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#1f2937">Sem foto</text>
+</svg>`);
+</script>
 </head>
 
 <body>
 
 <header>
-<h1>🐆 Onça Produtos de Limpeza</h1>
+<h1>Onça Produtos de Limpeza</h1>
 <p>Atender bem para atender sempre</p>
 </header>
 
 <section class="banner">
-<img src="img/logo-da-loja.jpeg" onerror="this.src='img/sem-foto.jpeg'">
-<h2>Produtos de limpeza com entrega rápida 🚚</h2>
+<img src="img/logo-da-loja.jpeg" alt="Logo da Onça Produtos de Limpeza" onerror="this.onerror=null;this.src=window.semFoto">
+<h2>Produtos de limpeza com entrega rápida</h2>
 <p>Votorantim • Tapiraí • Região</p>
 </section>
 
 <section class="box">
-<h3>🚚 Entregas a combinar</h3>
-<p>✅ Pedido confirmado somente após confirmação do pagamento.</p>
-<p>💳 Pix | Dinheiro | Débito | Crédito</p>
+<h3>Entregas a combinar</h3>
+<p>Pedido confirmado somente após confirmação do pagamento.</p>
+<p>Pix | Dinheiro | Débito | Crédito</p>
 </section>
 
 <section class="box">
-<h2>🔎 Buscar produto</h2>
+<h2>Buscar produto</h2>
 <input id="busca" placeholder="Digite o nome do produto" oninput="mostrarProdutos()">
 </section>
 
@@ -89,8 +104,8 @@ footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:
 
 <section class="produtos" id="produtos">Carregando...</section>
 
-<section class="box">
-<h2>🛒 Carrinho</h2>
+<section class="box" id="carrinho">
+<h2>Carrinho</h2>
 <div id="listaCarrinho">Carrinho vazio</div>
 <h3 id="total">Total: R$ 0,00</h3>
 
@@ -109,8 +124,9 @@ footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:
 <button onclick="enviarWhatsApp()">Enviar pedido</button>
 </section>
 
-<a class="insta-fixo" href="https://instagram.com/onca_limpeza" target="_blank">@ONCA_LIMPEZA</a>
-<a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank">WhatsApp</a>
+<a class="cart-fixo" href="#carrinho" id="atalhoCarrinho">Carrinho (0)</a>
+<a class="insta-fixo" href="https://instagram.com/onca_limpeza" target="_blank" rel="noopener">@ONCA_LIMPEZA</a>
+<a class="whats-fixo" href="https://wa.me/5515997931042" target="_blank" rel="noopener">WhatsApp</a>
 
 <footer>
 <p>Onça Produtos de Limpeza</p>
@@ -139,9 +155,26 @@ function moeda(v){
  return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
 
+function imagemProduto(p){
+ let img = String(p.img || p.imagem || p.foto || "").trim();
+ if(!img) return window.semFoto;
+
+ let driveMatch = img.match(/drive\.google\.com\/file\/d\/([^/]+)/) || img.match(/[?&]id=([^&]+)/);
+ if(driveMatch) return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+
+ if(img.startsWith("http://") || img.startsWith("https://") || img.startsWith("data:") || img.startsWith("img/")){
+   return img;
+ }
+
+ return `img/${img}`;
+}
+
 onSnapshot(collection(db,"produtos"), snap=>{
  produtos = snap.docs.map(d=>({id:d.id,...d.data()})).filter(p=>p.ativo!==false);
  mostrarProdutos();
+}, error=>{
+ console.error(error);
+ document.getElementById("produtos").innerHTML = "Não foi possível carregar os produtos agora.";
 });
 
 window.filtrar=function(cat){
@@ -161,8 +194,8 @@ window.mostrarProdutos=function(){
  document.getElementById("produtos").innerHTML = lista.map(p=>`
  <div class="card">
  ${p.status==="reservado" ? '<div class="reservado">RESERVADO</div>' : ''}
- <img src="${p.img}" onerror="this.src='img/sem-foto.jpeg'">
- <h3>${p.nome}</h3>
+ <img src="${imagemProduto(p)}" alt="${p.nome || 'Produto'}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=window.semFoto">
+ <h3>${p.nome || 'Produto sem nome'}</h3>
  ${p.precoAntigo ? `<p class="preco-antigo">${moeda(p.precoAntigo)}</p>` : ""}
  <p class="preco">${moeda(p.preco)}</p>
  <p>Estoque: ${p.estoque ?? 0}</p>
@@ -173,18 +206,28 @@ window.mostrarProdutos=function(){
 
 window.add=function(id){
  let p=produtos.find(x=>x.id===id);
- carrinho.push(p);
+ if(!p) return;
+ let item=carrinho.find(x=>x.id===id);
+ if(item){
+   item.qtd=(item.qtd||1)+1;
+ }else{
+   carrinho.push({...p,qtd:1});
+ }
  mostrarCarrinho();
 }
 
 function mostrarCarrinho(){
  let total=0;
+ let totalItens=0;
  document.getElementById("listaCarrinho").innerHTML=carrinho.map((p,i)=>{
-   total+=Number(p.preco||0);
-   return `<div class="item">${p.nome} - ${moeda(p.preco)} <button class="danger" onclick="remover(${i})">Remover</button></div>`;
+   let qtd=Number(p.qtd||1);
+   totalItens+=qtd;
+   total+=Number(p.preco||0)*qtd;
+   return `<div class="item">${p.nome}<br>Qtd: ${qtd} | Unitário: ${moeda(p.preco)} | Subtotal: ${moeda(Number(p.preco||0)*qtd)} <button class="danger" onclick="remover(${i})">Remover</button></div>`;
  }).join("") || "Carrinho vazio";
 
  document.getElementById("total").innerText="Total: "+moeda(total);
+ document.getElementById("atalhoCarrinho").innerText=`Carrinho (${totalItens})`;
 }
 
 window.remover=function(i){
@@ -204,25 +247,37 @@ window.enviarWhatsApp=function(){
  let obs=document.getElementById("obs").value;
 
  let total=0;
- let msg="🛒 Pedido - Onça Produtos\\n\\nProdutos:\\n";
+ let totalItens=0;
+ let msg="*PEDIDO - ONÇA PRODUTOS DE LIMPEZA*\n";
+ msg+="--------------------------------\n\n";
+ msg+="*PRODUTOS*\n";
 
- carrinho.forEach(p=>{
-   total+=Number(p.preco||0);
-   msg+=`${p.nome} - ${moeda(p.preco)}\\n`;
+ carrinho.forEach((p,i)=>{
+   let qtd=Number(p.qtd||1);
+   let subtotal=Number(p.preco||0)*qtd;
+   totalItens+=qtd;
+   total+=subtotal;
+   msg+=`${i+1}. ${p.nome}\n`;
+   msg+=`   Qtd: ${qtd}\n`;
+   msg+=`   Unitário: ${moeda(p.preco)}\n`;
+   msg+=`   Subtotal: ${moeda(subtotal)}\n\n`;
  });
 
- msg+=`\\nTotal: ${moeda(total)}\\n`;
- msg+=`\\nCliente: ${nome}`;
- msg+=`\\nEndereço: ${endereco}`;
- msg+=`\\nPagamento: ${pagamento}`;
- msg+=`\\n\\n🚚 Entrega a combinar`;
- msg+=`\\n✅ Pedido confirmado somente após confirmação do pagamento`;
+ msg+=`*TOTAL:* ${moeda(total)}\n`;
+ msg+=`*Itens:* ${totalItens}\n\n`;
+ msg+="*DADOS DO CLIENTE*\n";
+ msg+=`Nome: ${nome || "Não informado"}\n`;
+ msg+=`Endereço: ${endereco || "Não informado"}\n`;
+ msg+=`Pagamento: ${pagamento}\n\n`;
+ msg+="*ENTREGA*\n";
+ msg+="Entrega a combinar.\n";
+ msg+="Pedido confirmado somente após confirmação do pagamento.";
 
  if(obs){
-   msg+=`\\nObs: ${obs}`;
+   msg+=`\n\n*OBSERVAÇÃO*\n${obs}`;
  }
 
- window.open("https://wa.me/5515997931042?text="+encodeURIComponent(msg));
+ window.open("https://wa.me/5515997931042?text="+encodeURIComponent(msg), "_blank", "noopener");
 }
 </script>
 
