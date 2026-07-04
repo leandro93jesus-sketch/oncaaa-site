@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo - Onça Produtos de Limpeza</title>
+
+<style>
+:root{
+ --azul:#003b80;
+ --azul2:#006ee6;
+ --verde:#25d366;
+ --fundo:#eef3f8;
+ --texto:#1f2937;
+ --amarelo:#ffcc00;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--fundo);
+ color:var(--texto);
+}
+.topo{
+ background:linear-gradient(135deg,#001f4d,#005bbb);
+ color:white;
+ text-align:center;
+ padding:30px 15px;
+}
+.topo img{
+ max-width:170px;
+ background:white;
+ padding:10px;
+ border-radius:24px;
+ box-shadow:0 8px 22px rgba(0,0,0,.3);
+}
+.topo h1{
+ margin:15px 0 5px;
+ font-size:32px;
+}
+.topo p{
+ margin:5px 0;
+ font-size:17px;
+}
+.acoes{
+ background:white;
+ padding:15px;
+ text-align:center;
+ position:sticky;
+ top:0;
+ z-index:10;
+ box-shadow:0 3px 12px rgba(0,0,0,.18);
+}
+.acoes button{
+ border:0;
+ padding:14px 22px;
+ border-radius:14px;
+ margin:5px;
+ font-weight:bold;
+ cursor:pointer;
+ color:white;
+ font-size:16px;
+}
+.btn-pdf{background:#003b80}
+.btn-whats{background:#25d366}
+.info{
+ max-width:1100px;
+ margin:18px auto;
+ background:white;
+ padding:20px;
+ border-radius:18px;
+ box-shadow:0 5px 15px rgba(0,0,0,.12);
+ text-align:center;
+}
+.info h2{
+ margin:0 0 8px;
+ color:#003b80;
+}
+.catalogo{
+ max-width:1200px;
+ margin:auto;
+ padding:20px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+ gap:22px;
+}
+.produto{
+ background:white;
+ border-radius:20px;
+ padding:15px;
+ text-align:center;
+ box-shadow:0 6px 18px rgba(0,0,0,.15);
+ border:1px solid #e5e7eb;
+ page-break-inside:avoid;
+}
+.produto img{
+ width:100%;
+ height:220px;
+ object-fit:contain;
+ background:white;
+ border-radius:16px;
+}
+.produto h3{
+ font-size:18px;
+ min-height:48px;
+ margin:12px 0 8px;
+}
+.preco{
+ font-size:28px;
+ color:#078227;
+ font-weight:bold;
+ margin:8px 0;
+}
+.preco-antigo{
+ color:#777;
+ text-decoration:line-through;
+ margin:4px 0;
+}
+.estoque{
+ font-size:14px;
+ color:#555;
+}
+.selo{
+ display:inline-block;
+ padding:7px 13px;
+ border-radius:50px;
+ font-weight:bold;
+ font-size:13px;
+ margin-bottom:8px;
+}
+.reservado{
+ background:#ffcc00;
+ color:#111;
+}
+.promocao{
+ background:#e11d48;
+ color:white;
+}
+.rodape{
+ background:#003b80;
+ color:white;
+ text-align:center;
+ padding:25px;
+ margin-top:25px;
+}
+.carregando{
+ text-align:center;
+ padding:35px;
+ font-size:20px;
+ color:#003b80;
+}
+.categoria{
+ font-size:13px;
+ background:#eef3f8;
+ display:inline-block;
+ padding:6px 10px;
+ border-radius:30px;
+ margin-top:6px;
+}
+
+@media(max-width:700px){
+ .catalogo{
+   grid-template-columns:1fr;
+   padding:12px;
+ }
+ .produto img{
+   height:260px;
+ }
+ .topo h1{
+   font-size:25px;
+ }
+}
+
+@media print{
+ body{
+   background:white;
+ }
+ .acoes{
+   display:none;
+ }
+ .topo{
+   padding:20px 10px;
+ }
+ .topo img{
+   max-width:110px;
+ }
+ .topo h1{
+   font-size:24px;
+ }
+ .topo p{
+   font-size:13px;
+ }
+ .info{
+   box-shadow:none;
+   border:1px solid #ddd;
+   margin:10px 0;
+   border-radius:10px;
+ }
+ .catalogo{
+   display:grid;
+   grid-template-columns:repeat(2,1fr);
+   gap:12px;
+   padding:5px;
+   max-width:100%;
+ }
+ .produto{
+   box-shadow:none;
+   border:1px solid #ddd;
+   border-radius:12px;
+   padding:10px;
+ }
+ .produto img{
+   height:150px;
+ }
+ .produto h3{
+   font-size:14px;
+   min-height:auto;
+ }
+ .preco{
+   font-size:20px;
+ }
+ .rodape{
+   margin-top:10px;
+   padding:15px;
+   font-size:12px;
+ }
+}
+</style>
+
+<script>
+window.semFoto = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420">
+  <rect width="640" height="420" fill="#eef3f8"/>
+  <rect x="72" y="68" width="496" height="284" rx="26" fill="#ffffff" stroke="#cbd5e1" stroke-width="8"/>
+  <circle cx="238" cy="178" r="45" fill="#006ee6" opacity=".22"/>
+  <path d="M126 318l125-121 74 73 59-54 130 102z" fill="#003b80" opacity=".22"/>
+  <text x="320" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" fill="#1f2937">Sem foto</text>
+</svg>`);
+</script>
+</head>
+
+<body>
+
+<section class="topo">
+<img src="img/logo-da-loja.jpeg" alt="Logo Onça" onerror="this.onerror=null;this.src=window.semFoto">
+<h1>Catálogo Onça Produtos de Limpeza</h1>
+<p>Atender bem para atender sempre</p>
+<p>Votorantim • Tapiraí • Região</p>
+</section>
+
+<section class="acoes">
+<button class="btn-pdf" onclick="gerarPDF()">Gerar / Salvar PDF</button>
+<button class="btn-whats" onclick="abrirWhatsApp()">Pedir pelo WhatsApp</button>
+</section>
+
+<section class="info">
+<h2>Catálogo de Produtos</h2>
+<p>Entregas a combinar</p>
+<p>Pedido confirmado somente após confirmação do pagamento.</p>
+<p><b>Pix | Dinheiro | Débito | Crédito</b></p>
+<p><b>WhatsApp:</b> (15) 99793-1042</p>
+<p><b>Instagram:</b> @ONCA_LIMPEZA</p>
+</section>
+
+<section id="catalogo" class="catalogo">
+<div class="carregando">Carregando produtos...</div>
+</section>
+
+<section class="rodape">
+<p><b>Onça Produtos de Limpeza</b></p>
+<p>WhatsApp: (15) 99793-1042</p>
+<p>Instagram: @ONCA_LIMPEZA</p>
+<p>Entregas a combinar</p>
+</section>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+ authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
+ projectId:"oncas-produtos-de-limpeza"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let produtos = [];
+
+function moeda(v){
+ return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+
+function imagemProduto(p){
+ let img = String(
+   p.img ||
+   p.imagem ||
+   p.foto ||
+   p.url ||
+   p.image ||
+   p.imageUrl ||
+   p.fotoUrl ||
+   p.urlImagem ||
+   p.link ||
+   ""
+ ).trim();
+
+ if(!img){
+   return window.semFoto;
+ }
+
+ let driveMatch =
+   img.match(/drive\.google\.com\/file\/d\/([^/]+)/) ||
+   img.match(/[?&]id=([^&]+)/);
+
+ if(driveMatch){
+   return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+ }
+
+ if(
+   img.startsWith("https://") ||
+   img.startsWith("http://") ||
+   img.startsWith("data:")
+ ){
+   return img;
+ }
+
+ if(img.startsWith("/img/")){
+   return encodeURI(img.replace("/img/","img/"));
+ }
+
+ if(img.startsWith("./img/")){
+   return encodeURI(img.replace("./img/","img/"));
+ }
+
+ if(img.startsWith("img/")){
+   return encodeURI(img);
+ }
+
+ return encodeURI("img/" + img);
+}
+
+function ordenarProdutos(lista){
+ return lista.sort((a,b)=>{
+   let ca = String(a.categoria || "");
+   let cb = String(b.categoria || "");
+   let na = String(a.nome || "");
+   let nb = String(b.nome || "");
+   return ca.localeCompare(cb) || na.localeCompare(nb);
+ });
+}
+
+function mostrarCatalogo(){
+ const area = document.getElementById("catalogo");
+
+ let lista = produtos.filter(p=>p.ativo!==false);
+
+ if(!lista.length){
+   area.innerHTML = '<div class="carregando">Nenhum produto encontrado.</div>';
+   return;
+ }
+
+ lista = ordenarProdutos(lista);
+
+ area.innerHTML = lista.map(p=>{
+   let precoAntigo = Number(p.precoAntigo || 0);
+   let categoria = p.categoria || "Produto";
+   let status = p.status || "";
+
+   return `
+   <div class="produto">
+     ${status==="reservado" ? '<div class="selo reservado">RESERVADO</div>' : ''}
+     ${precoAntigo>0 ? '<div class="selo promocao">PROMOÇÃO</div>' : ''}
+     <img src="${imagemProduto(p)}" alt="${p.nome || 'Produto'}" loading="lazy" onerror="this.onerror=null;this.src=window.semFoto">
+     <h3>${p.nome || 'Produto sem nome'}</h3>
+     ${precoAntigo>0 ? `<p class="preco-antigo">De ${moeda(precoAntigo)}</p>` : ""}
+     <p class="preco">${moeda(p.preco)}</p>
+     <p class="estoque">Estoque: ${p.estoque ?? 0}</p>
+     <span class="categoria">${categoria}</span>
+   </div>
+   `;
+ }).join("");
+}
+
+onSnapshot(collection(db,"produtos"), snap=>{
+ produtos = snap.docs.map(d=>({id:d.id,...d.data()}));
+ mostrarCatalogo();
+}, error=>{
+ console.error(error);
+ document.getElementById("catalogo").innerHTML = '<div class="carregando">Não foi possível carregar os produtos agora.</div>';
+});
+
+window.gerarPDF = function(){
+ window.print();
+}
+
+window.abrirWhatsApp = function(){
+ let msg = "Olá! Vim pelo catálogo da Onça Produtos de Limpeza e quero fazer um pedido.";
+ window.open("https://wa.me/5515997931042?text="+encodeURIComponent(msg), "_blank", "noopener");
+}
+</script>
+
+</body>
+</html>
