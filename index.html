@@ -41,7 +41,20 @@ button{background:var(--verde);color:white;border:0;padding:14px 20px;border-rad
 input,textarea,select{width:100%;padding:14px;margin:8px 0;border:1px solid #cbd5e1;border-radius:14px;font-size:16px}
 .item{border-bottom:1px solid #ddd;padding:12px 0}
 
-.whats-fixo,.insta-fixo,.cart-fixo{position:fixed;right:18px;color:white;padding:16px 22px;border-radius:50px;font-weight:bold;text-decoration:none;box-shadow:0 4px 15px rgba(0,0,0,.35);z-index:9999;display:block;min-width:128px;text-align:center}
+.whats-fixo,.insta-fixo,.cart-fixo{
+ position:fixed;
+ right:18px;
+ color:white;
+ padding:16px 22px;
+ border-radius:50px;
+ font-weight:bold;
+ text-decoration:none;
+ box-shadow:0 4px 15px rgba(0,0,0,.35);
+ z-index:9999;
+ display:block;
+ min-width:128px;
+ text-align:center;
+}
 .insta-fixo{bottom:18px;background:#E1306C}
 .whats-fixo{bottom:85px;background:#25d366}
 .cart-fixo{bottom:152px;background:#003b80;border:2px solid white}
@@ -52,8 +65,7 @@ footer{background:#003b80;color:white;text-align:center;padding:24px;margin-top:
  .produtos{grid-template-columns:1fr;padding:12px}
  .card img{height:290px}
  .banner h2{font-size:23px}
- .whats-fixo,.insta-fixo,.cart-fixo{padding:13px 16px;font-size:14px}
- .whats-fixo,.insta-fixo,.cart-fixo{right:12px}
+ .whats-fixo,.insta-fixo,.cart-fixo{padding:13px 16px;font-size:14px;right:12px}
 }
 </style>
 
@@ -151,34 +163,57 @@ let produtos = [];
 let carrinho = [];
 let filtroAtual = "todos";
 
-function garantirBotaoCarrinho(){
- if(document.getElementById("atalhoCarrinho")) return;
- let botao=document.createElement("a");
- botao.className="cart-fixo";
- botao.href="#carrinho";
- botao.id="atalhoCarrinho";
- botao.innerText="Carrinho (0)";
- document.body.appendChild(botao);
-}
-
-garantirBotaoCarrinho();
-
 function moeda(v){
  return Number(v||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
 }
 
 function imagemProduto(p){
- let img = String(p.img || p.imagem || p.foto || "").trim();
- if(!img) return window.semFoto;
+ let img = String(
+   p.img ||
+   p.imagem ||
+   p.foto ||
+   p.url ||
+   p.image ||
+   p.imageUrl ||
+   p.fotoUrl ||
+   p.urlImagem ||
+   p.link ||
+   ""
+ ).trim();
 
- let driveMatch = img.match(/drive\.google\.com\/file\/d\/([^/]+)/) || img.match(/[?&]id=([^&]+)/);
- if(driveMatch) return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+ if(!img){
+   return window.semFoto;
+ }
 
- if(img.startsWith("http://") || img.startsWith("https://") || img.startsWith("data:") || img.startsWith("img/")){
+ let driveMatch =
+   img.match(/drive\.google\.com\/file\/d\/([^/]+)/) ||
+   img.match(/[?&]id=([^&]+)/);
+
+ if(driveMatch){
+   return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+ }
+
+ if(
+   img.startsWith("https://") ||
+   img.startsWith("http://") ||
+   img.startsWith("data:")
+ ){
    return img;
  }
 
- return `img/${img}`;
+ if(img.startsWith("/img/")){
+   return encodeURI(img.replace("/img/","img/"));
+ }
+
+ if(img.startsWith("./img/")){
+   return encodeURI(img.replace("./img/","img/"));
+ }
+
+ if(img.startsWith("img/")){
+   return encodeURI(img);
+ }
+
+ return encodeURI("img/" + img);
 }
 
 onSnapshot(collection(db,"produtos"), snap=>{
@@ -199,14 +234,22 @@ window.mostrarProdutos=function(){
 
  let lista=produtos.filter(p=>(p.nome||"").toLowerCase().includes(busca));
 
- if(filtroAtual==="reservado") lista=lista.filter(p=>p.status==="reservado");
- if(filtroAtual==="promocoes") lista=lista.filter(p=>p.precoAntigo>0 || p.categoria==="promocoes");
- if(filtroAtual!=="todos" && filtroAtual!=="reservado" && filtroAtual!=="promocoes") lista=lista.filter(p=>p.categoria===filtroAtual);
+ if(filtroAtual==="reservado"){
+   lista=lista.filter(p=>p.status==="reservado");
+ }
+
+ if(filtroAtual==="promocoes"){
+   lista=lista.filter(p=>Number(p.precoAntigo||0)>0 || p.categoria==="promocoes");
+ }
+
+ if(filtroAtual!=="todos" && filtroAtual!=="reservado" && filtroAtual!=="promocoes"){
+   lista=lista.filter(p=>p.categoria===filtroAtual);
+ }
 
  document.getElementById("produtos").innerHTML = lista.map(p=>`
  <div class="card">
  ${p.status==="reservado" ? '<div class="reservado">RESERVADO</div>' : ''}
- <img src="${imagemProduto(p)}" alt="${p.nome || 'Produto'}" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=window.semFoto">
+ <img src="${imagemProduto(p)}" alt="${p.nome || 'Produto'}" loading="lazy" onerror="this.onerror=null;this.src=window.semFoto">
  <h3>${p.nome || 'Produto sem nome'}</h3>
  ${p.precoAntigo ? `<p class="preco-antigo">${moeda(p.precoAntigo)}</p>` : ""}
  <p class="preco">${moeda(p.preco)}</p>
@@ -219,23 +262,37 @@ window.mostrarProdutos=function(){
 window.add=function(id){
  let p=produtos.find(x=>x.id===id);
  if(!p) return;
+
  let item=carrinho.find(x=>x.id===id);
+
  if(item){
    item.qtd=(item.qtd||1)+1;
  }else{
    carrinho.push({...p,qtd:1});
  }
+
  mostrarCarrinho();
 }
 
 function mostrarCarrinho(){
  let total=0;
  let totalItens=0;
+
  document.getElementById("listaCarrinho").innerHTML=carrinho.map((p,i)=>{
    let qtd=Number(p.qtd||1);
+   let subtotal=Number(p.preco||0)*qtd;
+
    totalItens+=qtd;
-   total+=Number(p.preco||0)*qtd;
-   return `<div class="item">${p.nome}<br>Qtd: ${qtd} | Unitário: ${moeda(p.preco)} <button class="danger" onclick="remover(${i})">Remover</button></div>`;
+   total+=subtotal;
+
+   return `
+   <div class="item">
+     <b>${p.nome}</b><br>
+     Qtd: ${qtd} | Unitário: ${moeda(p.preco)}<br>
+     Subtotal: ${moeda(subtotal)}
+     <br>
+     <button class="danger" onclick="remover(${i})">Remover</button>
+   </div>`;
  }).join("") || "Carrinho vazio";
 
  document.getElementById("total").innerText="Total: "+moeda(total);
@@ -260,6 +317,7 @@ window.enviarWhatsApp=function(){
 
  let total=0;
  let totalItens=0;
+
  let msg="*PEDIDO - ONÇA PRODUTOS DE LIMPEZA*\n";
  msg+="--------------------------------\n\n";
  msg+="*PRODUTOS*\n";
@@ -267,19 +325,24 @@ window.enviarWhatsApp=function(){
  carrinho.forEach((p,i)=>{
    let qtd=Number(p.qtd||1);
    let subtotal=Number(p.preco||0)*qtd;
+
    totalItens+=qtd;
    total+=subtotal;
+
    msg+=`${i+1}. ${p.nome}\n`;
    msg+=`   Qtd: ${qtd}\n`;
-   msg+=`   Unitário: ${moeda(p.preco)}\n\n`;
+   msg+=`   Unitário: ${moeda(p.preco)}\n`;
+   msg+=`   Subtotal: ${moeda(subtotal)}\n\n`;
  });
 
  msg+=`*TOTAL:* ${moeda(total)}\n`;
  msg+=`*Itens:* ${totalItens}\n\n`;
+
  msg+="*DADOS DO CLIENTE*\n";
  msg+=`Nome: ${nome || "Não informado"}\n`;
  msg+=`Endereço: ${endereco || "Não informado"}\n`;
  msg+=`Pagamento: ${pagamento}\n\n`;
+
  msg+="*ENTREGA*\n";
  msg+="Entrega a combinar.\n";
  msg+="Pedido confirmado somente após confirmação do pagamento.";
