@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Onca 4.4</title>
+<title>Admin Onça 4.5 - Acesso automático</title>
 
 <style>
 *{box-sizing:border-box}
@@ -30,6 +30,9 @@ button:hover{filter:brightness(.95)}
 .status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:bold;background:#dcfce7;color:#166534;margin-bottom:8px}
 .status.oculto{background:#fed7aa;color:#9a3412}
 .contador{color:#475569;display:block;margin:0 0 10px}
+.aviso-conexao{padding:11px 13px;margin:0 0 16px;border-radius:9px;background:#fef3c7;color:#92400e;font-weight:bold;font-size:14px}
+.aviso-conexao.ok{background:#dcfce7;color:#166534}
+.aviso-conexao.erro{background:#fee2e2;color:#991b1b}
 @media(max-width:650px){
 body{padding:10px}
 .container{padding:14px}
@@ -41,7 +44,8 @@ body{padding:10px}
 <body>
 
 <div class="container">
-<h2>Painel Admin Onca 4.4</h2>
+<h2>Painel Admin Onça 4.5</h2>
+<div id="avisoConexao" class="aviso-conexao">Conectando automaticamente ao Firebase...</div>
 
 <h3>Cadastrar produto</h3>
 
@@ -120,6 +124,11 @@ doc,
 updateDoc,
 deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+getAuth,
+signInAnonymously,
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
 apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
@@ -129,6 +138,47 @@ projectId:"oncas-produtos-de-limpeza"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+
+let usuarioPronto=false;
+let painelIniciado=false;
+
+function mostrarConexao(mensagem,tipo=""){
+const aviso=document.getElementById("avisoConexao");
+aviso.textContent=mensagem;
+aviso.className=`aviso-conexao ${tipo}`.trim();
+}
+
+function garantirConexao(){
+if(usuarioPronto) return true;
+alert("O painel ainda está conectando ao Firebase. Tente novamente em alguns segundos.");
+return false;
+}
+
+function mensagemErroFirebase(e,acao){
+console.error(e);
+const codigo=e?.code || "erro-desconhecido";
+const mensagem=e?.message || "Sem detalhes";
+alert(`${acao} não foi concluído.\n\nCódigo: ${codigo}\nDetalhes: ${mensagem}`);
+}
+
+async function conectarAutomaticamente(){
+try{
+mostrarConexao("Conectando automaticamente ao Firebase...");
+await signInAnonymously(auth);
+}catch(e){
+console.error(e);
+mostrarConexao("Não foi possível entrar automaticamente. Ative o provedor Anônimo no Firebase Authentication.","erro");
+mensagemErroFirebase(e,"Conexão automática");
+}
+}
+
+onAuthStateChanged(auth,(usuario)=>{
+if(!usuario) return;
+usuarioPronto=true;
+mostrarConexao("Painel conectado. Não é necessário digitar senha.","ok");
+iniciarPainel();
+});
 
 let produtos=[];
 let termoPesquisa="";
@@ -193,6 +243,7 @@ return data.secure_url;
 }
 
 window.salvarProduto = async function(){
+if(!garantirConexao()) return;
 try{
 const nome=document.getElementById("nome").value.trim();
 const preco=document.getElementById("preco").value;
@@ -221,18 +272,27 @@ document.getElementById("status").value="";
 document.getElementById("categoria").value="limpeza";
 
 }catch(e){
-console.error(e);
-alert("Erro ao salvar");
+mensagemErroFirebase(e,"Cadastro do produto");
 }
 }
 
+function iniciarPainel(){
+if(painelIniciado) return;
+painelIniciado=true;
+
 onSnapshot(collection(db,"produtos"),(snap)=>{
-produtos=snap.docs.map(doc=>({
-id:doc.id,
-...doc.data()
+produtos=snap.docs.map(documento=>({
+id:documento.id,
+...documento.data()
 }));
 listarProdutos();
+},(e)=>{
+mostrarConexao("Conectado, mas sem permissão para carregar os produtos.","erro");
+mensagemErroFirebase(e,"Carregamento dos produtos");
 });
+}
+
+conectarAutomaticamente();
 
 document.getElementById("pesquisa").addEventListener("keydown",(evento)=>{
 if(evento.key === "Enter"){
@@ -353,6 +413,7 @@ listarProdutos();
 }
 
 window.alterarProduto = async function(id){
+if(!garantirConexao()) return;
 try{
 const nome=document.getElementById(`nome-${id}`).value.trim();
 
@@ -373,12 +434,12 @@ img:document.getElementById(`img-${id}`).value
 
 alert("Produto alterado!");
 }catch(e){
-console.error(e);
-alert("Erro ao alterar");
+mensagemErroFirebase(e,"Alteração do produto");
 }
 }
 
 window.trocarFotoProduto = async function(id){
+if(!garantirConexao()) return;
 try{
 const file=document.getElementById(`foto-${id}`).files[0];
 
@@ -395,24 +456,24 @@ img:url
 
 alert("Foto do produto alterada!");
 }catch(e){
-console.error(e);
-alert("Erro ao trocar foto");
+mensagemErroFirebase(e,"Troca da foto");
 }
 }
 
 window.alternarProduto = async function(id, ativo){
+if(!garantirConexao()) return;
 try{
 await updateDoc(doc(db,"produtos",id),{
 ativo:ativo
 });
 alert(ativo ? "Produto visivel" : "Produto oculto");
 }catch(e){
-console.error(e);
-alert("Erro ao ocultar ou mostrar");
+mensagemErroFirebase(e,"Alteração da visibilidade");
 }
 }
 
 window.excluirProduto = async function(id){
+if(!garantirConexao()) return;
 try{
 if(!confirm("Tem certeza que deseja excluir este produto?")){
 return;
@@ -421,8 +482,7 @@ return;
 await deleteDoc(doc(db,"produtos",id));
 alert("Excluido");
 }catch(e){
-console.error(e);
-alert("Erro ao excluir");
+mensagemErroFirebase(e,"Exclusão do produto");
 }
 }
 
