@@ -3,40 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Onça 4.5 - Acesso automático</title>
+<title>Admin Onça 4.6 - Novidades</title>
 
 <style>
-*{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f2f4f8;margin:0;padding:20px;color:#1f2937}
-.container{max-width:850px;margin:auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 8px 24px rgba(15,23,42,.08)}
-h2{margin:0 0 18px}
-h3{margin:24px 0 10px}
-label{display:block;font-size:13px;font-weight:bold;color:#475569;margin-top:8px}
-input,select,button{width:100%;padding:12px;margin:6px 0 10px;border-radius:8px;border:1px solid #cbd5e1;font-size:15px}
-button{background:#28a745;color:white;border:none;font-weight:bold;cursor:pointer}
-button:hover{filter:brightness(.95)}
-.produto{border:1px solid #ddd;padding:12px;margin:10px 0;border-radius:10px;background:#fff}
-.produto.oculto{background:#fff7ed;border-color:#fdba74}
-.acoes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
-.foto-acoes{display:grid;grid-template-columns:1fr 160px;gap:8px;align-items:end}
-.filtros{display:grid;grid-template-columns:1fr 130px 110px 160px;gap:8px;align-items:end;margin:8px 0 14px}
-.excluir{background:#c00}
-.ocultar{background:#ff9800}
-.salvar{background:#2563eb}
-.limpar{background:#64748b}
-.foto-produto{max-width:180px;max-height:140px;object-fit:contain;display:block;margin:0 0 10px;background:#f8fafc;border-radius:8px}
-#preview{max-width:180px;max-height:140px;object-fit:contain;display:block;margin:8px 0;border-radius:8px}
-.grade{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.status{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;font-weight:bold;background:#dcfce7;color:#166534;margin-bottom:8px}
-.status.oculto{background:#fed7aa;color:#9a3412}
-.contador{color:#475569;display:block;margin:0 0 10px}
-.aviso-conexao{padding:11px 13px;margin:0 0 16px;border-radius:9px;background:#fef3c7;color:#92400e;font-weight:bold;font-size:14px}
-.aviso-conexao.ok{background:#dcfce7;color:#166534}
-.aviso-conexao.erro{background:#fee2e2;color:#991b1b}
+*{
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f2f4f8;
+    margin:0;
+    padding:20px;
+    color:#1f2937;
+}
+
+.container{
+    max-width:850px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 8px 24px rgba(15,23,42,.08);
+}
+
+h2{
+    margin:0 0 18px;
+}
+
+h3{
+    margin:24px 0 10px;
+}
+
+label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    color:#475569;
+    margin-top:8px;
+}
+
+input,
+select,
+button{
+    width:100%;
+    padding:12px;
+    margin:6px 0 10px;
+    border-radius:8px;
+    border:1px solid #cbd5e1;
+    font-size:15px;
+}
+
+button{
+    background:#28a745;
+    color:white;
+    border:none;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:hover{
+    filter:brightness(.95);
+}
+
+.produto{
+    border:1px solid #ddd;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    background:#fff;
+}
+
+.produto.oculto{
+    background:#fff7ed;
+    border-color:#fdba74;
+}
+
+.acoes{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+}
+
+.foto-acoes{
+    display:grid;
+    grid-template-columns:1fr 160px;
+    gap:8px;
+    align-items:end;
+}
+
+.filtros{
+    display:grid;
+    grid-template-columns:1fr 130px 110px 160px;
+    gap:8px;
+    align-items:end;
+    margin:8px 0 14px;
+}
+
+.excluir{
+    background:#c00;
+}
+
+.ocultar{
+    background:#ff9800;
+}
+
+.salvar{
+    background:#2563eb;
+}
+
+.limpar{
+    background:#64748b;
+}
+
+.botao-novidade{
+    background:#7c3aed;
+}
+
+.botao-novidade.ativa{
+    background:#2563eb;
+}
+
+.foto-produto{
+    max-width:180px;
+    max-height:140px;
+    object-fit:contain;
+    display:block;
+    margin:0 0 10px;
+    background:#f8fafc;
+    border-radius:8px;
+}
+
+#preview{
+    max-width:180px;
+    max-height:140px;
+    object-fit:contain;
+    display:block;
+    margin:8px 0;
+    border-radius:8px;
+}
+
+.grade{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.status{
+    display:inline-block;
+    padding:4px 8px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:bold;
+    background:#dcfce7;
+    color:#166534;
+    margin-bottom:8px;
+}
+
+.status.oculto{
+    background:#fed7aa;
+    color:#9a3412;
+}
+
+.status.novidade{
+    background:#dbeafe;
+    color:#1d4ed8;
+    margin-left:6px;
+}
+
+.check-novidade{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border:1px solid #cbd5e1;
+    border-radius:8px;
+    background:#f8fafc;
+    margin:6px 0 10px;
+}
+
+.check-novidade input{
+    width:auto;
+    margin:0;
+    transform:scale(1.25);
+}
+
+.check-novidade label{
+    margin:0;
+    font-size:14px;
+    color:#334155;
+}
+
+.contador{
+    color:#475569;
+    display:block;
+    margin:0 0 10px;
+}
+
+.aviso-conexao{
+    padding:11px 13px;
+    margin:0 0 16px;
+    border-radius:9px;
+    background:#fef3c7;
+    color:#92400e;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.aviso-conexao.ok{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.aviso-conexao.erro{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
 @media(max-width:650px){
-body{padding:10px}
-.container{padding:14px}
-.grade,.acoes,.foto-acoes,.filtros{grid-template-columns:1fr}
+
+    body{
+        padding:10px;
+    }
+
+    .container{
+        padding:14px;
+    }
+
+    .grade,
+    .acoes,
+    .foto-acoes,
+    .filtros{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 </head>
@@ -44,447 +243,1108 @@ body{padding:10px}
 <body>
 
 <div class="container">
-<h2>Painel Admin Onça 4.5</h2>
-<div id="avisoConexao" class="aviso-conexao">Conectando automaticamente ao Firebase...</div>
 
-<h3>Cadastrar produto</h3>
+    <h2>Painel Admin Onça 4.6</h2>
 
-<label for="nome">Nome do produto</label>
-<input id="nome" placeholder="Nome do produto">
+    <div id="avisoConexao" class="aviso-conexao">
+        Conectando automaticamente ao Firebase...
+    </div>
 
-<div class="grade">
-<div>
-<label for="preco">Preco</label>
-<input id="preco" type="number" step="0.01" placeholder="Preco">
-</div>
-<div>
-<label for="precoAntigo">Preco antigo</label>
-<input id="precoAntigo" type="number" step="0.01" placeholder="Preco antigo">
-</div>
-</div>
+    <h3>Cadastrar produto</h3>
 
-<label for="estoque">Estoque</label>
-<input id="estoque" type="number" placeholder="Estoque">
+    <label for="nome">Nome do produto</label>
+    <input id="nome" placeholder="Nome do produto">
 
-<div class="grade">
-<div>
-<label for="categoria">Categoria</label>
-<select id="categoria">
-<option value="limpeza">Limpeza</option>
-<option value="automotivo">Automotivo</option>
-<option value="utensilios">Utensilios</option>
-<option value="promocoes">Promocoes</option>
-</select>
-</div>
-<div>
-<label for="status">Status</label>
-<select id="status">
-<option value="">Normal</option>
-<option value="reservado">Reservado</option>
-</select>
-</div>
-</div>
+    <div class="grade">
 
-<label for="foto">Foto</label>
-<input type="file" id="foto" accept="image/*">
-<button onclick="uploadFoto()">Enviar Foto</button>
+        <div>
+            <label for="preco">Preço</label>
+            <input
+                id="preco"
+                type="number"
+                step="0.01"
+                placeholder="Preço"
+            >
+        </div>
 
-<img id="preview" alt="">
+        <div>
+            <label for="precoAntigo">Preço antigo</label>
+            <input
+                id="precoAntigo"
+                type="number"
+                step="0.01"
+                placeholder="Preço antigo"
+            >
+        </div>
 
-<label for="imgUrl">URL da imagem</label>
-<input id="imgUrl" placeholder="URL da imagem">
+    </div>
 
-<button onclick="salvarProduto()">Salvar Produto</button>
+    <label for="estoque">Estoque</label>
+    <input
+        id="estoque"
+        type="number"
+        placeholder="Estoque"
+    >
 
-<hr>
+    <div class="grade">
 
-<h3>Produtos cadastrados</h3>
-<div class="filtros">
-<div>
-<label for="pesquisa">Pesquisar produto</label>
-<input id="pesquisa" placeholder="Digite o nome do produto">
-</div>
-<button onclick="pesquisarProdutos()" class="salvar">Pesquisar</button>
-<button onclick="limparPesquisa()" class="limpar">Limpar</button>
-<button onclick="alternarFiltroOcultos()" class="ocultar" id="botaoOcultos">Mostrar ocultos</button>
-</div>
-<small class="contador" id="contadorProdutos"></small>
-<div id="listaProdutos"></div>
+        <div>
+
+            <label for="categoria">Categoria</label>
+
+            <select id="categoria">
+                <option value="limpeza">Limpeza</option>
+                <option value="automotivo">Automotivo</option>
+                <option value="utensilios">Utensílios</option>
+                <option value="promocoes">Promoções</option>
+            </select>
+
+        </div>
+
+        <div>
+
+            <label for="status">Status</label>
+
+            <select id="status">
+                <option value="">Normal</option>
+                <option value="reservado">Reservado</option>
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="check-novidade">
+
+        <input type="checkbox" id="novidade">
+
+        <label for="novidade">
+            Destacar este produto como novidade
+        </label>
+
+    </div>
+
+    <label for="foto">Foto</label>
+
+    <input
+        type="file"
+        id="foto"
+        accept="image/*"
+    >
+
+    <button type="button" onclick="uploadFoto()">
+        Enviar foto
+    </button>
+
+    <img id="preview" alt="Prévia da foto">
+
+    <label for="imgUrl">URL da imagem</label>
+
+    <input
+        id="imgUrl"
+        placeholder="URL da imagem"
+    >
+
+    <button type="button" onclick="salvarProduto()">
+        Salvar produto
+    </button>
+
+    <hr>
+
+    <h3>Produtos cadastrados</h3>
+
+    <div class="filtros">
+
+        <div>
+
+            <label for="pesquisa">Pesquisar produto</label>
+
+            <input
+                id="pesquisa"
+                placeholder="Digite o nome do produto"
+            >
+
+        </div>
+
+        <button
+            type="button"
+            onclick="pesquisarProdutos()"
+            class="salvar"
+        >
+            Pesquisar
+        </button>
+
+        <button
+            type="button"
+            onclick="limparPesquisa()"
+            class="limpar"
+        >
+            Limpar
+        </button>
+
+        <button
+            type="button"
+            onclick="alternarFiltroOcultos()"
+            class="ocultar"
+            id="botaoOcultos"
+        >
+            Mostrar ocultos
+        </button>
+
+    </div>
+
+    <small class="contador" id="contadorProdutos"></small>
+
+    <div id="listaProdutos"></div>
+
 </div>
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-getFirestore,
-collection,
-addDoc,
-onSnapshot,
-doc,
-updateDoc,
-deleteDoc
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    onSnapshot,
+    doc,
+    updateDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 import {
-getAuth,
-signInAnonymously,
-onAuthStateChanged
+    getAuth,
+    signInAnonymously,
+    onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+
 const firebaseConfig = {
-apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
-authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
-projectId:"oncas-produtos-de-limpeza"
+    apiKey:"AIzaSyAkq8rimqGQ6BYd6sfAkTiHsl7g5nnP5fc",
+    authDomain:"oncas-produtos-de-limpeza.firebaseapp.com",
+    projectId:"oncas-produtos-de-limpeza"
 };
+
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-let usuarioPronto=false;
-let painelIniciado=false;
 
-function mostrarConexao(mensagem,tipo=""){
-const aviso=document.getElementById("avisoConexao");
-aviso.textContent=mensagem;
-aviso.className=`aviso-conexao ${tipo}`.trim();
+let usuarioPronto = false;
+let painelIniciado = false;
+
+let produtos = [];
+let termoPesquisa = "";
+let mostrarSomenteOcultos = false;
+
+
+function mostrarConexao(mensagem, tipo = ""){
+
+    const aviso = document.getElementById("avisoConexao");
+
+    aviso.textContent = mensagem;
+    aviso.className = `aviso-conexao ${tipo}`.trim();
+
 }
+
 
 function garantirConexao(){
-if(usuarioPronto) return true;
-alert("O painel ainda está conectando ao Firebase. Tente novamente em alguns segundos.");
-return false;
+
+    if(usuarioPronto){
+        return true;
+    }
+
+    alert(
+        "O painel ainda está conectando ao Firebase. " +
+        "Tente novamente em alguns segundos."
+    );
+
+    return false;
+
 }
 
-function mensagemErroFirebase(e,acao){
-console.error(e);
-const codigo=e?.code || "erro-desconhecido";
-const mensagem=e?.message || "Sem detalhes";
-alert(`${acao} não foi concluído.\n\nCódigo: ${codigo}\nDetalhes: ${mensagem}`);
+
+function mensagemErroFirebase(e, acao){
+
+    console.error(e);
+
+    const codigo = e?.code || "erro-desconhecido";
+    const mensagem = e?.message || "Sem detalhes";
+
+    alert(
+        `${acao} não foi concluído.\n\n` +
+        `Código: ${codigo}\n` +
+        `Detalhes: ${mensagem}`
+    );
+
 }
+
 
 async function conectarAutomaticamente(){
-try{
-mostrarConexao("Conectando automaticamente ao Firebase...");
-await signInAnonymously(auth);
-}catch(e){
-console.error(e);
-mostrarConexao("Não foi possível entrar automaticamente. Ative o provedor Anônimo no Firebase Authentication.","erro");
-mensagemErroFirebase(e,"Conexão automática");
-}
+
+    try{
+
+        mostrarConexao(
+            "Conectando automaticamente ao Firebase..."
+        );
+
+        await signInAnonymously(auth);
+
+    }catch(e){
+
+        console.error(e);
+
+        mostrarConexao(
+            "Não foi possível entrar automaticamente. " +
+            "Ative o provedor Anônimo no Firebase Authentication.",
+            "erro"
+        );
+
+        mensagemErroFirebase(
+            e,
+            "Conexão automática"
+        );
+
+    }
+
 }
 
-onAuthStateChanged(auth,(usuario)=>{
-if(!usuario) return;
-usuarioPronto=true;
-mostrarConexao("Painel conectado. Não é necessário digitar senha.","ok");
-iniciarPainel();
+
+onAuthStateChanged(auth, usuario => {
+
+    if(!usuario){
+        return;
+    }
+
+    usuarioPronto = true;
+
+    mostrarConexao(
+        "Painel conectado. Não é necessário digitar senha.",
+        "ok"
+    );
+
+    iniciarPainel();
+
 });
 
-let produtos=[];
-let termoPesquisa="";
-let mostrarSomenteOcultos=false;
 
 window.uploadFoto = async function(){
-try{
-const file=document.getElementById("foto").files[0];
 
-if(!file){
-alert("Escolha uma foto");
-return;
-}
+    try{
 
-const formData=new FormData();
-formData.append("file",file);
-formData.append("upload_preset","ONCA_UPLOAD");
+        const file = document
+            .getElementById("foto")
+            .files[0];
 
-const response=await fetch(
-"https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
-{
-method:"POST",
-body:formData
-});
+        if(!file){
 
-const data=await response.json();
+            alert("Escolha uma foto");
 
-if(data.secure_url){
-document.getElementById("imgUrl").value=data.secure_url;
-document.getElementById("preview").src=data.secure_url;
-alert("Foto enviada!");
-}else{
-console.log(data);
-alert("Erro ao enviar foto");
-}
-}catch(e){
-console.error(e);
-alert("Erro no upload");
-}
-}
+            return;
+
+        }
+
+        const formData = new FormData();
+
+        formData.append("file", file);
+        formData.append("upload_preset", "ONCA_UPLOAD");
+
+        const response = await fetch(
+            "https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
+            {
+                method:"POST",
+                body:formData
+            }
+        );
+
+        const data = await response.json();
+
+        if(data.secure_url){
+
+            document.getElementById("imgUrl").value =
+                data.secure_url;
+
+            document.getElementById("preview").src =
+                data.secure_url;
+
+            alert("Foto enviada!");
+
+        }else{
+
+            console.log(data);
+
+            alert("Erro ao enviar foto");
+
+        }
+
+    }catch(e){
+
+        console.error(e);
+
+        alert("Erro no upload");
+
+    }
+
+};
+
 
 async function enviarFotoCloudinary(file){
-const formData=new FormData();
-formData.append("file",file);
-formData.append("upload_preset","ONCA_UPLOAD");
 
-const response=await fetch(
-"https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
-{
-method:"POST",
-body:formData
-});
+    const formData = new FormData();
 
-const data=await response.json();
+    formData.append("file", file);
+    formData.append("upload_preset", "ONCA_UPLOAD");
 
-if(!data.secure_url){
-console.log(data);
-throw new Error("Upload sem URL");
+    const response = await fetch(
+        "https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
+        {
+            method:"POST",
+            body:formData
+        }
+    );
+
+    const data = await response.json();
+
+    if(!data.secure_url){
+
+        console.log(data);
+
+        throw new Error("Upload sem URL");
+
+    }
+
+    return data.secure_url;
+
 }
 
-return data.secure_url;
-}
 
 window.salvarProduto = async function(){
-if(!garantirConexao()) return;
-try{
-const nome=document.getElementById("nome").value.trim();
-const preco=document.getElementById("preco").value;
 
-if(!nome || !preco){
-alert("Preencha nome e preco");
-return;
-}
+    if(!garantirConexao()){
+        return;
+    }
 
-await addDoc(collection(db,"produtos"),{
-nome:nome,
-preco:Number(preco),
-precoAntigo:Number(document.getElementById("precoAntigo").value||0),
-estoque:Number(document.getElementById("estoque").value||0),
-categoria:document.getElementById("categoria").value,
-status:document.getElementById("status").value,
-img:document.getElementById("imgUrl").value,
-ativo:true
-});
+    try{
 
-alert("Produto salvo!");
+        const nome = document
+            .getElementById("nome")
+            .value
+            .trim();
 
-document.querySelectorAll("input").forEach(i=>i.value="");
-document.getElementById("preview").src="";
-document.getElementById("status").value="";
-document.getElementById("categoria").value="limpeza";
+        const preco = document
+            .getElementById("preco")
+            .value;
 
-}catch(e){
-mensagemErroFirebase(e,"Cadastro do produto");
-}
-}
+        if(!nome || !preco){
+
+            alert("Preencha nome e preço");
+
+            return;
+
+        }
+
+        await addDoc(
+            collection(db, "produtos"),
+            {
+                nome:nome,
+
+                preco:Number(preco),
+
+                precoAntigo:Number(
+                    document
+                        .getElementById("precoAntigo")
+                        .value || 0
+                ),
+
+                estoque:Number(
+                    document
+                        .getElementById("estoque")
+                        .value || 0
+                ),
+
+                categoria:document
+                    .getElementById("categoria")
+                    .value,
+
+                status:document
+                    .getElementById("status")
+                    .value,
+
+                novidade:document
+                    .getElementById("novidade")
+                    .checked,
+
+                img:document
+                    .getElementById("imgUrl")
+                    .value,
+
+                ativo:true
+            }
+        );
+
+        alert("Produto salvo!");
+
+        document
+            .querySelectorAll("input")
+            .forEach(input => {
+
+                if(input.type === "checkbox"){
+
+                    input.checked = false;
+
+                }else{
+
+                    input.value = "";
+
+                }
+
+            });
+
+        document.getElementById("preview").src = "";
+        document.getElementById("status").value = "";
+        document.getElementById("novidade").checked = false;
+        document.getElementById("categoria").value = "limpeza";
+
+    }catch(e){
+
+        mensagemErroFirebase(
+            e,
+            "Cadastro do produto"
+        );
+
+    }
+
+};
+
 
 function iniciarPainel(){
-if(painelIniciado) return;
-painelIniciado=true;
 
-onSnapshot(collection(db,"produtos"),(snap)=>{
-produtos=snap.docs.map(documento=>({
-id:documento.id,
-...documento.data()
-}));
-listarProdutos();
-},(e)=>{
-mostrarConexao("Conectado, mas sem permissão para carregar os produtos.","erro");
-mensagemErroFirebase(e,"Carregamento dos produtos");
-});
+    if(painelIniciado){
+        return;
+    }
+
+    painelIniciado = true;
+
+    onSnapshot(
+        collection(db, "produtos"),
+
+        snapshot => {
+
+            produtos = snapshot.docs.map(documento => ({
+                id:documento.id,
+                ...documento.data()
+            }));
+
+            listarProdutos();
+
+        },
+
+        e => {
+
+            mostrarConexao(
+                "Conectado, mas sem permissão para carregar os produtos.",
+                "erro"
+            );
+
+            mensagemErroFirebase(
+                e,
+                "Carregamento dos produtos"
+            );
+
+        }
+    );
+
 }
+
 
 conectarAutomaticamente();
 
-document.getElementById("pesquisa").addEventListener("keydown",(evento)=>{
-if(evento.key === "Enter"){
-pesquisarProdutos();
-}
-});
+
+document
+    .getElementById("pesquisa")
+    .addEventListener("keydown", evento => {
+
+        if(evento.key === "Enter"){
+
+            pesquisarProdutos();
+
+        }
+
+    });
+
 
 function textoPreco(valor){
-return Number(valor||0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+
+    return Number(valor || 0).toLocaleString(
+        "pt-BR",
+        {
+            style:"currency",
+            currency:"BRL"
+        }
+    );
+
 }
+
 
 function escapar(valor){
-return String(valor ?? "")
-.replaceAll("&","&amp;")
-.replaceAll("<","&lt;")
-.replaceAll(">","&gt;")
-.replaceAll('"',"&quot;")
-.replaceAll("'","&#039;");
+
+    return String(valor ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
 }
+
 
 function produtosFiltrados(){
-return produtos.filter((p)=>{
-const texto=`${p.nome || ""} ${p.categoria || ""} ${p.status || ""}`.toLowerCase();
-const combinaPesquisa=!termoPesquisa || texto.includes(termoPesquisa);
-const combinaOculto=!mostrarSomenteOcultos || p.ativo === false;
-return combinaPesquisa && combinaOculto;
-});
+
+    return produtos.filter(produto => {
+
+        const texto = `
+            ${produto.nome || ""}
+            ${produto.categoria || ""}
+            ${produto.status || ""}
+            ${produto.novidade ? "novidade" : ""}
+        `.toLowerCase();
+
+        const combinaPesquisa =
+            !termoPesquisa ||
+            texto.includes(termoPesquisa);
+
+        const combinaOculto =
+            !mostrarSomenteOcultos ||
+            produto.ativo === false;
+
+        return combinaPesquisa && combinaOculto;
+
+    });
+
 }
+
 
 function listarProdutos(){
-const lista=produtosFiltrados();
-document.getElementById("botaoOcultos").textContent=mostrarSomenteOcultos ? "Mostrar todos" : "Mostrar ocultos";
-document.getElementById("contadorProdutos").textContent=`Mostrando ${lista.length} de ${produtos.length} produtos`;
 
-if(lista.length === 0){
-document.getElementById("listaProdutos").innerHTML="<p>Nenhum produto encontrado.</p>";
-return;
+    const lista = produtosFiltrados();
+
+    document.getElementById("botaoOcultos").textContent =
+        mostrarSomenteOcultos
+            ? "Mostrar todos"
+            : "Mostrar ocultos";
+
+    document.getElementById("contadorProdutos").textContent =
+        `Mostrando ${lista.length} de ${produtos.length} produtos`;
+
+    if(lista.length === 0){
+
+        document.getElementById("listaProdutos").innerHTML =
+            "<p>Nenhum produto encontrado.</p>";
+
+        return;
+
+    }
+
+    document.getElementById("listaProdutos").innerHTML =
+        lista.map(produto => `
+
+        <div class="produto ${produto.ativo === false ? "oculto" : ""}">
+
+            <span class="status ${produto.ativo === false ? "oculto" : ""}">
+                ${produto.ativo === false ? "Oculto" : "Visível"}
+            </span>
+
+            ${
+                produto.novidade
+                    ? `<span class="status novidade">Novidade</span>`
+                    : ""
+            }
+
+            ${
+                produto.img
+                    ? `
+                        <img
+                            class="foto-produto"
+                            src="${escapar(produto.img)}"
+                            alt="${escapar(produto.nome || "Produto")}"
+                        >
+                    `
+                    : ""
+            }
+
+            <label for="nome-${produto.id}">
+                Nome
+            </label>
+
+            <input
+                id="nome-${produto.id}"
+                value="${escapar(produto.nome)}"
+            >
+
+            <div class="grade">
+
+                <div>
+
+                    <label for="preco-${produto.id}">
+                        Preço
+                    </label>
+
+                    <input
+                        id="preco-${produto.id}"
+                        type="number"
+                        step="0.01"
+                        value="${escapar(produto.preco || 0)}"
+                    >
+
+                </div>
+
+                <div>
+
+                    <label for="precoAntigo-${produto.id}">
+                        Preço antigo
+                    </label>
+
+                    <input
+                        id="precoAntigo-${produto.id}"
+                        type="number"
+                        step="0.01"
+                        value="${escapar(produto.precoAntigo || 0)}"
+                    >
+
+                </div>
+
+            </div>
+
+            <label for="estoque-${produto.id}">
+                Estoque
+            </label>
+
+            <input
+                id="estoque-${produto.id}"
+                type="number"
+                value="${escapar(produto.estoque || 0)}"
+            >
+
+            <div class="grade">
+
+                <div>
+
+                    <label for="categoria-${produto.id}">
+                        Categoria
+                    </label>
+
+                    <select id="categoria-${produto.id}">
+
+                        <option
+                            value="limpeza"
+                            ${produto.categoria === "limpeza" ? "selected" : ""}
+                        >
+                            Limpeza
+                        </option>
+
+                        <option
+                            value="automotivo"
+                            ${produto.categoria === "automotivo" ? "selected" : ""}
+                        >
+                            Automotivo
+                        </option>
+
+                        <option
+                            value="utensilios"
+                            ${produto.categoria === "utensilios" ? "selected" : ""}
+                        >
+                            Utensílios
+                        </option>
+
+                        <option
+                            value="promocoes"
+                            ${produto.categoria === "promocoes" ? "selected" : ""}
+                        >
+                            Promoções
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label for="status-${produto.id}">
+                        Status
+                    </label>
+
+                    <select id="status-${produto.id}">
+
+                        <option
+                            value=""
+                            ${!produto.status ? "selected" : ""}
+                        >
+                            Normal
+                        </option>
+
+                        <option
+                            value="reservado"
+                            ${produto.status === "reservado" ? "selected" : ""}
+                        >
+                            Reservado
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <label for="img-${produto.id}">
+                URL da imagem
+            </label>
+
+            <input
+                id="img-${produto.id}"
+                value="${escapar(produto.img || "")}"
+            >
+
+            <div class="foto-acoes">
+
+                <div>
+
+                    <label for="foto-${produto.id}">
+                        Trocar foto sem excluir
+                    </label>
+
+                    <input
+                        type="file"
+                        id="foto-${produto.id}"
+                        accept="image/*"
+                    >
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="trocarFotoProduto('${produto.id}')"
+                    class="salvar"
+                >
+                    Trocar foto
+                </button>
+
+            </div>
+
+            <small>
+                Preço atual: ${textoPreco(produto.preco)}
+                |
+                Estoque atual: ${produto.estoque || 0}
+            </small>
+
+            <div class="acoes">
+
+                <button
+                    type="button"
+                    onclick="alterarProduto('${produto.id}')"
+                    class="salvar"
+                >
+                    Salvar alterações
+                </button>
+
+                <button
+                    type="button"
+                    onclick="alternarNovidade(
+                        '${produto.id}',
+                        ${produto.novidade ? "false" : "true"}
+                    )"
+                    class="botao-novidade ${produto.novidade ? "ativa" : ""}"
+                >
+                    ${
+                        produto.novidade
+                            ? "Remover novidade"
+                            : "Marcar novidade"
+                    }
+                </button>
+
+                <button
+                    type="button"
+                    onclick="alternarProduto(
+                        '${produto.id}',
+                        ${produto.ativo === false ? "true" : "false"}
+                    )"
+                    class="ocultar"
+                >
+                    ${
+                        produto.ativo === false
+                            ? "Mostrar"
+                            : "Ocultar"
+                    }
+                </button>
+
+                <button
+                    type="button"
+                    onclick="excluirProduto('${produto.id}')"
+                    class="excluir"
+                >
+                    Excluir
+                </button>
+
+            </div>
+
+        </div>
+
+    `).join("");
+
 }
 
-document.getElementById("listaProdutos").innerHTML=lista.map(p=>`
-<div class="produto ${p.ativo === false ? 'oculto' : ''}">
-<span class="status ${p.ativo === false ? 'oculto' : ''}">${p.ativo === false ? 'Oculto' : 'Visivel'}</span>
-${p.img ? `<img class="foto-produto" src="${escapar(p.img)}" alt="${escapar(p.nome || 'Produto')}">` : ''}
-
-<label for="nome-${p.id}">Nome</label>
-<input id="nome-${p.id}" value="${escapar(p.nome)}">
-
-<div class="grade">
-<div>
-<label for="preco-${p.id}">Preco</label>
-<input id="preco-${p.id}" type="number" step="0.01" value="${escapar(p.preco || 0)}">
-</div>
-<div>
-<label for="precoAntigo-${p.id}">Preco antigo</label>
-<input id="precoAntigo-${p.id}" type="number" step="0.01" value="${escapar(p.precoAntigo || 0)}">
-</div>
-</div>
-
-<label for="estoque-${p.id}">Estoque</label>
-<input id="estoque-${p.id}" type="number" value="${escapar(p.estoque || 0)}">
-
-<div class="grade">
-<div>
-<label for="categoria-${p.id}">Categoria</label>
-<select id="categoria-${p.id}">
-<option value="limpeza" ${p.categoria === 'limpeza' ? 'selected' : ''}>Limpeza</option>
-<option value="automotivo" ${p.categoria === 'automotivo' ? 'selected' : ''}>Automotivo</option>
-<option value="utensilios" ${p.categoria === 'utensilios' ? 'selected' : ''}>Utensilios</option>
-<option value="promocoes" ${p.categoria === 'promocoes' ? 'selected' : ''}>Promocoes</option>
-</select>
-</div>
-<div>
-<label for="status-${p.id}">Status</label>
-<select id="status-${p.id}">
-<option value="" ${!p.status ? 'selected' : ''}>Normal</option>
-<option value="reservado" ${p.status === 'reservado' ? 'selected' : ''}>Reservado</option>
-</select>
-</div>
-</div>
-
-<label for="img-${p.id}">URL da imagem</label>
-<input id="img-${p.id}" value="${escapar(p.img)}">
-
-<div class="foto-acoes">
-<div>
-<label for="foto-${p.id}">Trocar foto sem excluir</label>
-<input type="file" id="foto-${p.id}" accept="image/*">
-</div>
-<button onclick="trocarFotoProduto('${p.id}')" class="salvar">Trocar foto</button>
-</div>
-
-<small>Preco atual: ${textoPreco(p.preco)} | Estoque atual: ${p.estoque || 0}</small>
-
-<div class="acoes">
-<button onclick="alterarProduto('${p.id}')" class="salvar">Salvar alteracoes</button>
-<button onclick="alternarProduto('${p.id}', ${p.ativo === false ? 'true' : 'false'})" class="ocultar">${p.ativo === false ? 'Mostrar' : 'Ocultar'}</button>
-<button onclick="excluirProduto('${p.id}')" class="excluir">Excluir</button>
-</div>
-</div>
-`).join("");
-}
 
 window.pesquisarProdutos = function(){
-termoPesquisa=document.getElementById("pesquisa").value.trim().toLowerCase();
-listarProdutos();
-}
+
+    termoPesquisa = document
+        .getElementById("pesquisa")
+        .value
+        .trim()
+        .toLowerCase();
+
+    listarProdutos();
+
+};
+
 
 window.limparPesquisa = function(){
-document.getElementById("pesquisa").value="";
-termoPesquisa="";
-mostrarSomenteOcultos=false;
-listarProdutos();
-}
+
+    document.getElementById("pesquisa").value = "";
+
+    termoPesquisa = "";
+    mostrarSomenteOcultos = false;
+
+    listarProdutos();
+
+};
+
 
 window.alternarFiltroOcultos = function(){
-mostrarSomenteOcultos=!mostrarSomenteOcultos;
-listarProdutos();
-}
+
+    mostrarSomenteOcultos = !mostrarSomenteOcultos;
+
+    listarProdutos();
+
+};
+
 
 window.alterarProduto = async function(id){
-if(!garantirConexao()) return;
-try{
-const nome=document.getElementById(`nome-${id}`).value.trim();
 
-if(!nome){
-alert("Informe o nome do produto");
-return;
-}
+    if(!garantirConexao()){
+        return;
+    }
 
-await updateDoc(doc(db,"produtos",id),{
-nome:nome,
-preco:Number(document.getElementById(`preco-${id}`).value||0),
-precoAntigo:Number(document.getElementById(`precoAntigo-${id}`).value||0),
-estoque:Number(document.getElementById(`estoque-${id}`).value||0),
-categoria:document.getElementById(`categoria-${id}`).value,
-status:document.getElementById(`status-${id}`).value,
-img:document.getElementById(`img-${id}`).value
-});
+    try{
 
-alert("Produto alterado!");
-}catch(e){
-mensagemErroFirebase(e,"Alteração do produto");
-}
-}
+        const nome = document
+            .getElementById(`nome-${id}`)
+            .value
+            .trim();
+
+        if(!nome){
+
+            alert("Informe o nome do produto");
+
+            return;
+
+        }
+
+        await updateDoc(
+            doc(db, "produtos", id),
+            {
+                nome:nome,
+
+                preco:Number(
+                    document
+                        .getElementById(`preco-${id}`)
+                        .value || 0
+                ),
+
+                precoAntigo:Number(
+                    document
+                        .getElementById(`precoAntigo-${id}`)
+                        .value || 0
+                ),
+
+                estoque:Number(
+                    document
+                        .getElementById(`estoque-${id}`)
+                        .value || 0
+                ),
+
+                categoria:document
+                    .getElementById(`categoria-${id}`)
+                    .value,
+
+                status:document
+                    .getElementById(`status-${id}`)
+                    .value,
+
+                img:document
+                    .getElementById(`img-${id}`)
+                    .value
+            }
+        );
+
+        alert("Produto alterado!");
+
+    }catch(e){
+
+        mensagemErroFirebase(
+            e,
+            "Alteração do produto"
+        );
+
+    }
+
+};
+
 
 window.trocarFotoProduto = async function(id){
-if(!garantirConexao()) return;
-try{
-const file=document.getElementById(`foto-${id}`).files[0];
 
-if(!file){
-alert("Escolha uma nova foto");
-return;
-}
+    if(!garantirConexao()){
+        return;
+    }
 
-const url=await enviarFotoCloudinary(file);
+    try{
 
-await updateDoc(doc(db,"produtos",id),{
-img:url
-});
+        const file = document
+            .getElementById(`foto-${id}`)
+            .files[0];
 
-alert("Foto do produto alterada!");
-}catch(e){
-mensagemErroFirebase(e,"Troca da foto");
-}
-}
+        if(!file){
+
+            alert("Escolha uma nova foto");
+
+            return;
+
+        }
+
+        const url = await enviarFotoCloudinary(file);
+
+        await updateDoc(
+            doc(db, "produtos", id),
+            {
+                img:url
+            }
+        );
+
+        alert("Foto do produto alterada!");
+
+    }catch(e){
+
+        mensagemErroFirebase(
+            e,
+            "Troca da foto"
+        );
+
+    }
+
+};
+
+
+window.alternarNovidade = async function(id, novidade){
+
+    if(!garantirConexao()){
+        return;
+    }
+
+    try{
+
+        await updateDoc(
+            doc(db, "produtos", id),
+            {
+                novidade:novidade
+            }
+        );
+
+        alert(
+            novidade
+                ? "Produto marcado como novidade"
+                : "Destaque de novidade removido"
+        );
+
+    }catch(e){
+
+        mensagemErroFirebase(
+            e,
+            "Alteração do destaque de novidade"
+        );
+
+    }
+
+};
+
 
 window.alternarProduto = async function(id, ativo){
-if(!garantirConexao()) return;
-try{
-await updateDoc(doc(db,"produtos",id),{
-ativo:ativo
-});
-alert(ativo ? "Produto visivel" : "Produto oculto");
-}catch(e){
-mensagemErroFirebase(e,"Alteração da visibilidade");
-}
-}
+
+    if(!garantirConexao()){
+        return;
+    }
+
+    try{
+
+        await updateDoc(
+            doc(db, "produtos", id),
+            {
+                ativo:ativo
+            }
+        );
+
+        alert(
+            ativo
+                ? "Produto visível"
+                : "Produto oculto"
+        );
+
+    }catch(e){
+
+        mensagemErroFirebase(
+            e,
+            "Alteração da visibilidade"
+        );
+
+    }
+
+};
+
 
 window.excluirProduto = async function(id){
-if(!garantirConexao()) return;
-try{
-if(!confirm("Tem certeza que deseja excluir este produto?")){
-return;
-}
 
-await deleteDoc(doc(db,"produtos",id));
-alert("Excluido");
-}catch(e){
-mensagemErroFirebase(e,"Exclusão do produto");
-}
-}
+    if(!garantirConexao()){
+        return;
+    }
+
+    try{
+
+        const confirmarExclusao = confirm(
+            "Tem certeza que deseja excluir este produto?\n\n" +
+            "A exclusão é permanente."
+        );
+
+        if(!confirmarExclusao){
+            return;
+        }
+
+        await deleteDoc(
+            doc(db, "produtos", id)
+        );
+
+        alert("Produto excluído");
+
+    }catch(e){
+
+        mensagemErroFirebase(
+            e,
+            "Exclusão do produto"
+        );
+
+    }
+
+};
 
 </script>
 
