@@ -1,47 +1,51 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0b2f55">
-  <meta name="description" content="Onça Produtos de Limpeza — produtos de limpeza, automotivos e utensílios com entrega em Votorantim, Tapiraí e região.">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#082b4c">
+  <meta name="description" content="Onça Produtos de Limpeza — produtos de limpeza, automotivos e utensílios.">
   <title>Onça Produtos de Limpeza</title>
 
   <style>
     :root{
-      --azul-950:#061a2d;
-      --azul-900:#0b2f55;
-      --azul-800:#104474;
-      --azul-100:#e8f3ff;
-      --verde:#159447;
-      --whatsapp:#25d366;
-      --amarelo:#f5b82e;
-      --vermelho:#c83a3a;
-      --texto:#162130;
-      --texto-2:#607084;
-      --linha:#dfe6ee;
+      --azul:#082b4c;
+      --azul2:#0d4f86;
+      --azulClaro:#eaf4ff;
+      --verde:#168c48;
+      --whats:#25d366;
+      --amarelo:#f4ba2a;
+      --vermelho:#c93636;
+      --texto:#182433;
+      --cinza:#667487;
+      --linha:#dde5ed;
       --fundo:#f4f7fa;
-      --sombra:0 12px 34px rgba(6,26,45,.10);
-      --raio:18px;
-      --largura:1280px;
+      --branco:#fff;
+      --sombra:0 14px 35px rgba(8,43,76,.11);
+      --raio:20px;
+      --largura:1240px;
     }
 
-    *{box-sizing:border-box}
+    *{
+      box-sizing:border-box;
+    }
 
-    html{scroll-behavior:smooth}
+    html{
+      scroll-behavior:smooth;
+    }
 
     body{
       margin:0;
       min-width:320px;
       background:var(--fundo);
       color:var(--texto);
-      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
       line-height:1.5;
-      -webkit-font-smoothing:antialiased;
     }
 
-    body.bloqueado{overflow:hidden}
+    body.travado{
+      overflow:hidden;
+    }
 
     button,
     input,
@@ -50,13 +54,25 @@
       font:inherit;
     }
 
-    button{cursor:pointer}
-    img{display:block;max-width:100%}
-    a{color:inherit}
-    [hidden]{display:none!important}
+    button{
+      cursor:pointer;
+    }
+
+    img{
+      display:block;
+      max-width:100%;
+    }
+
+    a{
+      color:inherit;
+    }
+
+    [hidden]{
+      display:none!important;
+    }
 
     .container{
-      width:min(var(--largura),calc(100% - 36px));
+      width:min(var(--largura),calc(100% - 32px));
       margin:auto;
     }
 
@@ -70,13 +86,13 @@
       stroke-linejoin:round;
     }
 
-    .barra-topo{
-      background:var(--azul-950);
-      color:#dbeaf7;
+    .topo{
+      background:#041b30;
+      color:#d7e6f4;
       font-size:13px;
     }
 
-    .barra-topo .container{
+    .topo .container{
       min-height:38px;
       display:flex;
       align-items:center;
@@ -84,106 +100,104 @@
       gap:18px;
     }
 
-    .info-topo{
+    .topo-item{
       display:flex;
       align-items:center;
-      gap:8px;
+      gap:7px;
       white-space:nowrap;
     }
 
-    .cabecalho{
+    header{
       position:sticky;
       top:0;
       z-index:100;
       background:rgba(255,255,255,.96);
       border-bottom:1px solid var(--linha);
-      backdrop-filter:blur(14px);
+      backdrop-filter:blur(12px);
     }
 
-    .cabecalho .container{
+    header .container{
       min-height:74px;
       display:flex;
       align-items:center;
-      gap:24px;
+      gap:22px;
     }
 
     .marca{
       display:flex;
       align-items:center;
       gap:11px;
-      min-width:0;
       text-decoration:none;
+      min-width:0;
     }
 
     .marca img{
-      width:48px;
-      height:48px;
-      object-fit:contain;
+      width:49px;
+      height:49px;
       padding:4px;
+      object-fit:contain;
       background:#fff;
       border:1px solid var(--linha);
-      border-radius:13px;
+      border-radius:14px;
     }
 
     .marca strong{
       display:block;
-      color:var(--azul-900);
+      color:var(--azul);
       font-size:17px;
       line-height:1.1;
     }
 
     .marca small{
       display:block;
-      margin-top:3px;
-      color:var(--texto-2);
+      color:var(--cinza);
       font-size:11px;
+      margin-top:4px;
     }
 
-    .menu{
+    nav.menu{
       display:flex;
       gap:4px;
       margin-left:auto;
     }
 
-    .menu a{
+    nav.menu a{
       padding:10px 12px;
-      color:var(--texto-2);
-      border-radius:10px;
+      color:var(--cinza);
       font-size:14px;
-      font-weight:750;
+      font-weight:800;
       text-decoration:none;
+      border-radius:10px;
     }
 
-    .menu a:hover{
-      background:#f2f7fc;
-      color:var(--azul-900);
+    nav.menu a:hover{
+      color:var(--azul);
+      background:#f0f6fb;
     }
 
-    .botao-carrinho-topo{
+    .abrir-carrinho{
       display:flex;
       align-items:center;
       gap:8px;
-      min-height:45px;
-      padding:10px 14px;
+      min-height:44px;
+      padding:9px 13px;
       color:#fff;
-      background:var(--azul-900);
+      background:var(--azul);
       border:0;
       border-radius:12px;
-      font-weight:850;
-      box-shadow:0 8px 20px rgba(11,47,85,.18);
+      font-weight:900;
     }
 
-    .contador-carrinho{
+    .contador{
       display:grid;
       place-items:center;
       min-width:23px;
       height:23px;
       padding:0 6px;
-      color:var(--azul-950);
+      color:var(--azul);
       background:#fff;
       border-radius:999px;
       font-size:12px;
-      font-weight:900;
     }
 
     .hero{
@@ -191,96 +205,108 @@
       overflow:hidden;
       color:#fff;
       background:
-        radial-gradient(circle at 82% 18%,rgba(88,183,255,.28),transparent 25%),
-        linear-gradient(125deg,var(--azul-950),var(--azul-800));
+        radial-gradient(
+          circle at 82% 18%,
+          rgba(90,184,255,.27),
+          transparent 26%
+        ),
+        linear-gradient(125deg,#041b30,#0d548c);
     }
 
-    .hero::after{
+    .hero:after{
       content:"";
       position:absolute;
       inset:0;
-      opacity:.11;
-      pointer-events:none;
+      opacity:.09;
       background-image:
-        linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);
-      background-size:40px 40px;
+        linear-gradient(
+          rgba(255,255,255,.3) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.3) 1px,
+          transparent 1px
+        );
+      background-size:42px 42px;
     }
 
     .hero .container{
       position:relative;
       z-index:1;
-      min-height:420px;
+      min-height:410px;
       display:grid;
       grid-template-columns:1.2fr .8fr;
       align-items:center;
-      gap:55px;
-      padding:55px 0;
+      gap:50px;
+      padding:52px 0;
     }
 
-    .selo-superior{
+    .selo-topo{
       display:inline-flex;
       align-items:center;
-      gap:9px;
+      gap:8px;
       padding:7px 11px;
-      background:rgba(255,255,255,.09);
+      background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.18);
       border-radius:999px;
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
       text-transform:uppercase;
-      letter-spacing:.07em;
+      letter-spacing:.06em;
     }
 
-    .selo-superior::before{
+    .selo-topo:before{
       content:"";
       width:8px;
       height:8px;
-      background:var(--whatsapp);
+      background:var(--whats);
       border-radius:50%;
-      box-shadow:0 0 0 5px rgba(37,211,102,.13);
+      box-shadow:0 0 0 5px rgba(37,211,102,.14);
     }
 
     .hero h1{
       max-width:760px;
-      margin:18px 0 15px;
-      font-size:clamp(38px,5vw,65px);
+      margin:17px 0 14px;
+      font-size:clamp(38px,5vw,64px);
       line-height:1.02;
-      letter-spacing:-.05em;
+      letter-spacing:-.045em;
     }
 
     .hero p{
-      max-width:660px;
+      max-width:650px;
       margin:0;
-      color:#d8e8f8;
+      color:#d7e7f7;
       font-size:clamp(16px,2vw,20px);
     }
 
     .acoes-hero{
       display:flex;
       flex-wrap:wrap;
-      gap:12px;
-      margin-top:27px;
+      gap:11px;
+      margin-top:26px;
     }
 
     .botao{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:9px;
+      gap:8px;
       min-height:48px;
       padding:11px 18px;
       border:1px solid transparent;
       border-radius:12px;
-      font-weight:850;
+      font-weight:900;
       text-decoration:none;
       transition:.18s;
     }
 
-    .botao:hover{transform:translateY(-2px)}
+    .botao:hover{
+      transform:translateY(-2px);
+    }
 
     .botao-claro{
-      color:var(--azul-950);
+      color:var(--azul);
       background:#fff;
     }
 
@@ -296,14 +322,14 @@
     }
 
     .hero-logo div{
-      width:min(320px,85%);
+      width:min(305px,85%);
       aspect-ratio:1;
       display:grid;
       place-items:center;
-      padding:24px;
+      padding:22px;
       background:#fff;
-      border-radius:34px;
-      box-shadow:0 25px 65px rgba(0,0,0,.24);
+      border-radius:32px;
+      box-shadow:0 26px 60px rgba(0,0,0,.24);
       transform:rotate(1.5deg);
     }
 
@@ -313,93 +339,95 @@
       object-fit:contain;
     }
 
-    .beneficios{
+    .vantagens{
       position:relative;
-      z-index:5;
-      margin-top:-32px;
+      z-index:4;
+      margin-top:-31px;
     }
 
-    .grade-beneficios{
+    .grade-vantagens{
       display:grid;
       grid-template-columns:repeat(3,1fr);
-      gap:15px;
+      gap:14px;
     }
 
-    .beneficio{
+    .vantagem{
       display:flex;
       gap:13px;
-      min-height:105px;
-      padding:19px;
+      min-height:102px;
+      padding:18px;
       background:#fff;
       border:1px solid #edf1f5;
       border-radius:var(--raio);
       box-shadow:var(--sombra);
     }
 
-    .beneficio-icone{
+    .vantagem-icone{
       width:43px;
       height:43px;
       display:grid;
       place-items:center;
       flex:0 0 auto;
-      color:var(--azul-900);
-      background:var(--azul-100);
+      color:var(--azul);
+      background:var(--azulClaro);
       border-radius:12px;
     }
 
-    .beneficio h2{
+    .vantagem h2{
       margin:0 0 3px;
       font-size:16px;
     }
 
-    .beneficio p{
+    .vantagem p{
       margin:0;
-      color:var(--texto-2);
+      color:var(--cinza);
       font-size:13px;
     }
 
-    main{padding:46px 0 75px}
+    main{
+      padding:45px 0 75px;
+    }
 
-    .cabecalho-secao{
+    .titulo-secao{
       margin-bottom:20px;
     }
 
-    .cabecalho-secao small{
+    .titulo-secao small{
       display:block;
       margin-bottom:5px;
-      color:var(--azul-800);
+      color:var(--azul2);
       font-size:12px;
-      font-weight:900;
+      font-weight:950;
       text-transform:uppercase;
       letter-spacing:.09em;
     }
 
-    .cabecalho-secao h2{
+    .titulo-secao h2{
       margin:0;
       font-size:clamp(28px,3.5vw,40px);
       line-height:1.1;
-      letter-spacing:-.04em;
+      letter-spacing:-.035em;
     }
 
-    .cabecalho-secao p{
+    .titulo-secao p{
       margin:8px 0 0;
-      color:var(--texto-2);
+      color:var(--cinza);
     }
 
     .destaques{
       display:grid;
-      grid-template-columns:repeat(2,1fr);
+      grid-template-columns:1fr 1fr;
       gap:15px;
-      margin-bottom:32px;
+      margin-bottom:31px;
     }
 
     .destaque{
-      min-height:172px;
-      padding:24px;
+      min-height:168px;
+      padding:23px;
       text-align:left;
       border:1px solid transparent;
-      border-radius:24px;
-      box-shadow:0 5px 18px rgba(6,26,45,.07);
+      border-radius:23px;
+      box-shadow:0 5px 18px rgba(8,43,76,.07);
       transition:.2s;
     }
 
@@ -408,15 +436,9 @@
       box-shadow:var(--sombra);
     }
 
-    .destaque-topo{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-
     .destaque-icone{
-      width:47px;
-      height:47px;
+      width:46px;
+      height:46px;
       display:grid;
       place-items:center;
       background:#fff;
@@ -424,7 +446,7 @@
     }
 
     .destaque h3{
-      margin:18px 0 5px;
+      margin:17px 0 4px;
       font-size:24px;
     }
 
@@ -434,51 +456,52 @@
     }
 
     .destaque strong{
-      display:inline-block;
-      margin-top:14px;
+      display:block;
+      margin-top:13px;
       font-size:13px;
     }
 
-    .destaque-novidade{
-      color:var(--azul-900);
+    .novo{
+      color:var(--azul);
       background:linear-gradient(135deg,#f4f9ff,#dceeff);
-      border-color:#cae2f7;
+      border-color:#c9e1f7;
     }
 
-    .destaque-promocao{
-      color:#5b3e00;
+    .oferta{
+      color:#5d4100;
       background:linear-gradient(135deg,#fffaf0,#ffedb8);
-      border-color:#f4dda3;
+      border-color:#f0d99e;
     }
 
     .ferramentas{
       position:sticky;
       top:84px;
       z-index:70;
-      padding:15px;
+      padding:14px;
       background:rgba(255,255,255,.96);
       border:1px solid var(--linha);
-      border-radius:var(--raio);
-      box-shadow:0 6px 20px rgba(6,26,45,.07);
+      border-radius:18px;
+      box-shadow:0 6px 20px rgba(8,43,76,.07);
       backdrop-filter:blur(12px);
     }
 
-    .ferramentas-topo{
+    .linha-busca{
       display:grid;
       grid-template-columns:1fr auto;
       align-items:center;
-      gap:15px;
+      gap:14px;
     }
 
-    .busca{position:relative}
+    .busca{
+      position:relative;
+    }
 
     .busca svg{
       position:absolute;
       left:15px;
       top:50%;
       transform:translateY(-50%);
-      color:var(--texto-2);
-      pointer-events:none;
+      color:var(--cinza);
     }
 
     .busca input{
@@ -494,20 +517,20 @@
     .busca input:focus{
       background:#fff;
       border-color:#77a7d0;
-      box-shadow:0 0 0 4px rgba(16,68,116,.09);
+      box-shadow:0 0 0 4px rgba(13,79,134,.09);
     }
 
-    .quantidade-encontrada{
-      color:var(--texto-2);
+    .resultado{
+      color:var(--cinza);
       font-size:13px;
-      font-weight:800;
+      font-weight:850;
       white-space:nowrap;
     }
 
     .categorias{
       display:flex;
       gap:8px;
-      overflow-x:auto;
+      overflow:auto;
       padding-top:12px;
     }
 
@@ -515,46 +538,44 @@
       flex:0 0 auto;
       min-height:39px;
       padding:8px 13px;
-      color:var(--texto-2);
+      color:var(--cinza);
       background:#f6f8fb;
       border:1px solid var(--linha);
       border-radius:999px;
       font-size:13px;
-      font-weight:850;
-      white-space:nowrap;
+      font-weight:900;
     }
 
     .categoria.ativa{
       color:#fff;
-      background:var(--azul-900);
-      border-color:var(--azul-900);
+      background:var(--azul);
+      border-color:var(--azul);
     }
 
     .produtos{
       display:grid;
       grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:19px;
+      gap:18px;
       margin-top:21px;
     }
 
-    .produto{
-      position:relative;
+    .card{
       overflow:hidden;
       display:flex;
       flex-direction:column;
       background:#fff;
       border:1px solid #edf1f5;
       border-radius:19px;
-      box-shadow:0 5px 18px rgba(6,26,45,.07);
+      box-shadow:0 5px 18px rgba(8,43,76,.07);
       transition:.22s;
     }
 
-    .produto:hover{
+    .card:hover{
       transform:translateY(-5px);
       box-shadow:var(--sombra);
     }
 
-    .produto-foto{
+    .foto{
       position:relative;
       aspect-ratio:1;
       margin:11px 11px 0;
@@ -566,12 +587,11 @@
       border-radius:14px;
     }
 
-    .produto-foto img{
+    .foto img{
       width:100%;
       height:100%;
-      padding:11px;
+      padding:10px;
       object-fit:contain;
-      object-position:center;
     }
 
     .selos{
@@ -597,10 +617,10 @@
 
     .selo-novo{
       color:#fff;
-      background:var(--azul-800);
+      background:var(--azul2);
     }
 
-    .selo-oferta{
+    .selo-promocao{
       color:#563a00;
       background:var(--amarelo);
     }
@@ -610,18 +630,18 @@
       background:#fff0bd;
     }
 
-    .produto-corpo{
+    .card-corpo{
       display:flex;
       flex:1;
       flex-direction:column;
-      padding:16px;
+      padding:15px;
     }
 
-    .produto h3{
-      min-height:47px;
+    .card h3{
+      min-height:46px;
       margin:0;
       font-size:16px;
-      line-height:1.42;
+      line-height:1.4;
       overflow-wrap:anywhere;
     }
 
@@ -630,41 +650,41 @@
       align-items:flex-end;
       justify-content:space-between;
       gap:8px;
-      margin-top:13px;
+      margin-top:12px;
     }
 
     .preco-antigo{
       margin:0 0 2px;
-      color:#8491a1;
+      color:#8794a3;
       font-size:12px;
       text-decoration:line-through;
     }
 
-    .preco-atual{
+    .preco{
       margin:0;
-      color:#117b40;
+      color:var(--verde);
       font-size:27px;
       line-height:1.08;
       font-weight:950;
-      letter-spacing:-.04em;
+      letter-spacing:-.035em;
     }
 
     .desconto{
       padding:4px 7px;
-      color:#117b40;
-      background:#e9f8ef;
+      color:var(--verde);
+      background:#e8f7ef;
       border-radius:8px;
       font-size:10px;
-      font-weight:900;
+      font-weight:950;
       white-space:nowrap;
     }
 
     .estoque{
       min-height:20px;
-      margin:9px 0 13px;
-      color:var(--texto-2);
+      margin:9px 0 12px;
+      color:var(--cinza);
       font-size:12px;
-      font-weight:700;
+      font-weight:750;
     }
 
     .adicionar{
@@ -674,22 +694,22 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:9px;
+      gap:8px;
       color:#fff;
-      background:var(--azul-900);
+      background:var(--azul);
       border:0;
       border-radius:11px;
-      font-weight:900;
-      box-shadow:0 7px 16px rgba(11,47,85,.16);
+      font-weight:950;
+      box-shadow:0 7px 16px rgba(8,43,76,.16);
       transition:.18s;
     }
 
     .adicionar:hover{
-      background:var(--azul-800);
+      background:var(--azul2);
       transform:translateY(-1px);
     }
 
-    .adicionar.adicionado{
+    .adicionar.ok{
       background:var(--verde);
     }
 
@@ -699,23 +719,23 @@
       display:grid;
       place-items:center;
       padding:30px;
-      color:var(--texto-2);
+      color:var(--cinza);
       background:#fff;
       border:1px dashed #cbd5df;
-      border-radius:var(--raio);
+      border-radius:18px;
       text-align:center;
     }
 
     footer{
       color:#dce8f5;
-      background:var(--azul-950);
+      background:#041b30;
     }
 
-    .rodape-grade{
+    .rodape{
       display:grid;
       grid-template-columns:1.2fr .8fr .8fr;
       gap:30px;
-      padding:45px 0 28px;
+      padding:44px 0 27px;
     }
 
     footer h3{
@@ -726,39 +746,41 @@
 
     footer p{
       margin:6px 0;
-      color:#b9cce0;
+      color:#b8cce0;
       font-size:14px;
     }
 
-    footer a{text-decoration:none}
+    footer a{
+      text-decoration:none;
+    }
 
     .rodape-final{
       display:flex;
       justify-content:space-between;
       gap:20px;
-      padding:17px 0 24px;
+      padding:16px 0 23px;
       border-top:1px solid rgba(255,255,255,.1);
       color:#9fb4c9;
       font-size:12px;
     }
 
-    .fundo-carrinho{
+    .fundo{
       position:fixed;
       inset:0;
       z-index:9997;
       opacity:0;
       visibility:hidden;
-      background:rgba(5,18,31,.58);
+      background:rgba(4,20,35,.6);
       backdrop-filter:blur(3px);
       transition:.22s;
     }
 
-    .fundo-carrinho.aberto{
+    .fundo.aberto{
       opacity:1;
       visibility:visible;
     }
 
-    .carrinho-lateral{
+    .carrinho{
       position:fixed;
       top:0;
       right:0;
@@ -768,18 +790,18 @@
       display:flex;
       flex-direction:column;
       background:#fff;
-      box-shadow:-20px 0 60px rgba(7,28,49,.24);
+      box-shadow:-20px 0 60px rgba(7,28,49,.25);
       transform:translateX(102%);
       transition:.25s;
     }
 
-    .carrinho-lateral.aberto{
+    .carrinho.aberto{
       transform:translateX(0);
     }
 
-    .carrinho-cabecalho{
-      min-height:74px;
-      padding:15px 19px;
+    .carrinho-topo{
+      min-height:73px;
+      padding:15px 18px;
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -799,7 +821,7 @@
 
     .titulo-carrinho small{
       display:block;
-      color:var(--texto-2);
+      color:var(--cinza);
     }
 
     .fechar{
@@ -808,7 +830,7 @@
       display:grid;
       place-items:center;
       padding:0;
-      color:var(--texto-2);
+      color:var(--cinza);
       background:#f6f8fa;
       border:1px solid var(--linha);
       border-radius:11px;
@@ -817,30 +839,30 @@
     .carrinho-conteudo{
       flex:1;
       overflow:auto;
-      padding:0 19px 20px;
+      padding:0 18px 20px;
     }
 
-    .carrinho-vazio{
+    .vazio{
       min-height:215px;
       display:grid;
       place-items:center;
       padding:25px;
-      color:var(--texto-2);
+      color:var(--cinza);
       text-align:center;
     }
 
-    .item-carrinho{
+    .item{
       display:grid;
-      grid-template-columns:72px 1fr auto;
-      gap:12px;
+      grid-template-columns:70px 1fr auto;
+      gap:11px;
       align-items:center;
-      padding:15px 0;
+      padding:14px 0;
       border-bottom:1px solid #edf1f5;
     }
 
-    .item-carrinho img{
-      width:72px;
-      height:72px;
+    .item img{
+      width:70px;
+      height:70px;
       padding:6px;
       object-fit:contain;
       background:#f8fafc;
@@ -848,23 +870,23 @@
       border-radius:12px;
     }
 
-    .item-carrinho strong{
+    .item strong{
       display:block;
       font-size:14px;
       line-height:1.35;
     }
 
-    .item-carrinho small{
+    .item small{
       display:block;
       margin-top:3px;
-      color:var(--texto-2);
+      color:var(--cinza);
     }
 
     .subtotal{
       margin-top:4px;
-      color:#117b40;
+      color:var(--verde);
       font-size:13px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .acoes-item{
@@ -874,7 +896,7 @@
       gap:7px;
     }
 
-    .quantidade{
+    .qtd{
       display:flex;
       align-items:center;
       gap:3px;
@@ -883,23 +905,22 @@
       border-radius:10px;
     }
 
-    .quantidade button{
+    .qtd button{
       width:31px;
       height:31px;
       padding:0;
-      color:var(--azul-900);
+      color:var(--azul);
       background:#fff;
       border:0;
       border-radius:8px;
       font-weight:950;
-      box-shadow:0 2px 7px rgba(7,28,49,.07);
     }
 
-    .quantidade span{
+    .qtd span{
       min-width:25px;
       text-align:center;
       font-size:13px;
-      font-weight:900;
+      font-weight:950;
     }
 
     .remover{
@@ -908,10 +929,12 @@
       background:transparent;
       border:0;
       font-size:11px;
-      font-weight:850;
+      font-weight:900;
     }
 
-    .dados-pedido{padding-top:18px}
+    .dados{
+      padding-top:18px;
+    }
 
     .dados-titulo{
       display:flex;
@@ -933,17 +956,19 @@
       border:1px solid #ffd1d1;
       border-radius:9px;
       font-size:11px;
-      font-weight:850;
+      font-weight:900;
     }
 
-    .campo{margin-bottom:10px}
+    .campo{
+      margin-bottom:10px;
+    }
 
     .campo label{
       display:block;
       margin-bottom:5px;
       color:#2c3948;
       font-size:12px;
-      font-weight:850;
+      font-weight:900;
     }
 
     .campo input,
@@ -958,20 +983,20 @@
       outline:none;
     }
 
+    .campo textarea{
+      min-height:78px;
+      resize:vertical;
+    }
+
     .campo input:focus,
     .campo select:focus,
     .campo textarea:focus{
       border-color:#77a7d0;
-      box-shadow:0 0 0 4px rgba(16,68,116,.08);
-    }
-
-    .campo textarea{
-      min-height:80px;
-      resize:vertical;
+      box-shadow:0 0 0 4px rgba(13,79,134,.08);
     }
 
     .carrinho-rodape{
-      padding:16px 19px 19px;
+      padding:15px 18px 18px;
       background:#fff;
       border-top:1px solid var(--linha);
       box-shadow:0 -8px 24px rgba(7,28,49,.05);
@@ -981,58 +1006,79 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      margin-bottom:12px;
+      margin-bottom:11px;
     }
 
     .total span{
-      color:var(--texto-2);
-      font-weight:750;
+      color:var(--cinza);
+      font-weight:800;
     }
 
     .total strong{
-      color:#117b40;
+      color:var(--verde);
       font-size:25px;
     }
 
-    .botao-enviar{
+    .enviar{
       width:100%;
       min-height:49px;
       display:flex;
       align-items:center;
       justify-content:center;
-      gap:9px;
+      gap:8px;
       color:#063b1e;
-      background:var(--whatsapp);
+      background:var(--whats);
       border:0;
       border-radius:12px;
-      font-weight:900;
+      font-weight:950;
     }
 
-    .nota-salvamento{
+    .salvo{
       margin:8px 0 0;
-      color:#8491a1;
+      color:#8794a3;
       font-size:11px;
       text-align:center;
     }
 
-    .whatsapp-flutuante{
+    .flutuante{
       position:fixed;
       right:18px;
-      bottom:18px;
       z-index:300;
       display:flex;
       align-items:center;
       gap:9px;
       min-height:52px;
       padding:11px 16px;
-      color:#063b1e;
-      background:var(--whatsapp);
       border:2px solid #fff;
       border-radius:999px;
       box-shadow:0 12px 28px rgba(0,0,0,.2);
       font-size:13px;
-      font-weight:900;
+      font-weight:950;
       text-decoration:none;
+      transition:.18s;
+    }
+
+    .flutuante:hover{
+      transform:translateY(-2px);
+    }
+
+    .instagram{
+      bottom:82px;
+      color:#fff;
+      background:linear-gradient(
+        135deg,
+        #833ab4,
+        #c13584,
+        #e1306c,
+        #fd1d1d,
+        #fcb045
+      );
+    }
+
+    .whatsapp{
+      bottom:18px;
+      color:#063b1e;
+      background:var(--whats);
     }
 
     .carrinho-mobile{
@@ -1048,7 +1094,7 @@
       min-height:58px;
       padding:9px 13px 9px 16px;
       color:#fff;
-      background:var(--azul-950);
+      background:#041b30;
       border:1px solid rgba(255,255,255,.12);
       border-radius:15px;
       box-shadow:0 14px 36px rgba(7,28,49,.28);
@@ -1065,7 +1111,9 @@
       color:#bad0e5;
     }
 
-    .carrinho-mobile strong{font-size:15px}
+    .carrinho-mobile strong{
+      font-size:15px;
+    }
 
     .aviso{
       position:fixed;
@@ -1074,7 +1122,7 @@
       z-index:10000;
       display:flex;
       align-items:center;
-      gap:9px;
+      gap:8px;
       max-width:calc(100% - 28px);
       padding:12px 15px;
       color:#fff;
@@ -1082,7 +1130,7 @@
       border-radius:11px;
       box-shadow:0 20px 50px rgba(0,0,0,.23);
       font-size:13px;
-      font-weight:800;
+      font-weight:850;
       opacity:0;
       visibility:hidden;
       transform:translate(-50%,15px);
@@ -1095,31 +1143,71 @@
       transform:translate(-50%,0);
     }
 
-    @media(max-width:1080px){
-      .produtos{grid-template-columns:repeat(3,1fr)}
-      .menu{display:none}
-      .hero .container{grid-template-columns:1fr 310px}
+    @media(max-width:1050px){
+      .produtos{
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      nav.menu{
+        display:none;
+      }
+
+      .hero .container{
+        grid-template-columns:1fr 300px;
+      }
     }
 
-    @media(max-width:800px){
-      .barra-topo .info-topo:nth-child(2){display:none}
+    @media(max-width:780px){
+      .topo-item:nth-child(2){
+        display:none;
+      }
+
       .hero .container{
         grid-template-columns:1fr;
-        padding-bottom:75px;
+        padding-bottom:74px;
       }
-      .hero-logo{display:none}
-      .grade-beneficios{grid-template-columns:1fr}
-      .beneficios{margin-top:-34px}
-      .produtos{grid-template-columns:repeat(2,1fr)}
-      .rodape-grade{grid-template-columns:1fr 1fr}
-      .rodape-grade>div:first-child{grid-column:1/-1}
+
+      .hero-logo{
+        display:none;
+      }
+
+      .grade-vantagens{
+        grid-template-columns:1fr;
+      }
+
+      .vantagens{
+        margin-top:-33px;
+      }
+
+      .produtos{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .rodape{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .rodape>div:first-child{
+        grid-column:1/-1;
+      }
     }
 
     @media(max-width:560px){
-      body{padding-bottom:76px}
-      .container{width:calc(100% - 26px)}
-      .barra-topo .info-topo:nth-child(3){display:none}
-      .barra-topo .container{justify-content:center}
+      body{
+        padding-bottom:76px;
+      }
+
+      .container{
+        width:calc(100% - 26px);
+      }
+
+      .topo-item:nth-child(3){
+        display:none;
+      }
+
+      .topo .container{
+        justify-content:center;
+      }
 
       .marca strong{
         max-width:180px;
@@ -1129,76 +1217,141 @@
         font-size:14px;
       }
 
-      .marca small{display:none}
+      .marca small{
+        display:none;
+      }
 
-      .botao-carrinho-topo{
+      .abrir-carrinho{
         margin-left:auto;
         padding:9px 11px;
       }
 
-      .botao-carrinho-topo .texto-carrinho{display:none}
-      .hero h1{font-size:40px}
+      .abrir-carrinho .texto{
+        display:none;
+      }
 
-      .acoes-hero{display:grid}
-      .acoes-hero .botao{width:100%}
-      .destaques{grid-template-columns:1fr}
+      .hero h1{
+        font-size:40px;
+      }
+
+      .acoes-hero{
+        display:grid;
+      }
+
+      .botao{
+        width:100%;
+      }
+
+      .destaques{
+        grid-template-columns:1fr;
+      }
 
       .ferramentas{
-        top:82px;
+        top:81px;
         padding:10px;
       }
 
-      .ferramentas-topo{grid-template-columns:1fr}
+      .linha-busca{
+        grid-template-columns:1fr;
+      }
 
       .produtos{
         grid-template-columns:1fr;
         gap:13px;
       }
 
-      .produto{
+      .card{
         display:grid;
         grid-template-columns:126px 1fr;
-        min-height:190px;
+        min-height:188px;
       }
 
-      .produto-foto{
-        height:168px;
+      .foto{
+        height:166px;
         aspect-ratio:auto;
         margin:10px 0 10px 10px;
       }
 
-      .produto-corpo{padding:13px 12px}
-      .produto h3{min-height:auto;font-size:14px}
-      .precos{display:block;margin-top:9px}
-      .preco-atual{font-size:22px}
-      .desconto{display:inline-block;margin-top:3px}
-      .estoque{margin:6px 0 8px;font-size:11px}
-      .adicionar{min-height:40px;font-size:12px}
+      .card-corpo{
+        padding:13px 12px;
+      }
 
-      .rodape-grade{grid-template-columns:1fr}
-      .rodape-grade>div:first-child{grid-column:auto}
-      .rodape-final{flex-direction:column}
+      .card h3{
+        min-height:auto;
+        font-size:14px;
+      }
 
-      .whatsapp-flutuante{
+      .precos{
+        display:block;
+        margin-top:8px;
+      }
+
+      .preco{
+        font-size:22px;
+      }
+
+      .desconto{
+        display:inline-block;
+        margin-top:3px;
+      }
+
+      .estoque{
+        margin:6px 0 8px;
+        font-size:11px;
+      }
+
+      .adicionar{
+        min-height:40px;
+        font-size:12px;
+      }
+
+      .rodape{
+        grid-template-columns:1fr;
+      }
+
+      .rodape>div:first-child{
+        grid-column:auto;
+      }
+
+      .rodape-final{
+        flex-direction:column;
+      }
+
+      .flutuante{
         right:12px;
-        bottom:84px;
         width:49px;
         height:49px;
         justify-content:center;
         padding:0;
       }
 
-      .whatsapp-flutuante span{display:none}
-      .carrinho-mobile{display:flex}
-      .aviso{bottom:86px}
-
-      .item-carrinho{
-        grid-template-columns:61px 1fr;
+      .flutuante span{
+        display:none;
       }
 
-      .item-carrinho img{
-        width:61px;
-        height:61px;
+      .whatsapp{
+        bottom:84px;
+      }
+
+      .instagram{
+        bottom:140px;
+      }
+
+      .carrinho-mobile{
+        display:flex;
+      }
+
+      .aviso{
+        bottom:86px;
+      }
+
+      .item{
+        grid-template-columns:60px 1fr;
+      }
+
+      .item img{
+        width:60px;
+        height:60px;
       }
 
       .acoes-item{
@@ -1227,35 +1380,38 @@
 </head>
 
 <body>
-  <div class="barra-topo">
+  <div class="topo">
     <div class="container">
-      <div class="info-topo">
+      <div class="topo-item">
         <svg class="icone" viewBox="0 0 24 24">
           <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
           <circle cx="12" cy="10" r="2.5"/>
         </svg>
+
         Votorantim, Tapiraí e região
       </div>
 
-      <div class="info-topo">
+      <div class="topo-item">
         <svg class="icone" viewBox="0 0 24 24">
           <path d="M3 7h13v10H3z"/>
           <path d="M16 10h3l2 3v4h-5z"/>
         </svg>
+
         Entregas a combinar
       </div>
 
-      <div class="info-topo">
+      <div class="topo-item">
         <svg class="icone" viewBox="0 0 24 24">
           <rect x="2" y="5" width="20" height="14" rx="2"/>
           <path d="M2 10h20"/>
         </svg>
+
         Pix, dinheiro, débito e crédito
       </div>
     </div>
   </div>
 
-  <header class="cabecalho">
+  <header>
     <div class="container">
       <a class="marca" href="#inicio">
         <img
@@ -1273,13 +1429,13 @@
       <nav class="menu">
         <a href="#inicio">Início</a>
         <a href="#catalogo">Produtos</a>
-        <a href="#catalogo" data-link-filtro="novidades">Novidades</a>
-        <a href="#catalogo" data-link-filtro="promocoes">Promoções</a>
+        <a href="#catalogo" data-link="novidades">Novidades</a>
+        <a href="#catalogo" data-link="promocoes">Promoções</a>
       </nav>
 
       <button
-        class="botao-carrinho-topo"
-        id="abrirCarrinhoTopo"
+        class="abrir-carrinho"
+        id="abrirTopo"
         type="button"
       >
         <svg class="icone" viewBox="0 0 24 24">
@@ -1288,8 +1444,8 @@
           <path d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h8.7a2 2 0 0 0 2-1.6L21 8H6"/>
         </svg>
 
-        <span class="texto-carrinho">Carrinho</span>
-        <span class="contador-carrinho" id="contadorTopo">0</span>
+        <span class="texto">Carrinho</span>
+        <span class="contador" id="contador">0</span>
       </button>
     </div>
   </header>
@@ -1297,13 +1453,17 @@
   <section class="hero" id="inicio">
     <div class="container">
       <div>
-        <span class="selo-superior">Qualidade e praticidade</span>
+        <span class="selo-topo">
+          Qualidade e praticidade
+        </span>
 
-        <h1>Limpeza eficiente para sua casa, carro e negócio.</h1>
+        <h1>
+          Limpeza eficiente para sua casa, carro e negócio.
+        </h1>
 
         <p>
-          Produtos selecionados, atendimento próximo e entrega combinada para
-          Votorantim, Tapiraí e região.
+          Produtos selecionados, atendimento próximo e entrega combinada
+          para Votorantim, Tapiraí e região.
         </p>
 
         <div class="acoes-hero">
@@ -1342,10 +1502,10 @@
     </div>
   </section>
 
-  <section class="beneficios">
-    <div class="container grade-beneficios">
-      <article class="beneficio">
-        <span class="beneficio-icone">
+  <section class="vantagens">
+    <div class="container grade-vantagens">
+      <article class="vantagem">
+        <span class="vantagem-icone">
           <svg class="icone" viewBox="0 0 24 24">
             <path d="M3 7h13v10H3z"/>
             <path d="M16 10h3l2 3v4h-5z"/>
@@ -1354,12 +1514,14 @@
 
         <div>
           <h2>Entrega a combinar</h2>
-          <p>Atendimento para Votorantim, Tapiraí e proximidades.</p>
+          <p>
+            Atendimento para Votorantim, Tapiraí e proximidades.
+          </p>
         </div>
       </article>
 
-      <article class="beneficio">
-        <span class="beneficio-icone">
+      <article class="vantagem">
+        <span class="vantagem-icone">
           <svg class="icone" viewBox="0 0 24 24">
             <rect x="2" y="5" width="20" height="14" rx="2"/>
             <path d="M2 10h20"/>
@@ -1368,12 +1530,14 @@
 
         <div>
           <h2>Pagamento facilitado</h2>
-          <p>Pix, dinheiro, cartão de débito e crédito.</p>
+          <p>
+            Pix, dinheiro, cartão de débito e crédito.
+          </p>
         </div>
       </article>
 
-      <article class="beneficio">
-        <span class="beneficio-icone">
+      <article class="vantagem">
+        <span class="vantagem-icone">
           <svg class="icone" viewBox="0 0 24 24">
             <path d="m5 12 4 4L19 6"/>
           </svg>
@@ -1381,7 +1545,9 @@
 
         <div>
           <h2>Atendimento próximo</h2>
-          <p>Tire dúvidas e confirme seu pedido pelo WhatsApp.</p>
+          <p>
+            Tire dúvidas e confirme o pedido pelo WhatsApp.
+          </p>
         </div>
       </article>
     </div>
@@ -1390,65 +1556,63 @@
   <main>
     <div class="container">
       <section>
-        <div class="cabecalho-secao">
+        <div class="titulo-secao">
           <small>Destaques da loja</small>
           <h2>Encontre o que procura com facilidade</h2>
           <p>
-            Novidades e promoções verdadeiras ficam separadas para facilitar
-            sua compra.
+            Novidades e promoções verdadeiras ficam separadas para
+            facilitar sua compra.
           </p>
         </div>
 
         <div class="destaques">
           <button
-            class="destaque destaque-novidade"
+            class="destaque novo"
             type="button"
             data-destaque="novidades"
           >
-            <div class="destaque-topo">
-              <span class="destaque-icone">
-                <svg class="icone" viewBox="0 0 24 24">
-                  <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>
-                  <circle cx="12" cy="12" r="4"/>
-                </svg>
-              </span>
-            </div>
+            <span class="destaque-icone">
+              <svg class="icone" viewBox="0 0 24 24">
+                <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>
+                <circle cx="12" cy="12" r="4"/>
+              </svg>
+            </span>
 
             <h3>Novidades</h3>
-            <p>Veja os produtos marcados como novos no catálogo.</p>
+            <p>Veja os produtos marcados como novos.</p>
             <strong id="totalNovidades">Ver novidades</strong>
           </button>
 
           <button
-            class="destaque destaque-promocao"
+            class="destaque oferta"
             type="button"
             data-destaque="promocoes"
           >
-            <div class="destaque-topo">
-              <span class="destaque-icone">
-                <svg class="icone" viewBox="0 0 24 24">
-                  <path d="M20 12 12 20 4 12V4h8z"/>
-                  <circle cx="9" cy="9" r="1.5"/>
-                </svg>
-              </span>
-            </div>
+            <span class="destaque-icone">
+              <svg class="icone" viewBox="0 0 24 24">
+                <path d="M20 12 12 20 4 12V4h8z"/>
+                <circle cx="9" cy="9" r="1.5"/>
+              </svg>
+            </span>
 
             <h3>Promoções</h3>
-            <p>Somente produtos com redução real de preço aparecem aqui.</p>
+            <p>
+              Somente reduções reais de preço aparecem aqui.
+            </p>
             <strong id="totalPromocoes">Ver promoções</strong>
           </button>
         </div>
       </section>
 
       <section id="catalogo">
-        <div class="cabecalho-secao">
+        <div class="titulo-secao">
           <small>Catálogo</small>
           <h2>Nossos produtos</h2>
           <p>Use a busca ou escolha uma categoria.</p>
         </div>
 
         <div class="ferramentas">
-          <div class="ferramentas-topo">
+          <div class="linha-busca">
             <label class="busca">
               <svg class="icone" viewBox="0 0 24 24">
                 <circle cx="11" cy="11" r="7"/>
@@ -1456,53 +1620,50 @@
               </svg>
 
               <input
-                id="buscaProduto"
+                id="busca"
                 type="search"
                 placeholder="Buscar pelo nome do produto"
                 autocomplete="off"
               >
             </label>
 
-            <div
-              class="quantidade-encontrada"
-              id="quantidadeEncontrada"
-            >
+            <div class="resultado" id="resultado">
               Carregando produtos...
             </div>
           </div>
 
           <nav class="categorias">
-            <button class="categoria ativa" type="button" data-filtro="todos">
+            <button class="categoria ativa" data-filtro="todos">
               Todos
             </button>
 
-            <button class="categoria" type="button" data-filtro="novidades">
+            <button class="categoria" data-filtro="novidades">
               Novidades
             </button>
 
-            <button class="categoria" type="button" data-filtro="limpeza">
+            <button class="categoria" data-filtro="limpeza">
               Limpeza
             </button>
 
-            <button class="categoria" type="button" data-filtro="automotivo">
+            <button class="categoria" data-filtro="automotivo">
               Automotivo
             </button>
 
-            <button class="categoria" type="button" data-filtro="utensilios">
+            <button class="categoria" data-filtro="utensilios">
               Utensílios
             </button>
 
-            <button class="categoria" type="button" data-filtro="promocoes">
+            <button class="categoria" data-filtro="promocoes">
               Promoções
             </button>
 
-            <button class="categoria" type="button" data-filtro="reservado">
+            <button class="categoria" data-filtro="reservado">
               Reservados
             </button>
           </nav>
         </div>
 
-        <section class="produtos" id="listaProdutos">
+        <section class="produtos" id="produtos">
           <div class="estado">Carregando produtos...</div>
         </section>
       </section>
@@ -1510,10 +1671,12 @@
   </main>
 
   <footer>
-    <div class="container rodape-grade">
+    <div class="container rodape">
       <div>
         <h3>Onça Produtos de Limpeza</h3>
-        <p>Produtos de limpeza, linha automotiva e utensílios.</p>
+        <p>
+          Produtos de limpeza, linha automotiva e utensílios.
+        </p>
         <p>Atender bem para atender sempre.</p>
       </div>
 
@@ -1550,7 +1713,7 @@
 
     <div class="container rodape-final">
       <span>
-        © <span id="anoAtual"></span> Onça Produtos de Limpeza.
+        © <span id="ano"></span> Onça Produtos de Limpeza.
       </span>
 
       <span>
@@ -1560,10 +1723,27 @@
   </footer>
 
   <a
-    class="whatsapp-flutuante"
+    class="flutuante instagram"
+    href="https://instagram.com/onca_limpeza"
+    target="_blank"
+    rel="noopener"
+    aria-label="Instagram da Onça Produtos de Limpeza"
+  >
+    <svg class="icone" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r="1"/>
+    </svg>
+
+    <span>@onca_limpeza</span>
+  </a>
+
+  <a
+    class="flutuante whatsapp"
     href="https://wa.me/5515997931042"
     target="_blank"
     rel="noopener"
+    aria-label="WhatsApp da Onça Produtos de Limpeza"
   >
     <svg class="icone" viewBox="0 0 24 24">
       <path d="M21 11.5a8.5 8.5 0 0 1-9 8.4 8.7 8.7 0 0 1-3.6-.9L3 21l1.8-5.2A8.5 8.5 0 1 1 21 11.5Z"/>
@@ -1574,7 +1754,7 @@
 
   <button
     class="carrinho-mobile"
-    id="abrirCarrinhoMobile"
+    id="abrirMobile"
     type="button"
   >
     <div>
@@ -1585,22 +1765,22 @@
       </svg>
 
       <span>
-        <strong id="textoCarrinhoMobile">Carrinho vazio</strong>
+        <strong id="textoMobile">Carrinho vazio</strong>
         <small>Toque para revisar</small>
       </span>
     </div>
 
-    <strong id="totalCarrinhoMobile">R$ 0,00</strong>
+    <strong id="totalMobile">R$ 0,00</strong>
   </button>
 
-  <div class="fundo-carrinho" id="fundoCarrinho"></div>
+  <div class="fundo" id="fundo"></div>
 
   <aside
-    class="carrinho-lateral"
-    id="carrinhoLateral"
+    class="carrinho"
+    id="carrinho"
     aria-hidden="true"
   >
-    <div class="carrinho-cabecalho">
+    <div class="carrinho-topo">
       <div class="titulo-carrinho">
         <svg class="icone" viewBox="0 0 24 24">
           <circle cx="9" cy="20" r="1.5"/>
@@ -1610,15 +1790,14 @@
 
         <div>
           <h2>Seu carrinho</h2>
-          <small id="quantidadeCarrinho">Nenhum item</small>
+          <small id="qtdCarrinho">Nenhum item</small>
         </div>
       </div>
 
       <button
         class="fechar"
-        id="fecharCarrinho"
+        id="fechar"
         type="button"
-        aria-label="Fechar carrinho"
       >
         <svg class="icone" viewBox="0 0 24 24">
           <path d="m6 6 12 12M18 6 6 18"/>
@@ -1627,15 +1806,15 @@
     </div>
 
     <div class="carrinho-conteudo">
-      <div id="itensCarrinho"></div>
+      <div id="itens"></div>
 
-      <section class="dados-pedido" id="dadosPedido">
+      <section class="dados" id="dados">
         <div class="dados-titulo">
           <h3>Dados do pedido</h3>
 
           <button
             class="limpar"
-            id="limparCarrinho"
+            id="limpar"
             type="button"
           >
             Limpar carrinho
@@ -1643,29 +1822,29 @@
         </div>
 
         <div class="campo">
-          <label for="nomeCliente">Nome</label>
+          <label for="nome">Nome</label>
 
           <input
-            id="nomeCliente"
+            id="nome"
             placeholder="Seu nome completo"
             autocomplete="name"
           >
         </div>
 
         <div class="campo">
-          <label for="enderecoCliente">Endereço para entrega</label>
+          <label for="endereco">Endereço para entrega</label>
 
           <input
-            id="enderecoCliente"
+            id="endereco"
             placeholder="Rua, número, bairro e cidade"
             autocomplete="street-address"
           >
         </div>
 
         <div class="campo">
-          <label for="formaPagamento">Forma de pagamento</label>
+          <label for="pagamento">Forma de pagamento</label>
 
-          <select id="formaPagamento">
+          <select id="pagamento">
             <option>Pix</option>
             <option>Dinheiro</option>
             <option>Cartão de débito</option>
@@ -1674,10 +1853,10 @@
         </div>
 
         <div class="campo">
-          <label for="observacaoPedido">Observações</label>
+          <label for="obs">Observações</label>
 
           <textarea
-            id="observacaoPedido"
+            id="obs"
             placeholder="Alguma observação sobre o pedido?"
           ></textarea>
         </div>
@@ -1687,12 +1866,12 @@
     <div class="carrinho-rodape">
       <div class="total">
         <span>Total do pedido</span>
-        <strong id="totalCarrinho">R$ 0,00</strong>
+        <strong id="total">R$ 0,00</strong>
       </div>
 
       <button
-        class="botao-enviar"
-        id="enviarPedido"
+        class="enviar"
+        id="enviar"
         type="button"
       >
         <svg class="icone" viewBox="0 0 24 24">
@@ -1702,7 +1881,7 @@
         Enviar pedido pelo WhatsApp
       </button>
 
-      <p class="nota-salvamento">
+      <p class="salvo">
         O carrinho e seus dados ficam salvos neste navegador.
       </p>
     </div>
@@ -1736,38 +1915,38 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const CHAVE_CARRINHO = "onca-carrinho-v3";
-    const CHAVE_CLIENTE = "onca-cliente-v2";
-    const NUMERO_WHATSAPP = "5515997931042";
+    const WHATS = "5515997931042";
+    const CHAVE_CARRINHO = "onca-carrinho-v4";
+    const CHAVE_CLIENTE = "onca-cliente-v3";
 
-    let produtos = [];
-    let carrinho = carregarCarrinho();
-    let filtroAtual = "todos";
-    let tempoAviso;
+    let listaProdutos = [];
+    let carrinho = lerCarrinho();
+    let filtro = "todos";
+    let timer;
 
     const $ = id => document.getElementById(id);
 
-    const elementos = {
-      busca: $("buscaProduto"),
-      quantidadeEncontrada: $("quantidadeEncontrada"),
-      listaProdutos: $("listaProdutos"),
-      totalNovidades: $("totalNovidades"),
-      totalPromocoes: $("totalPromocoes"),
-      contadorTopo: $("contadorTopo"),
-      textoCarrinhoMobile: $("textoCarrinhoMobile"),
-      totalCarrinhoMobile: $("totalCarrinhoMobile"),
-      fundoCarrinho: $("fundoCarrinho"),
-      carrinhoLateral: $("carrinhoLateral"),
-      itensCarrinho: $("itensCarrinho"),
-      quantidadeCarrinho: $("quantidadeCarrinho"),
-      dadosPedido: $("dadosPedido"),
-      totalCarrinho: $("totalCarrinho"),
-      nomeCliente: $("nomeCliente"),
-      enderecoCliente: $("enderecoCliente"),
-      formaPagamento: $("formaPagamento"),
-      observacaoPedido: $("observacaoPedido"),
-      limparCarrinho: $("limparCarrinho"),
-      enviarPedido: $("enviarPedido"),
+    const el = {
+      busca: $("busca"),
+      resultado: $("resultado"),
+      produtos: $("produtos"),
+      novidades: $("totalNovidades"),
+      promocoes: $("totalPromocoes"),
+      contador: $("contador"),
+      textoMobile: $("textoMobile"),
+      totalMobile: $("totalMobile"),
+      fundo: $("fundo"),
+      carrinho: $("carrinho"),
+      itens: $("itens"),
+      qtdCarrinho: $("qtdCarrinho"),
+      dados: $("dados"),
+      total: $("total"),
+      nome: $("nome"),
+      endereco: $("endereco"),
+      pagamento: $("pagamento"),
+      obs: $("obs"),
+      limpar: $("limpar"),
+      enviar: $("enviar"),
       aviso: $("aviso"),
       textoAviso: $("textoAviso")
     };
@@ -1782,7 +1961,9 @@
 
     function numero(valor){
       if(typeof valor === "number"){
-        return Number.isFinite(valor) ? valor : 0;
+        return Number.isFinite(valor)
+          ? valor
+          : 0;
       }
 
       const texto = String(valor ?? "").trim();
@@ -1822,13 +2003,15 @@
       );
     }
 
-    function carregarCarrinho(){
+    function lerCarrinho(){
       try{
         const dados = JSON.parse(
           localStorage.getItem(CHAVE_CARRINHO) || "[]"
         );
 
-        return Array.isArray(dados) ? dados : [];
+        return Array.isArray(dados)
+          ? dados
+          : [];
       }catch{
         return [];
       }
@@ -1841,23 +2024,20 @@
           JSON.stringify(carrinho)
         );
       }catch(erro){
-        console.warn(
-          "Não foi possível salvar o carrinho.",
-          erro
-        );
+        console.warn(erro);
       }
     }
 
-    function carregarCliente(){
+    function lerCliente(){
       try{
         const dados = JSON.parse(
           localStorage.getItem(CHAVE_CLIENTE) || "{}"
         );
 
-        elementos.nomeCliente.value = dados.nome || "";
-        elementos.enderecoCliente.value = dados.endereco || "";
-        elementos.formaPagamento.value = dados.pagamento || "Pix";
-        elementos.observacaoPedido.value = dados.observacao || "";
+        el.nome.value = dados.nome || "";
+        el.endereco.value = dados.endereco || "";
+        el.pagamento.value = dados.pagamento || "Pix";
+        el.obs.value = dados.obs || "";
       }catch{
         // Mantém os campos vazios.
       }
@@ -1868,18 +2048,18 @@
         localStorage.setItem(
           CHAVE_CLIENTE,
           JSON.stringify({
-            nome: elementos.nomeCliente.value,
-            endereco: elementos.enderecoCliente.value,
-            pagamento: elementos.formaPagamento.value,
-            observacao: elementos.observacaoPedido.value
+            nome: el.nome.value,
+            endereco: el.endereco.value,
+            pagamento: el.pagamento.value,
+            obs: el.obs.value
           })
         );
       }catch{
-        // O pedido continua funcionando mesmo sem salvamento local.
+        // O pedido continua funcionando.
       }
     }
 
-    function imagemProduto(produto){
+    function imagem(produto){
       let imagem = String(
         produto.img ||
         produto.imagem ||
@@ -1898,7 +2078,9 @@
       }
 
       const drive =
-        imagem.match(/drive\.google\.com\/file\/d\/([^/]+)/) ||
+        imagem.match(
+          /drive\.google\.com\/file\/d\/([^/]+)/
+        ) ||
         imagem.match(/[?&]id=([^&]+)/);
 
       if(drive){
@@ -1920,14 +2102,14 @@
       );
     }
 
-    function temPromocao(produto){
+    function promocao(produto){
       const atual = numero(produto.preco);
       const antigo = numero(produto.precoAntigo);
 
       return atual > 0 && antigo > atual;
     }
 
-    function ehNovidade(produto){
+    function novidade(produto){
       const categoria = normalizar(produto.categoria);
 
       const destaque = normalizar(
@@ -1945,15 +2127,15 @@
       );
     }
 
-    function ehReservado(produto){
+    function reservado(produto){
       return (
         normalizar(produto.status) === "reservado" ||
         produto.reservado === true
       );
     }
 
-    function calcularDesconto(produto){
-      if(!temPromocao(produto)){
+    function desconto(produto){
+      if(!promocao(produto)){
         return 0;
       }
 
@@ -1966,58 +2148,38 @@
       );
     }
 
-    function atualizarDestaques(){
-      const novos = produtos.filter(ehNovidade).length;
-      const ofertas = produtos.filter(temPromocao).length;
-
-      elementos.totalNovidades.textContent = novos
-        ? `${novos} ${novos === 1 ? "produto novo" : "produtos novos"}`
-        : "Ver novidades";
-
-      elementos.totalPromocoes.textContent = ofertas
-        ? `${ofertas} ${ofertas === 1 ? "oferta real" : "ofertas reais"}`
-        : "Ver promoções";
-    }
-
-    function correspondeFiltro(produto){
-      if(filtroAtual === "todos"){
+    function corresponde(produto){
+      if(filtro === "todos"){
         return true;
       }
 
-      if(filtroAtual === "novidades"){
-        return ehNovidade(produto);
+      if(filtro === "novidades"){
+        return novidade(produto);
       }
 
-      if(filtroAtual === "promocoes"){
-        return temPromocao(produto);
+      if(filtro === "promocoes"){
+        return promocao(produto);
       }
 
-      if(filtroAtual === "reservado"){
-        return ehReservado(produto);
+      if(filtro === "reservado"){
+        return reservado(produto);
       }
 
       return (
         normalizar(produto.categoria) ===
-        normalizar(filtroAtual)
+        normalizar(filtro)
       );
     }
 
-    function prioridade(produto){
-      return (
-        (temPromocao(produto) ? 20 : 0) +
-        (ehNovidade(produto) ? 10 : 0)
-      );
-    }
-
-    function cartaoProduto(produto){
+    function card(produto){
       const nome = escapar(
         produto.nome || "Produto sem nome"
       );
 
-      const promocao = temPromocao(produto);
-      const novo = ehNovidade(produto);
-      const reservado = ehReservado(produto);
-      const percentual = calcularDesconto(produto);
+      const promo = promocao(produto);
+      const novo = novidade(produto);
+      const reservadoProduto = reservado(produto);
+      const porcentagem = desconto(produto);
 
       const selos = `
         ${novo
@@ -2025,39 +2187,39 @@
           : ""
         }
 
-        ${promocao
-          ? '<span class="selo selo-oferta">Promoção</span>'
+        ${promo
+          ? '<span class="selo selo-promocao">Promoção</span>'
           : ""
         }
 
-        ${reservado
+        ${reservadoProduto
           ? '<span class="selo selo-reservado">Reservado</span>'
           : ""
         }
       `;
 
       return `
-        <article class="produto">
-          <div class="produto-foto">
+        <article class="card">
+          <div class="foto">
             ${selos.trim()
               ? `<div class="selos">${selos}</div>`
               : ""
             }
 
             <img
-              src="${escapar(imagemProduto(produto))}"
+              src="${escapar(imagem(produto))}"
               alt="${nome}"
               loading="lazy"
               onerror="this.onerror=null;this.src=window.semFoto"
             >
           </div>
 
-          <div class="produto-corpo">
+          <div class="card-corpo">
             <h3>${nome}</h3>
 
             <div class="precos">
               <div>
-                ${promocao
+                ${promo
                   ? `
                     <p class="preco-antigo">
                       ${moeda(produto.precoAntigo)}
@@ -2066,15 +2228,15 @@
                   : ""
                 }
 
-                <p class="preco-atual">
+                <p class="preco">
                   ${moeda(produto.preco)}
                 </p>
               </div>
 
-              ${promocao && percentual > 0
+              ${promo && porcentagem > 0
                 ? `
                   <span class="desconto">
-                    -${percentual}%
+                    -${porcentagem}%
                   </span>
                 `
                 : ""
@@ -2091,7 +2253,6 @@
 
             <button
               class="adicionar"
-              type="button"
               data-adicionar="${escapar(produto.id)}"
             >
               <svg class="icone" viewBox="0 0 24 24">
@@ -2109,21 +2270,21 @@
     }
 
     function mostrarProdutos(){
-      const termo = normalizar(
-        elementos.busca.value
-      );
+      const termo = normalizar(el.busca.value);
 
-      const lista = produtos
+      const lista = listaProdutos
         .filter(
           produto =>
             normalizar(produto.nome).includes(termo)
         )
-        .filter(correspondeFiltro)
+        .filter(corresponde)
         .map(
           (produto, indice) => ({
             produto,
             indice,
-            pontos: prioridade(produto)
+            pontos:
+              (promocao(produto) ? 20 : 0) +
+              (novidade(produto) ? 10 : 0)
           })
         )
         .sort(
@@ -2133,16 +2294,16 @@
         )
         .map(item => item.produto);
 
-      elementos.quantidadeEncontrada.textContent =
+      el.resultado.textContent =
         `${lista.length} ${
           lista.length === 1
             ? "produto encontrado"
             : "produtos encontrados"
         }`;
 
-      elementos.listaProdutos.innerHTML =
+      el.produtos.innerHTML =
         lista.length
-          ? lista.map(cartaoProduto).join("")
+          ? lista.map(card).join("")
           : `
             <div class="estado">
               Nenhum produto encontrado com essa busca ou categoria.
@@ -2150,42 +2311,40 @@
           `;
     }
 
-    function selecionarFiltro(filtro){
-      filtroAtual = filtro;
+    function selecionar(novoFiltro){
+      filtro = novoFiltro;
 
       document
         .querySelectorAll("[data-filtro]")
         .forEach(botao => {
           botao.classList.toggle(
             "ativa",
-            botao.dataset.filtro === filtro
+            botao.dataset.filtro === novoFiltro
           );
         });
 
       mostrarProdutos();
 
-      document
-        .getElementById("catalogo")
-        .scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
+      $("catalogo").scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
     }
 
     function mostrarAviso(texto){
-      clearTimeout(tempoAviso);
+      clearTimeout(timer);
 
-      elementos.textoAviso.textContent = texto;
-      elementos.aviso.classList.add("mostrar");
+      el.textoAviso.textContent = texto;
+      el.aviso.classList.add("mostrar");
 
-      tempoAviso = setTimeout(
-        () => elementos.aviso.classList.remove("mostrar"),
-        2100
+      timer = setTimeout(
+        () => el.aviso.classList.remove("mostrar"),
+        2000
       );
     }
 
-    function adicionarCarrinho(id, botao){
-      const produto = produtos.find(
+    function adicionar(id, botao){
+      const produto = listaProdutos.find(
         item => item.id === id
       );
 
@@ -2193,15 +2352,16 @@
         return;
       }
 
-      const existente = carrinho.find(
-        item => item.id === id
+      const item = carrinho.find(
+        produtoCarrinho =>
+          produtoCarrinho.id === id
       );
 
-      if(existente){
-        existente.qtd =
+      if(item){
+        item.qtd =
           Math.max(
             1,
-            numero(existente.qtd) || 1
+            numero(item.qtd) || 1
           ) + 1;
       }else{
         carrinho.push({
@@ -2220,7 +2380,7 @@
       if(botao){
         const original = botao.innerHTML;
 
-        botao.classList.add("adicionado");
+        botao.classList.add("ok");
 
         botao.innerHTML = `
           <svg class="icone" viewBox="0 0 24 24">
@@ -2231,13 +2391,13 @@
         `;
 
         setTimeout(() => {
-          botao.classList.remove("adicionado");
+          botao.classList.remove("ok");
           botao.innerHTML = original;
-        }, 1000);
+        }, 950);
       }
     }
 
-    function alterarQuantidade(id, alteracao){
+    function alterar(id, quantidade){
       const item = carrinho.find(
         produto => produto.id === id
       );
@@ -2248,36 +2408,18 @@
 
       item.qtd = Math.max(
         1,
-        (numero(item.qtd) || 1) + alteracao
+        (numero(item.qtd) || 1) + quantidade
       );
 
       salvarCarrinho();
       mostrarCarrinho();
     }
 
-    function removerCarrinho(id){
+    function remover(id){
       carrinho = carrinho.filter(
-        item => item.id !== id
+        produto => produto.id !== id
       );
 
-      salvarCarrinho();
-      mostrarCarrinho();
-    }
-
-    function limparTudo(){
-      if(!carrinho.length){
-        return;
-      }
-
-      const confirmar = confirm(
-        "Deseja realmente limpar o carrinho?"
-      );
-
-      if(!confirmar){
-        return;
-      }
-
-      carrinho = [];
       salvarCarrinho();
       mostrarCarrinho();
     }
@@ -2296,9 +2438,9 @@
       );
 
       return `
-        <div class="item-carrinho">
+        <div class="item">
           <img
-            src="${escapar(imagemProduto(produto))}"
+            src="${escapar(imagem(produto))}"
             alt="${nome}"
             onerror="this.onerror=null;this.src=window.semFoto"
           >
@@ -2316,12 +2458,10 @@
           </div>
 
           <div class="acoes-item">
-            <div class="quantidade">
+            <div class="qtd">
               <button
-                type="button"
-                data-acao-carrinho="menos"
+                data-acao="menos"
                 data-id="${escapar(produto.id)}"
-                aria-label="Diminuir quantidade"
               >
                 −
               </button>
@@ -2329,10 +2469,8 @@
               <span>${qtd}</span>
 
               <button
-                type="button"
-                data-acao-carrinho="mais"
+                data-acao="mais"
                 data-id="${escapar(produto.id)}"
-                aria-label="Aumentar quantidade"
               >
                 +
               </button>
@@ -2340,8 +2478,7 @@
 
             <button
               class="remover"
-              type="button"
-              data-acao-carrinho="remover"
+              data-acao="remover"
               data-id="${escapar(produto.id)}"
             >
               Remover
@@ -2365,15 +2502,15 @@
         total += numero(produto.preco) * qtd;
       });
 
-      elementos.itensCarrinho.innerHTML =
+      el.itens.innerHTML =
         carrinho.length
           ? carrinho.map(itemCarrinho).join("")
           : `
-            <div class="carrinho-vazio">
+            <div class="vazio">
               <div>
                 <svg
                   class="icone"
-                  style="width:56px;height:56px;color:#104474"
+                  style="width:56px;height:56px;color:#0d4f86"
                   viewBox="0 0 24 24"
                 >
                   <circle cx="9" cy="20" r="1.5"/>
@@ -2387,10 +2524,9 @@
             </div>
           `;
 
-      elementos.contadorTopo.textContent =
-        quantidade;
+      el.contador.textContent = quantidade;
 
-      elementos.quantidadeCarrinho.textContent =
+      el.qtdCarrinho.textContent =
         quantidade
           ? `${quantidade} ${
               quantidade === 1
@@ -2399,7 +2535,7 @@
             }`
           : "Nenhum item";
 
-      elementos.textoCarrinhoMobile.textContent =
+      el.textoMobile.textContent =
         quantidade
           ? `${quantidade} ${
               quantidade === 1
@@ -2408,25 +2544,16 @@
             } no carrinho`
           : "Carrinho vazio";
 
-      elementos.totalCarrinhoMobile.textContent =
-        moeda(total);
-
-      elementos.totalCarrinho.textContent =
-        moeda(total);
-
-      elementos.dadosPedido.hidden =
-        !carrinho.length;
-
-      elementos.limparCarrinho.disabled =
-        !carrinho.length;
-
-      elementos.enviarPedido.disabled =
-        !carrinho.length;
+      el.totalMobile.textContent = moeda(total);
+      el.total.textContent = moeda(total);
+      el.dados.hidden = !carrinho.length;
+      el.enviar.disabled = !carrinho.length;
+      el.limpar.disabled = !carrinho.length;
     }
 
-    function sincronizarCarrinho(){
+    function sincronizar(){
       carrinho = carrinho.map(item => {
-        const atualizado = produtos.find(
+        const atualizado = listaProdutos.find(
           produto => produto.id === item.id
         );
 
@@ -2445,52 +2572,34 @@
       mostrarCarrinho();
     }
 
-    function abrirCarrinho(){
-      elementos.fundoCarrinho.classList.add(
-        "aberto"
-      );
-
-      elementos.carrinhoLateral.classList.add(
-        "aberto"
-      );
-
-      elementos.carrinhoLateral.setAttribute(
+    function abrir(){
+      el.fundo.classList.add("aberto");
+      el.carrinho.classList.add("aberto");
+      el.carrinho.setAttribute(
         "aria-hidden",
         "false"
       );
-
-      document.body.classList.add(
-        "bloqueado"
-      );
+      document.body.classList.add("travado");
     }
 
-    function fecharCarrinho(){
-      elementos.fundoCarrinho.classList.remove(
-        "aberto"
-      );
-
-      elementos.carrinhoLateral.classList.remove(
-        "aberto"
-      );
-
-      elementos.carrinhoLateral.setAttribute(
+    function fechar(){
+      el.fundo.classList.remove("aberto");
+      el.carrinho.classList.remove("aberto");
+      el.carrinho.setAttribute(
         "aria-hidden",
         "true"
       );
-
-      document.body.classList.remove(
-        "bloqueado"
-      );
+      document.body.classList.remove("travado");
     }
 
-    function enviarWhatsApp(){
+    function enviar(){
       if(!carrinho.length){
         alert("Seu carrinho está vazio.");
         return;
       }
 
       let total = 0;
-      let quantidade = 0;
+      let quantidadeTotal = 0;
 
       let mensagem =
         "*PEDIDO - ONÇA PRODUTOS DE LIMPEZA*\n";
@@ -2509,7 +2618,7 @@
         const subtotal =
           numero(produto.preco) * qtd;
 
-        quantidade += qtd;
+        quantidadeTotal += qtd;
         total += subtotal;
 
         mensagem +=
@@ -2529,25 +2638,25 @@
         `*TOTAL:* ${moeda(total)}\n`;
 
       mensagem +=
-        `*ITENS:* ${quantidade}\n\n`;
+        `*ITENS:* ${quantidadeTotal}\n\n`;
 
       mensagem +=
         "*DADOS DO CLIENTE*\n";
 
       mensagem +=
         `Nome: ${
-          elementos.nomeCliente.value.trim() ||
+          el.nome.value.trim() ||
           "Não informado"
         }\n`;
 
       mensagem +=
         `Endereço: ${
-          elementos.enderecoCliente.value.trim() ||
+          el.endereco.value.trim() ||
           "Não informado"
         }\n`;
 
       mensagem +=
-        `Forma de pagamento: ${elementos.formaPagamento.value}\n\n`;
+        `Forma de pagamento: ${el.pagamento.value}\n\n`;
 
       mensagem +=
         "*ENTREGA*\n";
@@ -2558,18 +2667,15 @@
       mensagem +=
         "Pedido confirmado após confirmação do pagamento.";
 
-      const observacao =
-        elementos.observacaoPedido.value.trim();
-
-      if(observacao){
+      if(el.obs.value.trim()){
         mensagem +=
-          `\n\n*OBSERVAÇÕES*\n${observacao}`;
+          `\n\n*OBSERVAÇÕES*\n${el.obs.value.trim()}`;
       }
 
       salvarCliente();
 
       window.open(
-        `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensagem)}`,
+        `https://wa.me/${WHATS}?text=${encodeURIComponent(mensagem)}`,
         "_blank",
         "noopener"
       );
@@ -2579,7 +2685,7 @@
       collection(db, "produtos"),
 
       snapshot => {
-        produtos = snapshot.docs
+        listaProdutos = snapshot.docs
           .map(documento => ({
             id: documento.id,
             ...documento.data()
@@ -2588,18 +2694,42 @@
             produto => produto.ativo !== false
           );
 
-        sincronizarCarrinho();
-        atualizarDestaques();
+        sincronizar();
+
+        const quantidadeNovidades =
+          listaProdutos.filter(novidade).length;
+
+        const quantidadePromocoes =
+          listaProdutos.filter(promocao).length;
+
+        el.novidades.textContent =
+          quantidadeNovidades
+            ? `${quantidadeNovidades} ${
+                quantidadeNovidades === 1
+                  ? "produto novo"
+                  : "produtos novos"
+              }`
+            : "Ver novidades";
+
+        el.promocoes.textContent =
+          quantidadePromocoes
+            ? `${quantidadePromocoes} ${
+                quantidadePromocoes === 1
+                  ? "oferta real"
+                  : "ofertas reais"
+              }`
+            : "Ver promoções";
+
         mostrarProdutos();
       },
 
       erro => {
         console.error(erro);
 
-        elementos.quantidadeEncontrada.textContent =
+        el.resultado.textContent =
           "Erro ao carregar";
 
-        elementos.listaProdutos.innerHTML = `
+        el.produtos.innerHTML = `
           <div class="estado">
             Não foi possível carregar os produtos agora.
             Tente novamente em instantes.
@@ -2608,7 +2738,7 @@
       }
     );
 
-    elementos.busca.addEventListener(
+    el.busca.addEventListener(
       "input",
       mostrarProdutos
     );
@@ -2618,7 +2748,7 @@
       .forEach(botao => {
         botao.addEventListener(
           "click",
-          () => selecionarFiltro(
+          () => selecionar(
             botao.dataset.filtro
           )
         );
@@ -2629,28 +2759,25 @@
       .forEach(botao => {
         botao.addEventListener(
           "click",
-          () => selecionarFiltro(
+          () => selecionar(
             botao.dataset.destaque
           )
         );
       });
 
     document
-      .querySelectorAll("[data-link-filtro]")
+      .querySelectorAll("[data-link]")
       .forEach(link => {
         link.addEventListener(
           "click",
           evento => {
             evento.preventDefault();
-
-            selecionarFiltro(
-              link.dataset.linkFiltro
-            );
+            selecionar(link.dataset.link);
           }
         );
       });
 
-    elementos.listaProdutos.addEventListener(
+    el.produtos.addEventListener(
       "click",
       evento => {
         const botao = evento.target.closest(
@@ -2658,7 +2785,7 @@
         );
 
         if(botao){
-          adicionarCarrinho(
+          adicionar(
             botao.dataset.adicionar,
             botao
           );
@@ -2666,79 +2793,84 @@
       }
     );
 
-    elementos.itensCarrinho.addEventListener(
+    el.itens.addEventListener(
       "click",
       evento => {
         const botao = evento.target.closest(
-          "[data-acao-carrinho]"
+          "[data-acao]"
         );
 
         if(!botao){
           return;
         }
 
-        const id = botao.dataset.id;
-        const acao =
-          botao.dataset.acaoCarrinho;
-
-        if(acao === "mais"){
-          alterarQuantidade(id, 1);
+        if(botao.dataset.acao === "mais"){
+          alterar(botao.dataset.id, 1);
         }
 
-        if(acao === "menos"){
-          alterarQuantidade(id, -1);
+        if(botao.dataset.acao === "menos"){
+          alterar(botao.dataset.id, -1);
         }
 
-        if(acao === "remover"){
-          removerCarrinho(id);
+        if(botao.dataset.acao === "remover"){
+          remover(botao.dataset.id);
         }
       }
     );
 
-    $("abrirCarrinhoTopo").addEventListener(
+    $("abrirTopo").addEventListener(
       "click",
-      abrirCarrinho
+      abrir
     );
 
-    $("abrirCarrinhoMobile").addEventListener(
+    $("abrirMobile").addEventListener(
       "click",
-      abrirCarrinho
+      abrir
     );
 
-    $("fecharCarrinho").addEventListener(
+    $("fechar").addEventListener(
       "click",
-      fecharCarrinho
+      fechar
     );
 
-    elementos.fundoCarrinho.addEventListener(
+    el.fundo.addEventListener(
       "click",
-      fecharCarrinho
+      fechar
     );
 
-    elementos.limparCarrinho.addEventListener(
+    el.limpar.addEventListener(
       "click",
-      limparTudo
+      () => {
+        if(
+          carrinho.length &&
+          confirm("Deseja realmente limpar o carrinho?")
+        ){
+          carrinho = [];
+          salvarCarrinho();
+          mostrarCarrinho();
+        }
+      }
     );
 
-    elementos.enviarPedido.addEventListener(
+    el.enviar.addEventListener(
       "click",
-      enviarWhatsApp
+      enviar
     );
 
     document.addEventListener(
       "keydown",
       evento => {
         if(evento.key === "Escape"){
-          fecharCarrinho();
+          fechar();
         }
       }
     );
 
     [
-      elementos.nomeCliente,
-      elementos.enderecoCliente,
-      elementos.formaPagamento,
-      elementos.observacaoPedido
+      el.nome,
+      el.endereco,
+      el.pagamento,
+      el.obs
     ].forEach(campo => {
       campo.addEventListener(
         "input",
@@ -2751,10 +2883,10 @@
       );
     });
 
-    $("anoAtual").textContent =
+    $("ano").textContent =
       new Date().getFullYear();
 
-    carregarCliente();
+    lerCliente();
     mostrarCarrinho();
   </script>
 </body>
