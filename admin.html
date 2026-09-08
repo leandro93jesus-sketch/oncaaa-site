@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Onça 4.6 - Novidades</title>
+<title>Admin Onça 4.7 - Múltiplas Fotos</title>
 
 <style>
 *{
@@ -124,6 +124,25 @@ button:hover{
     background:#2563eb;
 }
 
+.botao-foto{
+    background:#0891b2;
+}
+
+.botao-add-foto{
+    background:#0d9488;
+    border:2px dashed #99f6e4;
+    color:white;
+    padding:10px;
+    margin-top:5px;
+}
+
+.botao-remover-foto{
+    background:#dc2626;
+    padding:8px;
+    margin:0;
+    font-size:12px;
+}
+
 .foto-produto{
     max-width:180px;
     max-height:140px;
@@ -168,6 +187,12 @@ button:hover{
 .status.novidade{
     background:#dbeafe;
     color:#1d4ed8;
+    margin-left:6px;
+}
+
+.status.fotos{
+    background:#e0e7ff;
+    color:#3730a3;
     margin-left:6px;
 }
 
@@ -220,6 +245,60 @@ button:hover{
     color:#991b1b;
 }
 
+/* Linhas de múltiplas fotos */
+.linha-foto{
+    display:grid;
+    grid-template-columns:1fr auto auto;
+    gap:6px;
+    margin-bottom:6px;
+    padding:8px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:8px;
+    align-items:center;
+}
+
+.linha-foto input[type="text"]{
+    margin:0;
+}
+
+.linha-foto input[type="file"]{
+    padding:6px;
+    font-size:12px;
+    margin:0;
+    max-width:200px;
+}
+
+.linha-foto button{
+    margin:0;
+    padding:8px 12px;
+    font-size:12px;
+    width:auto;
+}
+
+.miniaturas-produto{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin:8px 0;
+}
+
+.miniatura{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:6px;
+    border:1px solid #cbd5e1;
+    background:#f8fafc;
+}
+
+.info-fotos{
+    color:#475569;
+    font-size:13px;
+    margin-bottom:8px;
+    align-self:center;
+}
+
 @media(max-width:650px){
 
     body{
@@ -236,6 +315,14 @@ button:hover{
     .filtros{
         grid-template-columns:1fr;
     }
+
+    .linha-foto{
+        grid-template-columns:1fr;
+    }
+
+    .linha-foto input[type="file"]{
+        max-width:100%;
+    }
 }
 </style>
 </head>
@@ -244,7 +331,7 @@ button:hover{
 
 <div class="container">
 
-    <h2>Painel Admin Onça 4.6</h2>
+    <h2>Painel Admin Onça 4.7 - Múltiplas Fotos</h2>
 
     <div id="avisoConexao" class="aviso-conexao">
         Conectando automaticamente ao Firebase...
@@ -324,26 +411,20 @@ button:hover{
 
     </div>
 
-    <label for="foto">Foto</label>
+    <!-- ÁREA DE MÚLTIPLAS FOTOS - CADASTRO -->
+    <label>Fotos do produto (adicione quantas quiser)</label>
 
-    <input
-        type="file"
-        id="foto"
-        accept="image/*"
+    <div id="listaFotosCadastro">
+        <!-- Linhas de fotos serão adicionadas aqui -->
+    </div>
+
+    <button
+        type="button"
+        class="botao-add-foto"
+        onclick="adicionarCampoFotoCadastro()"
     >
-
-    <button type="button" onclick="uploadFoto()">
-        Enviar foto
+        + Adicionar outra foto
     </button>
-
-    <img id="preview" alt="Prévia da foto">
-
-    <label for="imgUrl">URL da imagem</label>
-
-    <input
-        id="imgUrl"
-        placeholder="URL da imagem"
-    >
 
     <button type="button" onclick="salvarProduto()">
         Salvar produto
@@ -440,6 +521,7 @@ let painelIniciado = false;
 let produtos = [];
 let termoPesquisa = "";
 let mostrarSomenteOcultos = false;
+let contadorFotosCadastro = 0;
 
 
 function mostrarConexao(mensagem, tipo = ""){
@@ -532,65 +614,9 @@ onAuthStateChanged(auth, usuario => {
 });
 
 
-window.uploadFoto = async function(){
-
-    try{
-
-        const file = document
-            .getElementById("foto")
-            .files[0];
-
-        if(!file){
-
-            alert("Escolha uma foto");
-
-            return;
-
-        }
-
-        const formData = new FormData();
-
-        formData.append("file", file);
-        formData.append("upload_preset", "ONCA_UPLOAD");
-
-        const response = await fetch(
-            "https://api.cloudinary.com/v1_1/difiv4ogr/image/upload",
-            {
-                method:"POST",
-                body:formData
-            }
-        );
-
-        const data = await response.json();
-
-        if(data.secure_url){
-
-            document.getElementById("imgUrl").value =
-                data.secure_url;
-
-            document.getElementById("preview").src =
-                data.secure_url;
-
-            alert("Foto enviada!");
-
-        }else{
-
-            console.log(data);
-
-            alert("Erro ao enviar foto");
-
-        }
-
-    }catch(e){
-
-        console.error(e);
-
-        alert("Erro no upload");
-
-    }
-
-};
-
+// ============================================
+// FUNÇÕES DE MÚLTIPLAS FOTOS
+// ============================================
 
 async function enviarFotoCloudinary(file){
 
@@ -621,6 +647,187 @@ async function enviarFotoCloudinary(file){
 
 }
 
+// Adiciona linha de foto no formulário de CADASTRO
+window.adicionarCampoFotoCadastro = function(urlInicial = "", idUnico = null){
+
+    contadorFotosCadastro++;
+    const id = idUnico || `cad-${contadorFotosCadastro}-${Date.now()}`;
+
+    const container = document.getElementById("listaFotosCadastro");
+
+    const linha = document.createElement("div");
+    linha.className = "linha-foto";
+    linha.dataset.id = id;
+
+    linha.innerHTML = `
+        <input
+            type="text"
+            class="input-url-foto"
+            placeholder="URL da foto ou envie abaixo"
+            value="${escapar(urlInicial)}"
+        >
+        <input
+            type="file"
+            class="input-file-foto"
+            accept="image/*"
+        >
+        <div style="display:flex; gap:4px;">
+            <button
+                type="button"
+                class="botao-foto"
+                onclick="uploadFotoLinha(this)"
+            >
+                Upload
+            </button>
+            <button
+                type="button"
+                class="botao-remover-foto"
+                onclick="this.closest('.linha-foto').remove()"
+            >
+                X
+            </button>
+        </div>
+    `;
+
+    container.appendChild(linha);
+
+};
+
+// Faz upload da foto em uma linha específica
+window.uploadFotoLinha = async function(botao){
+
+    const linha = botao.closest(".linha-foto");
+    const inputFile = linha.querySelector(".input-file-foto");
+    const inputUrl = linha.querySelector(".input-url-foto");
+
+    const file = inputFile.files[0];
+
+    if(!file){
+        alert("Escolha uma imagem primeiro");
+        return;
+    }
+
+    const textoOriginal = botao.textContent;
+    botao.textContent = "Enviando...";
+    botao.disabled = true;
+
+    try{
+
+        const url = await enviarFotoCloudinary(file);
+        inputUrl.value = url;
+        alert("Foto enviada!");
+
+    }catch(e){
+
+        console.error(e);
+        alert("Erro no upload");
+
+    }finally{
+
+        botao.textContent = textoOriginal;
+        botao.disabled = false;
+
+    }
+
+};
+
+// Coleta todas as URLs das linhas de foto (cadastro)
+function coletarFotosCadastro(){
+
+    const linhas = document.querySelectorAll("#listaFotosCadastro .linha-foto");
+    const urls = [];
+
+    linhas.forEach(linha => {
+        const url = linha.querySelector(".input-url-foto").value.trim();
+        if(url){
+            urls.push(url);
+        }
+    });
+
+    return urls;
+
+}
+
+// Adiciona linhas de foto no formulário de EDIÇÃO de um produto
+window.adicionarCampoFotoEdicao = function(idProduto, urlInicial = ""){
+
+    const container = document.getElementById(`listaFotos-${idProduto}`);
+    if(!container) return;
+    
+    const idUnico = `ed-${idProduto}-${Date.now()}-${Math.random()}`;
+
+    const linha = document.createElement("div");
+    linha.className = "linha-foto";
+    linha.dataset.id = idUnico;
+
+    linha.innerHTML = `
+        <input
+            type="text"
+            class="input-url-foto"
+            placeholder="URL da foto ou envie abaixo"
+            value="${escapar(urlInicial)}"
+        >
+        <input
+            type="file"
+            class="input-file-foto"
+            accept="image/*"
+        >
+        <div style="display:flex; gap:4px;">
+            <button
+                type="button"
+                class="botao-foto"
+                onclick="uploadFotoLinha(this)"
+            >
+                Upload
+            </button>
+            <button
+                type="button"
+                class="botao-remover-foto"
+                onclick="this.closest('.linha-foto').remove()"
+            >
+                X
+            </button>
+        </div>
+    `;
+
+    container.appendChild(linha);
+
+};
+
+// Coleta fotos de um produto em edição
+function coletarFotosEdicao(idProduto){
+
+    const linhas = document.querySelectorAll(`#listaFotos-${idProduto} .linha-foto`);
+    const urls = [];
+
+    linhas.forEach(linha => {
+        const url = linha.querySelector(".input-url-foto").value.trim();
+        if(url){
+            urls.push(url);
+        }
+    });
+
+    return urls;
+
+}
+
+// Compatibilidade com produto antigo: pega fotos de qualquer formato
+function obterFotosProduto(produto){
+
+    const fotos = [];
+
+    if(Array.isArray(produto.imagens) && produto.imagens.length > 0){
+        fotos.push(...produto.imagens);
+    }
+
+    if(produto.img && !fotos.includes(produto.img)){
+        fotos.unshift(produto.img);
+    }
+
+    return fotos;
+
+}
+
 
 window.salvarProduto = async function(){
 
@@ -645,6 +852,13 @@ window.salvarProduto = async function(){
 
             return;
 
+        }
+
+        const fotos = coletarFotosCadastro();
+
+        if(fotos.length === 0){
+            alert("Adicione pelo menos uma foto");
+            return;
         }
 
         await addDoc(
@@ -678,9 +892,9 @@ window.salvarProduto = async function(){
                     .getElementById("novidade")
                     .checked,
 
-                img:document
-                    .getElementById("imgUrl")
-                    .value,
+                // Salva tanto array quanto campo antigo (compatibilidade)
+                imagens:fotos,
+                img:fotos[0],
 
                 ativo:true
             }
@@ -696,7 +910,7 @@ window.salvarProduto = async function(){
 
                     input.checked = false;
 
-                }else{
+                }else if(input.type !== "file"){
 
                     input.value = "";
 
@@ -704,7 +918,10 @@ window.salvarProduto = async function(){
 
             });
 
-        document.getElementById("preview").src = "";
+        // Limpa linhas de fotos e deixa uma vazia
+        document.getElementById("listaFotosCadastro").innerHTML = "";
+        adicionarCampoFotoCadastro();
+
         document.getElementById("status").value = "";
         document.getElementById("novidade").checked = false;
         document.getElementById("categoria").value = "limpeza";
@@ -728,6 +945,9 @@ function iniciarPainel(){
     }
 
     painelIniciado = true;
+
+    // Cria primeira linha de foto no cadastro
+    adicionarCampoFotoCadastro();
 
     onSnapshot(
         collection(db, "produtos"),
@@ -828,6 +1048,23 @@ function produtosFiltrados(){
 }
 
 
+function gerarMiniaturas(fotos){
+
+    if(!fotos || fotos.length === 0){
+        return "";
+    }
+
+    const miniaturas = fotos.slice(0, 5).map(url =>
+        `<img class="miniatura" src="${escapar(url)}" alt="Foto do produto">`
+    ).join("");
+
+    const extra = fotos.length > 5 ? `<span class="info-fotos">+${fotos.length - 5} mais</span>` : "";
+
+    return `<div class="miniaturas-produto">${miniaturas}${extra}</div>`;
+
+}
+
+
 function listarProdutos(){
 
     const lista = produtosFiltrados();
@@ -850,7 +1087,45 @@ function listarProdutos(){
     }
 
     document.getElementById("listaProdutos").innerHTML =
-        lista.map(produto => `
+        lista.map(produto => {
+
+            const fotos = obterFotosProduto(produto);
+            const qtdFotos = fotos.length;
+
+            // Cria HTML das linhas de fotos do produto (para a edição)
+            const linhasFotosHTML = fotos.map(url => `
+                <div class="linha-foto">
+                    <input
+                        type="text"
+                        class="input-url-foto"
+                        placeholder="URL da foto ou envie abaixo"
+                        value="${escapar(url)}"
+                    >
+                    <input
+                        type="file"
+                        class="input-file-foto"
+                        accept="image/*"
+                    >
+                    <div style="display:flex; gap:4px;">
+                        <button
+                            type="button"
+                            class="botao-foto"
+                            onclick="uploadFotoLinha(this)"
+                        >
+                            Upload
+                        </button>
+                        <button
+                            type="button"
+                            class="botao-remover-foto"
+                            onclick="this.closest('.linha-foto').remove()"
+                        >
+                            X
+                        </button>
+                    </div>
+                </div>
+            `).join("");
+
+            return `
 
         <div class="produto ${produto.ativo === false ? "oculto" : ""}">
 
@@ -864,17 +1139,9 @@ function listarProdutos(){
                     : ""
             }
 
-            ${
-                produto.img
-                    ? `
-                        <img
-                            class="foto-produto"
-                            src="${escapar(produto.img)}"
-                            alt="${escapar(produto.nome || "Produto")}"
-                        >
-                    `
-                    : ""
-            }
+            <span class="status fotos">📷 ${qtdFotos} foto(s)</span>
+
+            ${gerarMiniaturas(fotos)}
 
             <label for="nome-${produto.id}">
                 Nome
@@ -999,40 +1266,20 @@ function listarProdutos(){
 
             </div>
 
-            <label for="img-${produto.id}">
-                URL da imagem
-            </label>
+            <!-- ÁREA DE MÚLTIPLAS FOTOS - EDIÇÃO -->
+            <label>Fotos do produto (📷 ${qtdFotos})</label>
 
-            <input
-                id="img-${produto.id}"
-                value="${escapar(produto.img || "")}"
-            >
-
-            <div class="foto-acoes">
-
-                <div>
-
-                    <label for="foto-${produto.id}">
-                        Trocar foto sem excluir
-                    </label>
-
-                    <input
-                        type="file"
-                        id="foto-${produto.id}"
-                        accept="image/*"
-                    >
-
-                </div>
-
-                <button
-                    type="button"
-                    onclick="trocarFotoProduto('${produto.id}')"
-                    class="salvar"
-                >
-                    Trocar foto
-                </button>
-
+            <div id="listaFotos-${produto.id}">
+                ${linhasFotosHTML}
             </div>
+
+            <button
+                type="button"
+                class="botao-add-foto"
+                onclick="adicionarCampoFotoEdicao('${produto.id}')"
+            >
+                + Adicionar outra foto
+            </button>
 
             <small>
                 Preço atual: ${textoPreco(produto.preco)}
@@ -1092,7 +1339,9 @@ function listarProdutos(){
 
         </div>
 
-    `).join("");
+    `;
+
+        }).join("");
 
 }
 
@@ -1152,6 +1401,13 @@ window.alterarProduto = async function(id){
 
         }
 
+        const fotos = coletarFotosEdicao(id);
+
+        if(fotos.length === 0){
+            alert("O produto precisa ter pelo menos uma foto");
+            return;
+        }
+
         await updateDoc(
             doc(db, "produtos", id),
             {
@@ -1183,9 +1439,9 @@ window.alterarProduto = async function(id){
                     .getElementById(`status-${id}`)
                     .value,
 
-                img:document
-                    .getElementById(`img-${id}`)
-                    .value
+                // Salva tanto array quanto campo antigo (compatibilidade)
+                imagens:fotos,
+                img:fotos[0]
             }
         );
 
@@ -1196,49 +1452,6 @@ window.alterarProduto = async function(id){
         mensagemErroFirebase(
             e,
             "Alteração do produto"
-        );
-
-    }
-
-};
-
-
-window.trocarFotoProduto = async function(id){
-
-    if(!garantirConexao()){
-        return;
-    }
-
-    try{
-
-        const file = document
-            .getElementById(`foto-${id}`)
-            .files[0];
-
-        if(!file){
-
-            alert("Escolha uma nova foto");
-
-            return;
-
-        }
-
-        const url = await enviarFotoCloudinary(file);
-
-        await updateDoc(
-            doc(db, "produtos", id),
-            {
-                img:url
-            }
-        );
-
-        alert("Foto do produto alterada!");
-
-    }catch(e){
-
-        mensagemErroFirebase(
-            e,
-            "Troca da foto"
         );
 
     }
