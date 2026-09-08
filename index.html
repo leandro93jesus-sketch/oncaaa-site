@@ -109,23 +109,38 @@
     .oferta { color: #5d4100; background: linear-gradient(135deg, #fffaf0, #ffedb8); border-color: #f0d99e; }
 
     /* FERRAMENTAS E BUSCA LUPA */
-    .ferramentas { position: sticky; top: 84px; z-index: 70; padding: 14px; background: rgba(255,255,255,.96); border: 1px solid var(--linha); border-radius: 18px; box-shadow: 0 6px 20px rgba(8,43,76,.07); backdrop-filter: blur(12px); }
-    .ferramentas-topo { position: relative; display: flex; align-items: center; gap: 12px; min-height: 44px; }
-    
-    .categorias { display: flex; gap: 8px; overflow: auto; flex: 1; min-width: 0; padding: 2px 56px 2px 0; scrollbar-width: thin; }
-    .categoria { flex: 0 0 auto; min-height: 39px; padding: 8px 13px; color: var(--cinza); background: #f6f8fb; border: 1px solid var(--linha); border-radius: 999px; font-size: 13px; font-weight: 900; }
+    .ferramentas { position: sticky; top: 84px; z-index: 70; padding: 0; background: transparent; border: 0; box-shadow: none; }
+    .ferramentas-topo { position: relative; display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-height: 46px; }
+
+    .acoes-ferramentas { position: relative; display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-left: auto; }
+    .categoria { width: 100%; min-height: 39px; padding: 9px 12px; color: var(--cinza); background: #f6f8fb; border: 1px solid var(--linha); border-radius: 11px; font-size: 13px; font-weight: 900; text-align: left; }
+    .categoria:hover { background: #edf4fa; }
     .categoria.ativa { color: #fff; background: var(--azul); border-color: var(--azul); }
 
-    /* BUSCA EXPANSÍVEL (LUPA NO CANTO) */
+    .btn-filtro {
+      width: 46px; height: 46px; min-width: 46px; display: grid; place-items: center; padding: 0;
+      color: var(--azul); background: #fff; border: 1px solid var(--linha); border-radius: 50%;
+      box-shadow: 0 7px 18px rgba(8,43,76,.10); transition: .18s ease;
+    }
+    .btn-filtro:hover, .btn-filtro.ativo { color: #fff; background: var(--azul2); border-color: var(--azul2); transform: translateY(-1px); }
+    .btn-filtro svg { width: 22px; height: 22px; stroke-width: 2.2; }
+
+    .painel-filtros {
+      position: absolute; top: calc(100% + 10px); right: 0; z-index: 20; width: min(260px, calc(100vw - 52px));
+      display: grid; gap: 7px; padding: 10px; background: #fff; border: 1px solid var(--linha);
+      border-radius: 15px; box-shadow: 0 16px 40px rgba(8,43,76,.16);
+      opacity: 0; visibility: hidden; transform: translateY(-6px) scale(.98); transform-origin: top right; transition: .18s ease;
+    }
+    .painel-filtros.aberto { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+    /* BUSCA EXPANSÍVEL (LUPA AO LADO DO FILTRO) */
     .busca-canto {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
+      position: relative;
       z-index: 6;
       display: flex;
       flex-direction: row-reverse; /* Ícone à direita, input à esquerda */
       align-items: center;
+      width: 46px;
       background: #fff;
       border: 1px solid transparent;
       border-radius: 999px;
@@ -133,19 +148,21 @@
     }
 
     .btn-busca {
-      width: 42px;
-      height: 42px;
-      min-width: 42px;
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
       display: grid;
       place-items: center;
-      background: none;
+      padding: 0;
+      background: var(--azul);
       border: 0;
-      color: var(--cinza);
-      border-radius: 999px;
-      transition: color .2s ease;
+      color: #fff;
+      border-radius: 50%;
+      box-shadow: 0 7px 18px rgba(8,43,76,.20);
+      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
     }
-    .btn-busca:hover { color: var(--azul2); }
-    .btn-busca svg { width: 18px; height: 18px; }
+    .btn-busca:hover { background: var(--azul2); transform: translateY(-1px); box-shadow: 0 9px 22px rgba(8,43,76,.24); }
+    .btn-busca svg { width: 22px; height: 22px; stroke-width: 2.4; }
 
     .busca-canto input {
       width: 0;
@@ -164,7 +181,8 @@
       width: 100%;
       max-width: 380px;
       border-color: var(--linha);
-      box-shadow: 0 8px 22px rgba(8,43,76,.08);
+      box-shadow: 0 8px 22px rgba(8,43,76,.10);
+      padding-left: 4px;
     }
     .busca-canto.ativa input {
       flex: 1;
@@ -173,7 +191,7 @@
       padding: 0 0 0 14px;
     }
 
-    .resultado { margin-top: 10px; color: #a0aec0; font-size: 12px; font-weight: 600; text-align: right; min-height: 16px; }
+    .resultado { display: none !important; }
 
     /* PRODUTOS E CARROSSEL */
     .produtos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 21px; }
@@ -308,7 +326,7 @@
       .acoes-hero { display: grid; }
       .botao { width: 100%; }
       .destaques { grid-template-columns: 1fr; }
-      .ferramentas { top: 81px; padding: 10px; }
+      .ferramentas { top: 81px; padding: 0; }
       .produtos { grid-template-columns: 1fr; gap: 13px; }
       .card { display: grid; grid-template-columns: 126px 1fr; min-height: 188px; }
       .foto { height: 166px; aspect-ratio: auto; margin: 10px 0 10px 10px; }
@@ -466,30 +484,37 @@
         <div class="titulo-secao">
           <small>Catálogo</small>
           <h2>Nossos produtos</h2>
-          <p>Use a lupa para buscar ou escolha uma categoria.</p>
+          <p>Use a lupa para buscar ou abra o filtro ao lado.</p>
         </div>
 
         <div class="ferramentas">
           <div class="ferramentas-topo">
-            <nav class="categorias">
-              <button class="categoria ativa" data-filtro="todos">Todos</button>
-              <button class="categoria" data-filtro="novidades">Novidades</button>
-              <button class="categoria" data-filtro="limpeza">Limpeza</button>
-              <button class="categoria" data-filtro="automotivo">Automotivo</button>
-              <button class="categoria" data-filtro="utensilios">Utensílios</button>
-              <button class="categoria" data-filtro="promocoes">Promoções</button>
-              <button class="categoria" data-filtro="reservado">Reservados</button>
-            </nav>
+            <div class="acoes-ferramentas">
+              <!-- BUSCA LUPA -->
+              <div class="busca-canto" id="containerBusca">
+                <button type="button" class="btn-busca" id="btnBusca" aria-label="Buscar produto">
+                  <svg class="icone" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+                </button>
+                <input id="busca" type="search" placeholder="Digite o nome..." autocomplete="off">
+              </div>
 
-            <!-- BUSCA LUPA -->
-            <div class="busca-canto" id="containerBusca">
-              <button type="button" class="btn-busca" id="btnBusca" aria-label="Buscar produto">
-                <svg class="icone" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+              <!-- FILTRO RECOLHIDO -->
+              <button type="button" class="btn-filtro" id="btnFiltro" aria-label="Filtrar produtos" aria-expanded="false">
+                <svg class="icone" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
               </button>
-              <input id="busca" type="search" placeholder="Digite o nome..." autocomplete="off">
+
+              <div class="painel-filtros" id="painelFiltros" aria-hidden="true">
+                <button class="categoria ativa" data-filtro="todos">Todos</button>
+                <button class="categoria" data-filtro="novidades">Novidades</button>
+                <button class="categoria" data-filtro="limpeza">Limpeza</button>
+                <button class="categoria" data-filtro="automotivo">Automotivo</button>
+                <button class="categoria" data-filtro="utensilios">Utensílios</button>
+                <button class="categoria" data-filtro="promocoes">Promoções</button>
+                <button class="categoria" data-filtro="reservado">Reservados</button>
+              </div>
             </div>
           </div>
-          <div class="resultado" id="resultado">Carregando produtos...</div>
+          <div class="resultado" id="resultado" aria-hidden="true"></div>
         </div>
 
         <section class="produtos" id="produtos">
@@ -526,7 +551,7 @@
         <h3>Deixe seu Feedback</h3>
         <p style="font-size:13px;margin-top:0;">Sua opinião nos ajuda a melhorar sempre!</p>
         <textarea id="feedbackTexto" placeholder="Escreva sua sugestão, elogio ou dúvida..."></textarea>
-        <button type="button" class="btn-feedback" onclick="enviarFeedback()">
+        <button type="button" class="btn-feedback" id="btnFeedback">
           <svg class="icone" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-9 8.4 8.7 8.7 0 0 1-3.6-.9L3 21l1.8-5.2A8.5 8.5 0 1 1 21 11.5Z"/></svg>
           Enviar via WhatsApp
         </button>
@@ -851,7 +876,7 @@
         .sort((a, b) => b.pontos - a.pontos || a.indice - b.indice)
         .map(item => item.produto);
 
-      el.resultado.textContent = `${lista.length} ${lista.length === 1 ? "produto encontrado" : "produtos encontrados"}`;
+      if(el.resultado) el.resultado.textContent = "";
       el.produtos.innerHTML = lista.length ? lista.map(card).join("") : `<div class="estado">Nenhum produto encontrado com essa busca ou categoria.</div>`;
     }
 
@@ -1078,23 +1103,41 @@
 
   <!-- SCRIPTS DE INTERFACE (FEEDBACK E BUSCA) -->
   <script>
-    // FUNÇÃO DE FEEDBACK
-    function enviarFeedback(){
+    // FEEDBACK VIA WHATSAPP - compatível com GitHub Pages
+    (function(){
       const caixa = document.getElementById("feedbackTexto");
-      if(!caixa) return;
-      const texto = caixa.value.trim();
-      if(!texto){
-        alert("Por favor, escreva seu feedback antes de enviar.");
-        caixa.focus();
-        return;
-      }
-      const mensagem = "*FEEDBACK - ONÇA PRODUTOS DE LIMPEZA*\n\n" + texto;
-      const link = "https://wa.me/5515997931042?text=" + encodeURIComponent(mensagem);
-      window.open(link, "_blank", "noopener");
-      caixa.value = "";
-    }
+      const botaoFeedback = document.getElementById("btnFeedback");
+      const numeroWhats = "5515997931042";
 
-    // LÓGICA DA LUPA DE BUSCA
+      if(caixa && botaoFeedback){
+        botaoFeedback.addEventListener("click", function(){
+          const texto = caixa.value.trim();
+
+          if(!texto){
+            alert("Por favor, escreva seu feedback antes de enviar.");
+            caixa.focus();
+            return;
+          }
+
+          const mensagem =
+            "*FEEDBACK - ONÇA PRODUTOS DE LIMPEZA*\n\n" +
+            texto +
+            "\n\n_Enviado pelo site da Onça Produtos de Limpeza_";
+
+          const link = "https://wa.me/" + numeroWhats + "?text=" + encodeURIComponent(mensagem);
+
+          // Abrir diretamente a partir do clique evita bloqueios comuns de popup.
+          const novaJanela = window.open(link, "_blank");
+          if(!novaJanela){
+            window.location.href = link;
+          }
+
+          caixa.value = "";
+        });
+      }
+    })();
+
+    // LUPA DE BUSCA: fica só o desenho; ao clicar, o campo abre para a esquerda
     (function(){
       const container = document.getElementById("containerBusca");
       const botao = document.getElementById("btnBusca");
@@ -1102,28 +1145,74 @@
 
       if(!container || !botao || !campo) return;
 
+      function abrirBusca(){
+        container.classList.add("ativa");
+        botao.setAttribute("aria-expanded", "true");
+        setTimeout(() => campo.focus(), 50);
+      }
+
+      function fecharBusca(){
+        if(campo.value.trim() !== "") return;
+        container.classList.remove("ativa");
+        botao.setAttribute("aria-expanded", "false");
+        campo.blur();
+      }
+
+      botao.setAttribute("aria-expanded", "false");
+
       botao.addEventListener("click", function(evento){
+        evento.preventDefault();
         evento.stopPropagation();
-        container.classList.toggle("ativa");
-        if(container.classList.contains("ativa")) campo.focus();
-      });
-
-      container.addEventListener("click", function(evento){
-        evento.stopPropagation();
-      });
-
-      document.addEventListener("click", function(){
-        if(container.classList.contains("ativa") && campo.value.trim() === ""){
-          container.classList.remove("ativa");
+        if(container.classList.contains("ativa")){
+          fecharBusca();
+        }else{
+          abrirBusca();
         }
       });
+
+      container.addEventListener("click", evento => evento.stopPropagation());
+      document.addEventListener("click", fecharBusca);
 
       campo.addEventListener("keydown", function(evento){
         if(evento.key === "Escape"){
-          container.classList.remove("ativa");
-          campo.blur();
+          campo.value = "";
+          campo.dispatchEvent(new Event("input", { bubbles: true }));
+          fecharBusca();
         }
       });
+    })();
+
+    // FILTRO: fica recolhido em um ícone ao lado da lupa
+    (function(){
+      const botao = document.getElementById("btnFiltro");
+      const painel = document.getElementById("painelFiltros");
+      if(!botao || !painel) return;
+
+      function fecharFiltro(){
+        painel.classList.remove("aberto");
+        botao.classList.remove("ativo");
+        botao.setAttribute("aria-expanded", "false");
+        painel.setAttribute("aria-hidden", "true");
+      }
+
+      function alternarFiltro(evento){
+        evento.preventDefault();
+        evento.stopPropagation();
+        const abrir = !painel.classList.contains("aberto");
+        painel.classList.toggle("aberto", abrir);
+        botao.classList.toggle("ativo", abrir);
+        botao.setAttribute("aria-expanded", abrir ? "true" : "false");
+        painel.setAttribute("aria-hidden", abrir ? "false" : "true");
+      }
+
+      botao.addEventListener("click", alternarFiltro);
+      painel.addEventListener("click", function(evento){
+        evento.stopPropagation();
+        const opcao = evento.target.closest("[data-filtro]");
+        if(opcao) setTimeout(fecharFiltro, 80);
+      });
+      document.addEventListener("click", fecharFiltro);
+      document.addEventListener("keydown", function(evento){ if(evento.key === "Escape") fecharFiltro(); });
     })();
   </script>
 </body>
