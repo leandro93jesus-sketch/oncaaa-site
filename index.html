@@ -99,42 +99,50 @@
     .novo{color:var(--azul);background:linear-gradient(135deg,#f4f9ff,#dceeff);border-color:#c9e1f7;}
     .oferta{color:#5d4100;background:linear-gradient(135deg,#fffaf0,#ffedb8);border-color:#f0d99e;}
     .ferramentas{position:sticky;top:84px;z-index:70;padding:14px 14px 18px;background:rgba(255,255,255,.96);border:1px solid var(--linha);border-radius:18px;box-shadow:0 6px 20px rgba(8,43,76,.07);backdrop-filter:blur(12px);}
-    .linha-busca{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
     
-    /* BUSCA MAIS DISCRETA */
+    /* =========================================
+       BUSCA DISCRETA
+       ========================================= */
+    .linha-busca{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    
     .busca{
       position:relative;
       flex:1;
-      min-width:200px;
+      min-width:220px;
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:8px;
     }
     
     .busca svg{
-      flex-shrink:0;
       width:16px;
       height:16px;
-      color:#a8b3c2;
+      color:#a0aec0;
+      flex-shrink:0;
       transition:color 0.2s;
     }
     
     .busca input{
       width:100%;
-      height:38px;
-      padding:0 8px;
+      height:36px;
+      padding:0 4px;
       background:transparent;
       border:none;
       border-bottom:1px solid #e2e8f0;
       border-radius:0;
-      outline:none;
       font-size:14px;
       color:var(--texto);
+      outline:none;
       transition:border-color 0.2s;
     }
     
     .busca input::placeholder{
-      color:#b8c2d1;
+      color:#a0aec0;
       font-weight:400;
     }
     
@@ -147,13 +155,13 @@
     }
     
     .resultado{
-      color:#a8b3c2;
+      color:#a0aec0;
       font-size:12px;
-      font-weight:600;
+      font-weight:500;
       white-space:nowrap;
-      letter-spacing:0.02em;
     }
-    
+    /* ========================================= */
+
     .categorias{display:flex;gap:8px;overflow:auto;padding-top:12px;}
     .categoria{flex:0 0 auto;min-height:39px;padding:8px 13px;color:var(--cinza);background:#f6f8fb;border:1px solid var(--linha);border-radius:999px;font-size:13px;font-weight:900;}
     .categoria.ativa{color:#fff;background:var(--azul);border-color:var(--azul);}
@@ -224,11 +232,55 @@
     .adicionar:hover{background:var(--azul2);transform:translateY(-1px);}
     .adicionar.ok{background:var(--verde);}
     .estado{grid-column:1/-1;min-height:170px;display:grid;place-items:center;padding:30px;color:var(--cinza);background:#fff;border:1px dashed #cbd5df;border-radius:18px;text-align:center;}
+    
     footer{color:#dce8f5;background:#041b30;}
-    .rodape{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:30px;padding:44px 0 27px;}
+    
+    /* RODAPÉ COM 4 COLUNAS (INCLUINDO FEEDBACK) */
+    .rodape{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
+      gap:30px;
+      padding:44px 0 27px;
+    }
+    
     footer h3{margin:0 0 10px;color:#fff;font-size:16px;}
     footer p{margin:6px 0;color:#b8cce0;font-size:14px;}
     footer a{text-decoration:none;}
+    
+    /* ESTILO DO FEEDBACK */
+    .campo-feedback textarea{
+      width:100%;
+      min-height:70px;
+      padding:10px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      color:#fff;
+      resize:vertical;
+      font-size:13px;
+      margin-top:8px;
+      outline:none;
+    }
+    .campo-feedback textarea::placeholder{ color:#8ba3bc; }
+    .campo-feedback textarea:focus{ border-color:var(--whats); }
+    
+    .btn-feedback{
+      width:100%;
+      margin-top:10px;
+      padding:10px;
+      background:var(--whats);
+      color:#063b1e;
+      border:none;
+      border-radius:10px;
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition:filter 0.2s;
+    }
+    .btn-feedback:hover{ filter:brightness(1.1); }
+    
     .rodape-final{display:flex;justify-content:space-between;gap:20px;padding:16px 0 23px;border-top:1px solid rgba(255,255,255,.1);color:#9fb4c9;font-size:12px;}
     .fundo{position:fixed;inset:0;z-index:9997;opacity:0;visibility:hidden;background:rgba(4,20,35,.6);backdrop-filter:blur(3px);transition:.22s;}
     .fundo.aberto{opacity:1;visibility:visible;}
@@ -297,7 +349,7 @@
     }
 
     @media(max-width:1050px){.produtos{grid-template-columns:repeat(3,1fr);}nav.menu{display:none;}.hero .container{grid-template-columns:1fr 300px;}}
-    @media(max-width:780px){.topo-item:nth-child(2){display:none;}.hero .container{grid-template-columns:1fr;padding-bottom:74px;}.hero-logo{display:none;}.grade-vantagens{grid-template-columns:1fr;}.vantagens{margin-top:-33px;}.produtos{grid-template-columns:repeat(2,1fr);}.rodape{grid-template-columns:1fr 1fr;}.rodape>div:first-child{grid-column:1/-1;}}
+    @media(max-width:780px){.topo-item:nth-child(2){display:none;}.hero .container{grid-template-columns:1fr;padding-bottom:74px;}.hero-logo{display:none;}.grade-vantagens{grid-template-columns:1fr;}.vantagens{margin-top:-33px;}.produtos{grid-template-columns:repeat(2,1fr);}}
     @media(max-width:560px){
       body{padding-bottom:76px;}
       .container{width:calc(100% - 26px);}
@@ -312,9 +364,11 @@
       .botao{width:100%;}
       .destaques{grid-template-columns:1fr;}
       .ferramentas{top:81px;padding:10px;}
+      
       .linha-busca{flex-direction:column;align-items:stretch;gap:6px;}
       .busca{min-width:100%;}
       .resultado{font-size:11px;text-align:right;}
+      
       .produtos{grid-template-columns:1fr;gap:13px;}
       .card{display:grid;grid-template-columns:126px 1fr;min-height:188px;}
       .foto{height:166px;aspect-ratio:auto;margin:10px 0 10px 10px;}
@@ -325,8 +379,6 @@
       .desconto{display:inline-block;margin-top:3px;}
       .estoque{margin:6px 0 8px;font-size:11px;}
       .adicionar{min-height:40px;font-size:12px;}
-      .rodape{grid-template-columns:1fr;}
-      .rodape>div:first-child{grid-column:auto;}
       .rodape-final{flex-direction:column;}
       .flutuante{right:12px;width:49px;height:49px;justify-content:center;padding:0;}
       .flutuante span{display:none;}
@@ -524,7 +576,19 @@
         <p>Votorantim</p>
         <p>Tapiraí e proximidades</p>
       </div>
+      
+      <!-- NOVA ABA DE FEEDBACK -->
+      <div class="campo-feedback">
+        <h3>Deixe seu Feedback</h3>
+        <p style="font-size:13px; margin-top:0;">Sua opinião nos ajuda a melhorar sempre!</p>
+        <textarea id="feedbackTexto" placeholder="Escreva sua sugestão, elogio ou dúvida..."></textarea>
+        <button type="button" class="btn-feedback" onclick="enviarFeedback()">
+          <svg class="icone" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-9 8.4 8.7 8.7 0 0 1-3.6-.9L3 21l1.8-5.2A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+          Enviar via WhatsApp
+        </button>
+      </div>
     </div>
+    
     <div class="container rodape-final">
       <span>© <span id="ano"></span> Onça Produtos de Limpeza.</span>
       <span>Pedido confirmado após confirmação do pagamento.</span>
@@ -721,6 +785,22 @@
         }));
       }catch{}
     }
+
+    // NOVA FUNÇÃO: ENVIAR FEEDBACK PARA O WHATSAPP
+    window.enviarFeedback = function() {
+      const texto = document.getElementById("feedbackTexto").value.trim();
+      
+      if (!texto) {
+        alert("Por favor, escreva seu feedback antes de enviar.");
+        return;
+      }
+
+      const mensagem = `*FEEDBACK - ONÇA PRODUTOS DE LIMPEZA*\n\n${texto}`;
+      window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(mensagem)}`, "_blank", "noopener");
+      
+      document.getElementById("feedbackTexto").value = "";
+      mostrarAviso("Obrigado pelo seu feedback!");
+    };
 
     function formatarImagem(url) {
       let img = String(url ?? "").trim();
