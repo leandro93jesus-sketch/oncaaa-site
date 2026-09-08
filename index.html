@@ -14,7 +14,7 @@
   <title>Onça Produtos de Limpeza</title>
 
   <style>
-    :root{      
+    :root{
       --azul:#082b4c;
       --azul2:#0d4f86;
       --azulClaro:#eaf4ff;
@@ -98,13 +98,62 @@
     .destaque strong{display:block;margin-top:13px;font-size:13px;}
     .novo{color:var(--azul);background:linear-gradient(135deg,#f4f9ff,#dceeff);border-color:#c9e1f7;}
     .oferta{color:#5d4100;background:linear-gradient(135deg,#fffaf0,#ffedb8);border-color:#f0d99e;}
-    .ferramentas{position:sticky;top:84px;z-index:70;padding:14px;background:rgba(255,255,255,.96);border:1px solid var(--linha);border-radius:18px;box-shadow:0 6px 20px rgba(8,43,76,.07);backdrop-filter:blur(12px);}
-    .linha-busca{display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;}
-    .busca{position:relative;}
-    .busca svg{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--cinza);}
-    .busca input{width:100%;height:49px;padding:0 15px 0 47px;background:#f8fafc;border:1px solid var(--linha);border-radius:12px;outline:none;}
-    .busca input:focus{background:#fff;border-color:#77a7d0;box-shadow:0 0 0 4px rgba(13,79,134,.09);}
-    .resultado{color:var(--cinza);font-size:13px;font-weight:850;white-space:nowrap;}
+    .ferramentas{position:sticky;top:84px;z-index:70;padding:14px 14px 18px;background:rgba(255,255,255,.96);border:1px solid var(--linha);border-radius:18px;box-shadow:0 6px 20px rgba(8,43,76,.07);backdrop-filter:blur(12px);}
+    .linha-busca{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+    
+    /* BUSCA MAIS DISCRETA */
+    .busca{
+      position:relative;
+      flex:1;
+      min-width:200px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    
+    .busca svg{
+      flex-shrink:0;
+      width:16px;
+      height:16px;
+      color:#a8b3c2;
+      transition:color 0.2s;
+    }
+    
+    .busca input{
+      width:100%;
+      height:38px;
+      padding:0 8px;
+      background:transparent;
+      border:none;
+      border-bottom:1px solid #e2e8f0;
+      border-radius:0;
+      outline:none;
+      font-size:14px;
+      color:var(--texto);
+      transition:border-color 0.2s;
+    }
+    
+    .busca input::placeholder{
+      color:#b8c2d1;
+      font-weight:400;
+    }
+    
+    .busca input:focus{
+      border-bottom-color:var(--azul2);
+    }
+    
+    .busca:focus-within svg{
+      color:var(--azul2);
+    }
+    
+    .resultado{
+      color:#a8b3c2;
+      font-size:12px;
+      font-weight:600;
+      white-space:nowrap;
+      letter-spacing:0.02em;
+    }
+    
     .categorias{display:flex;gap:8px;overflow:auto;padding-top:12px;}
     .categoria{flex:0 0 auto;min-height:39px;padding:8px 13px;color:var(--cinza);background:#f6f8fb;border:1px solid var(--linha);border-radius:999px;font-size:13px;font-weight:900;}
     .categoria.ativa{color:#fff;background:var(--azul);border-color:var(--azul);}
@@ -249,7 +298,46 @@
 
     @media(max-width:1050px){.produtos{grid-template-columns:repeat(3,1fr);}nav.menu{display:none;}.hero .container{grid-template-columns:1fr 300px;}}
     @media(max-width:780px){.topo-item:nth-child(2){display:none;}.hero .container{grid-template-columns:1fr;padding-bottom:74px;}.hero-logo{display:none;}.grade-vantagens{grid-template-columns:1fr;}.vantagens{margin-top:-33px;}.produtos{grid-template-columns:repeat(2,1fr);}.rodape{grid-template-columns:1fr 1fr;}.rodape>div:first-child{grid-column:1/-1;}}
-    @media(max-width:560px){body{padding-bottom:76px;}.container{width:calc(100% - 26px);}.topo-item:nth-child(3){display:none;}.topo .container{justify-content:center;}.marca strong{max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;}.marca small{display:none;}.abrir-carrinho{margin-left:auto;padding:9px 11px;}.abrir-carrinho .texto{display:none;}.hero h1{font-size:40px;}.acoes-hero{display:grid;}.botao{width:100%;}.destaques{grid-template-columns:1fr;}.ferramentas{top:81px;padding:10px;}.linha-busca{grid-template-columns:1fr;}.produtos{grid-template-columns:1fr;gap:13px;}.card{display:grid;grid-template-columns:126px 1fr;min-height:188px;}.foto{height:166px;aspect-ratio:auto;margin:10px 0 10px 10px;}.card-corpo{padding:13px 12px;}.card h3{min-height:auto;font-size:14px;}.precos{display:block;margin-top:8px;}.preco{font-size:22px;}.desconto{display:inline-block;margin-top:3px;}.estoque{margin:6px 0 8px;font-size:11px;}.adicionar{min-height:40px;font-size:12px;}.rodape{grid-template-columns:1fr;}.rodape>div:first-child{grid-column:auto;}.rodape-final{flex-direction:column;}.flutuante{right:12px;width:49px;height:49px;justify-content:center;padding:0;}.flutuante span{display:none;}.whatsapp{bottom:84px;}.instagram{bottom:140px;}.carrinho-mobile{display:flex;}.aviso{bottom:86px;}.item{grid-template-columns:60px 1fr;}.item img{width:60px;height:60px;}.acoes-item{grid-column:1/-1;flex-direction:row;justify-content:flex-end;}}
+    @media(max-width:560px){
+      body{padding-bottom:76px;}
+      .container{width:calc(100% - 26px);}
+      .topo-item:nth-child(3){display:none;}
+      .topo .container{justify-content:center;}
+      .marca strong{max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;}
+      .marca small{display:none;}
+      .abrir-carrinho{margin-left:auto;padding:9px 11px;}
+      .abrir-carrinho .texto{display:none;}
+      .hero h1{font-size:40px;}
+      .acoes-hero{display:grid;}
+      .botao{width:100%;}
+      .destaques{grid-template-columns:1fr;}
+      .ferramentas{top:81px;padding:10px;}
+      .linha-busca{flex-direction:column;align-items:stretch;gap:6px;}
+      .busca{min-width:100%;}
+      .resultado{font-size:11px;text-align:right;}
+      .produtos{grid-template-columns:1fr;gap:13px;}
+      .card{display:grid;grid-template-columns:126px 1fr;min-height:188px;}
+      .foto{height:166px;aspect-ratio:auto;margin:10px 0 10px 10px;}
+      .card-corpo{padding:13px 12px;}
+      .card h3{min-height:auto;font-size:14px;}
+      .precos{display:block;margin-top:8px;}
+      .preco{font-size:22px;}
+      .desconto{display:inline-block;margin-top:3px;}
+      .estoque{margin:6px 0 8px;font-size:11px;}
+      .adicionar{min-height:40px;font-size:12px;}
+      .rodape{grid-template-columns:1fr;}
+      .rodape>div:first-child{grid-column:auto;}
+      .rodape-final{flex-direction:column;}
+      .flutuante{right:12px;width:49px;height:49px;justify-content:center;padding:0;}
+      .flutuante span{display:none;}
+      .whatsapp{bottom:84px;}
+      .instagram{bottom:140px;}
+      .carrinho-mobile{display:flex;}
+      .aviso{bottom:86px;}
+      .item{grid-template-columns:60px 1fr;}
+      .item img{width:60px;height:60px;}
+      .acoes-item{grid-column:1/-1;flex-direction:row;justify-content:flex-end;}
+    }
   </style>
 
   <script>
@@ -634,7 +722,6 @@
       }catch{}
     }
 
-    // Formata uma URL de imagem (Google Drive, local, http, etc.)
     function formatarImagem(url) {
       let img = String(url ?? "").trim();
 
@@ -665,11 +752,9 @@
       );
     }
 
-    // Coleta imagens de múltiplos campos (antigos e novos) SEM APAGAR NADA
     function obterImagens(produto) {
       const brutas = [];
 
-      // 1) Mantém primeiro os campos antigos para não perder a foto atual
       const camposAntigos = [
         "imagem", "img", "foto", "url",
         "image", "imageUrl", "fotoUrl",
@@ -682,7 +767,6 @@
         }
       });
 
-      // 2) Adiciona campos novos com múltiplas fotos
       function adicionarCampo(valor) {
         if (!valor) return;
         if (Array.isArray(valor)) {
@@ -697,7 +781,6 @@
       adicionarCampo(produto.fotos);
       adicionarCampo(produto.galeria);
 
-      // 3) Remove repetições apenas na exibição, sem alterar o banco
       const vistas = new Set();
       const lista = [];
 
