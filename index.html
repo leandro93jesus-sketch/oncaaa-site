@@ -4,15 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#082b4c">
-  <meta name="description" content="Onça Produtos de Limpeza — produtos de limpeza, automotivos e utensílios.">
+  <meta name="description" content="Onça Produtos de Limpeza em Votorantim — produtos de limpeza, automotivos e utensílios com atendimento pelo WhatsApp e entrega combinada.">
   
   <!-- Meta Tags para compartilhamento no WhatsApp -->
   <meta property="og:title" content="Onça Produtos de Limpeza">
-  <meta property="og:description" content="Produtos de limpeza, automotivos e utensílios.">
-  <meta property="og:image" content="img/logo-da-loja.jpeg">
+  <meta property="og:description" content="Produtos de limpeza, automotivos e utensílios em Votorantim. Peça pelo WhatsApp.">
+  <meta property="og:image" content="https://www.oncalimpeza.com.br/img/logo-da-loja.jpeg">
   <meta property="og:type" content="website">
 
-  <title>Onça Produtos de Limpeza</title>
+  <title>Onça Produtos de Limpeza | Votorantim - Limpeza, Automotivos e Utensílios</title>
 
   <style>
     :root {
@@ -193,6 +193,58 @@
 
     .resultado { display: none !important; }
 
+
+
+    /* MELHORIAS DE CATÁLOGO */
+    .filtro-ativo-info { display:none; align-items:center; gap:6px; margin-top:9px; justify-content:flex-end; color:var(--cinza); font-size:12px; font-weight:800; }
+    .filtro-ativo-info.mostrar { display:flex; }
+    .filtro-ativo-info button { border:0; background:transparent; color:var(--azul2); font-weight:950; padding:2px 4px; }
+
+    .foto { cursor: zoom-in; }
+    .foto-galeria { scroll-behavior:smooth; }
+    .galeria-dots { position:absolute; left:50%; bottom:10px; transform:translateX(-50%); display:flex; gap:5px; z-index:4; pointer-events:none; }
+    .galeria-dot { width:7px; height:7px; border-radius:999px; background:rgba(8,43,76,.28); box-shadow:0 0 0 1px rgba(255,255,255,.8); }
+    .galeria-dot.ativa { background:var(--azul2); transform:scale(1.15); }
+    .badge-fotos { bottom:31px; }
+
+    .carregar-wrap { display:flex; justify-content:center; margin-top:24px; }
+    .carregar-mais { min-width:190px; min-height:46px; border:1px solid var(--linha); background:#fff; color:var(--azul); border-radius:12px; font-weight:950; box-shadow:0 7px 20px rgba(8,43,76,.08); }
+    .carregar-mais:hover { background:var(--azulClaro); }
+
+    /* MODAL DE PRODUTO */
+    .produto-modal-fundo { position:fixed; inset:0; z-index:180; display:none; align-items:center; justify-content:center; padding:18px; background:rgba(4,27,48,.72); backdrop-filter:blur(5px); }
+    .produto-modal-fundo.aberto { display:flex; }
+    .produto-modal { width:min(940px,100%); max-height:min(88vh,820px); overflow:auto; background:#fff; border-radius:24px; box-shadow:0 26px 70px rgba(0,0,0,.28); }
+    .produto-modal-topo { position:sticky; top:0; z-index:4; display:flex; justify-content:flex-end; padding:10px; background:rgba(255,255,255,.94); border-bottom:1px solid var(--linha); }
+    .produto-modal-fechar { width:42px;height:42px;display:grid;place-items:center;border:0;border-radius:50%;background:#eef4f9;color:var(--azul);font-size:25px;font-weight:900; }
+    .produto-modal-conteudo { display:grid; grid-template-columns:1.05fr .95fr; gap:26px; padding:24px; }
+    .produto-modal-galeria { min-width:0; }
+    .produto-modal-foto { position:relative; aspect-ratio:1; display:grid; place-items:center; overflow:hidden; background:#f7f9fb; border:1px solid var(--linha); border-radius:18px; }
+    .produto-modal-foto img { width:100%; height:100%; object-fit:contain; padding:18px; }
+    .produto-miniaturas { display:flex; gap:8px; overflow:auto; padding-top:10px; }
+    .produto-miniatura { width:70px;height:70px;min-width:70px;padding:4px;border:2px solid transparent;background:#fff;border-radius:12px; }
+    .produto-miniatura.ativa { border-color:var(--azul2); }
+    .produto-miniatura img { width:100%;height:100%;object-fit:contain; }
+    .produto-modal-info h2 { margin:0 0 10px; font-size:clamp(25px,4vw,36px); line-height:1.1; color:var(--azul); }
+    .produto-modal-info .preco { font-size:34px; }
+    .produto-modal-desc { color:var(--cinza); margin:14px 0; white-space:pre-line; }
+    .produto-modal-info .adicionar { margin-top:18px; min-height:52px; font-size:16px; }
+
+    /* FEEDBACK MELHORADO */
+    .feedback-tipo { width:100%; min-height:42px; margin:0 0 8px; padding:8px 10px; border:1px solid var(--linha); border-radius:10px; background:#fff; color:var(--texto); }
+
+    /* VISITE A LOJA */
+    .visite-loja { margin-top:26px; padding:20px; background:#fff; border:1px solid var(--linha); border-radius:18px; box-shadow:0 7px 20px rgba(8,43,76,.07); }
+    .visite-loja h3 { margin:0 0 6px; color:var(--azul); }
+    .visite-loja p { margin:4px 0; color:var(--cinza); }
+    .visite-loja a { display:inline-flex; margin-top:10px; font-weight:950; color:var(--azul2); }
+
+    @media (max-width: 760px){
+      .produto-modal-conteudo { grid-template-columns:1fr; padding:16px; gap:17px; }
+      .produto-modal { max-height:92vh; border-radius:19px; }
+      .produto-miniatura { width:58px;height:58px;min-width:58px; }
+    }
+
     /* PRODUTOS E CARROSSEL */
     .produtos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 21px; }
     .card { overflow: hidden; display: flex; flex-direction: column; background: #fff; border: 1px solid #edf1f5; border-radius: 19px; box-shadow: 0 5px 18px rgba(8,43,76,.07); transition: .22s; }
@@ -353,6 +405,23 @@
 
   <script>
     window.semFoto = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520"><rect width="640" height="520" fill="#f3f6f9"/><rect x="85" y="80" width="470" height="330" rx="28" fill="#fff" stroke="#dce5ee" stroke-width="7"/><circle cx="235" cy="200" r="48" fill="#15588f" opacity=".16"/><path d="M128 374l131-126 83 80 62-57 112 103z" fill="#0b2f55" opacity=".17"/><text x="320" y="464" text-anchor="middle" font-family="Arial" font-size="28" fill="#5f6d7d">Imagem indisponível</text></svg>`);
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Store",
+    "name":"Onça Produtos de Limpeza",
+    "url":"https://www.oncalimpeza.com.br",
+    "telephone":"+55 15 99793-1042",
+    "address":{
+      "@type":"PostalAddress",
+      "streetAddress":"Rua Benedita Maria de Jesus, 40 - Vila Pedroso",
+      "addressLocality":"Votorantim",
+      "addressRegion":"SP",
+      "addressCountry":"BR"
+    }
+  }
   </script>
 </head>
 
@@ -523,6 +592,9 @@
           <div class="skeleton"></div>
           <div class="skeleton"></div>
         </section>
+        <div class="carregar-wrap" id="carregarWrap" hidden>
+          <button type="button" class="carregar-mais" id="carregarMais">Carregar mais produtos</button>
+        </div>
       </section>
     </div>
   </main>
@@ -550,12 +622,24 @@
       <div class="campo-feedback">
         <h3>Deixe seu Feedback</h3>
         <p style="font-size:13px;margin-top:0;">Sua opinião nos ajuda a melhorar sempre!</p>
-        <textarea id="feedbackTexto" placeholder="Escreva sua sugestão, elogio ou dúvida..."></textarea>
+        <select id="feedbackTipo" class="feedback-tipo" aria-label="Tipo de feedback">
+          <option value="Elogio">⭐ Elogio</option>
+          <option value="Sugestão">💡 Sugestão</option>
+          <option value="Reclamação">⚠️ Reclamação</option>
+          <option value="Dúvida">❓ Dúvida</option>
+        </select>
+        <textarea id="feedbackTexto" placeholder="Escreva seu feedback..."></textarea>
         <button type="button" class="btn-feedback" id="btnFeedback">
           <svg class="icone" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-9 8.4 8.7 8.7 0 0 1-3.6-.9L3 21l1.8-5.2A8.5 8.5 0 1 1 21 11.5Z"/></svg>
           Enviar via WhatsApp
         </button>
       </div>
+    </div>
+    <div class="container visite-loja">
+      <h3>Visite nossa loja</h3>
+      <p>Rua Benedita Maria de Jesus, 40 — Vila Pedroso, Votorantim - SP</p>
+      <p>Atendimento e entregas combinados pelo WhatsApp.</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Rua+Benedita+Maria+de+Jesus+40+Votorantim+SP" target="_blank" rel="noopener">Abrir no Google Maps →</a>
     </div>
     <div class="container rodape-final">
       <span>© <span id="ano"></span> Onça Produtos de Limpeza.</span>
@@ -572,6 +656,31 @@
     <svg class="icone" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-9 8.4 8.7 8.7 0 0 1-3.6-.9L3 21l1.8-5.2A8.5 8.5 0 1 1 21 11.5Z"/></svg>
     <span>WhatsApp</span>
   </a>
+
+
+  <!-- MODAL DE PRODUTO -->
+  <div class="produto-modal-fundo" id="produtoModalFundo" aria-hidden="true">
+    <div class="produto-modal" role="dialog" aria-modal="true" aria-labelledby="produtoModalNome">
+      <div class="produto-modal-topo">
+        <button type="button" class="produto-modal-fechar" id="produtoModalFechar" aria-label="Fechar">×</button>
+      </div>
+      <div class="produto-modal-conteudo">
+        <div class="produto-modal-galeria">
+          <div class="produto-modal-foto"><img id="produtoModalImagem" src="" alt=""></div>
+          <div class="produto-miniaturas" id="produtoModalMiniaturas"></div>
+        </div>
+        <div class="produto-modal-info">
+          <div id="produtoModalSelos"></div>
+          <h2 id="produtoModalNome">Produto</h2>
+          <p class="preco-antigo" id="produtoModalPrecoAntigo" hidden></p>
+          <p class="preco" id="produtoModalPreco"></p>
+          <p class="estoque" id="produtoModalEstoque"></p>
+          <p class="produto-modal-desc" id="produtoModalDescricao"></p>
+          <button class="adicionar" id="produtoModalAdicionar" type="button">Adicionar ao carrinho</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- CARRINHO MOBILE -->
   <button class="carrinho-mobile" id="abrirMobile" type="button">
@@ -671,6 +780,9 @@
     let carrinho = lerCarrinho();
     let filtro = "todos";
     let timer;
+    const POR_PAGINA = 24;
+    let limiteVisivel = POR_PAGINA;
+    let produtoModalAtual = null;
 
     const $ = id => document.getElementById(id);
 
@@ -696,7 +808,23 @@
       limpar: $("limpar"),
       enviar: $("enviar"),
       aviso: $("aviso"),
-      textoAviso: $("textoAviso")
+      textoAviso: $("textoAviso"),
+      carregarWrap: $("carregarWrap"),
+      carregarMais: $("carregarMais"),
+      filtroAtivoInfo: $("filtroAtivoInfo"),
+      filtroAtivoTexto: $("filtroAtivoTexto"),
+      limparFiltroRapido: $("limparFiltroRapido"),
+      produtoModalFundo: $("produtoModalFundo"),
+      produtoModalFechar: $("produtoModalFechar"),
+      produtoModalImagem: $("produtoModalImagem"),
+      produtoModalMiniaturas: $("produtoModalMiniaturas"),
+      produtoModalNome: $("produtoModalNome"),
+      produtoModalPreco: $("produtoModalPreco"),
+      produtoModalPrecoAntigo: $("produtoModalPrecoAntigo"),
+      produtoModalEstoque: $("produtoModalEstoque"),
+      produtoModalDescricao: $("produtoModalDescricao"),
+      produtoModalAdicionar: $("produtoModalAdicionar"),
+      produtoModalSelos: $("produtoModalSelos")
     };
 
     function normalizar(valor){
@@ -838,13 +966,15 @@
       ).join("");
 
       const badgeHTML = imagens.length > 1 ? `<div class="badge-fotos">📷 ${imagens.length}</div>` : "";
+      const dotsHTML = imagens.length > 1 ? `<div class="galeria-dots">${imagens.map((_,i)=>`<span class="galeria-dot ${i===0?'ativa':''}"></span>`).join('')}</div>` : "";
 
       return `
-        <article class="card">
-          <div class="foto">
+        <article class="card" data-produto="${escapar(produto.id)}">
+          <div class="foto" data-ver-produto="${escapar(produto.id)}" title="Clique para ver detalhes">
             ${selos.trim() ? `<div class="selos">${selos}</div>` : ""}
-            <div class="foto-galeria">${galeriaHTML}</div>
+            <div class="foto-galeria" data-galeria-card>${galeriaHTML}</div>
             ${badgeHTML}
+            ${dotsHTML}
           </div>
           <div class="card-corpo">
             <h3>${nome}</h3>
@@ -867,25 +997,92 @@
       `;
     }
 
-    function mostrarProdutos(){
+    function textoBuscaProduto(produto){
+      return normalizar([
+        produto.nome, produto.categoria, produto.descricao, produto.descrição,
+        produto.marca, produto.tags, produto.palavrasChave, produto.codigo,
+        produto.codigoBarras, produto.sku
+      ].filter(Boolean).join(" "));
+    }
+
+    function listaFiltrada(){
       const termo = normalizar(el.busca.value);
-      const lista = listaProdutos
-        .filter(produto => normalizar(produto.nome).includes(termo))
+      return listaProdutos
+        .filter(produto => !termo || textoBuscaProduto(produto).includes(termo))
         .filter(corresponde)
         .map((produto, indice) => ({ produto, indice, pontos: (promocao(produto) ? 20 : 0) + (novidade(produto) ? 10 : 0) }))
         .sort((a, b) => b.pontos - a.pontos || a.indice - b.indice)
         .map(item => item.produto);
+    }
+
+    function atualizarDotsGaleria(){
+      document.querySelectorAll('[data-galeria-card]').forEach(galeria => {
+        if(galeria.dataset.dotsOk) return;
+        galeria.dataset.dotsOk = '1';
+        galeria.addEventListener('scroll', () => {
+          const cardFoto = galeria.closest('.foto');
+          const dots = cardFoto?.querySelectorAll('.galeria-dot') || [];
+          if(!dots.length || !galeria.clientWidth) return;
+          const indice = Math.round(galeria.scrollLeft / galeria.clientWidth);
+          dots.forEach((dot,i)=>dot.classList.toggle('ativa', i===indice));
+        }, {passive:true});
+      });
+    }
+
+    function mostrarProdutos(reset=false){
+      if(reset) limiteVisivel = POR_PAGINA;
+      const lista = listaFiltrada();
+      const visiveis = lista.slice(0, limiteVisivel);
 
       if(el.resultado) el.resultado.textContent = "";
-      el.produtos.innerHTML = lista.length ? lista.map(card).join("") : `<div class="estado">Nenhum produto encontrado com essa busca ou categoria.</div>`;
+      el.produtos.innerHTML = visiveis.length ? visiveis.map(card).join("") : `<div class="estado">Nenhum produto encontrado com essa busca ou categoria.</div>`;
+      if(el.carregarWrap) el.carregarWrap.hidden = !(lista.length > visiveis.length);
+      atualizarDotsGaleria();
+    }
+
+    function abrirProduto(id){
+      const produto = listaProdutos.find(item => item.id === id);
+      if(!produto) return;
+      produtoModalAtual = produto;
+      const imagens = obterImagens(produto);
+      const nome = produto.nome || 'Produto';
+      const primeira = imagens[0] || window.semFoto;
+
+      el.produtoModalNome.textContent = nome;
+      el.produtoModalImagem.src = primeira;
+      el.produtoModalImagem.alt = nome;
+      el.produtoModalPreco.textContent = moeda(produto.preco);
+      const temPromo = promocao(produto);
+      el.produtoModalPrecoAntigo.hidden = !temPromo;
+      el.produtoModalPrecoAntigo.textContent = temPromo ? moeda(produto.precoAntigo) : '';
+      el.produtoModalEstoque.textContent = produto.estoque !== undefined && produto.estoque !== null ? `Estoque: ${produto.estoque}` : 'Consulte a disponibilidade';
+      el.produtoModalDescricao.textContent = produto.descricao || produto.descrição || produto.detalhes || produto.observacao || produto.observação || '';
+      el.produtoModalSelos.innerHTML = `${novidade(produto)?'<span class="selo selo-novo">Novidade</span> ':''}${temPromo?'<span class="selo selo-promocao">Promoção</span> ':''}${reservado(produto)?'<span class="selo selo-reservado">Reservado</span>':''}`;
+      el.produtoModalMiniaturas.innerHTML = imagens.map((img,i)=>`<button type="button" class="produto-miniatura ${i===0?'ativa':''}" data-modal-img="${escapar(img)}"><img src="${escapar(img)}" alt="${escapar(nome)} - Foto ${i+1}" onerror="this.onerror=null;this.src=window.semFoto"></button>`).join('');
+      el.produtoModalFundo.classList.add('aberto');
+      el.produtoModalFundo.setAttribute('aria-hidden','false');
+      document.body.classList.add('travado');
+    }
+
+    function fecharProduto(){
+      el.produtoModalFundo.classList.remove('aberto');
+      el.produtoModalFundo.setAttribute('aria-hidden','true');
+      produtoModalAtual = null;
+      if(!el.carrinho.classList.contains('aberto')) document.body.classList.remove('travado');
     }
 
     function selecionar(novoFiltro){
       filtro = novoFiltro;
+      limiteVisivel = POR_PAGINA;
       document.querySelectorAll("[data-filtro]").forEach(botao => {
         botao.classList.toggle("ativa", botao.dataset.filtro === novoFiltro);
       });
-      mostrarProdutos();
+      const nomesFiltro = {todos:"Todos",novidades:"Novidades",limpeza:"Limpeza",automotivo:"Automotivo",utensilios:"Utensílios",promocoes:"Promoções",reservado:"Reservados"};
+      if(el.filtroAtivoInfo && el.filtroAtivoTexto){
+        el.filtroAtivoTexto.textContent = nomesFiltro[novoFiltro] || novoFiltro;
+        el.filtroAtivoInfo.classList.toggle("mostrar", novoFiltro !== "todos");
+      }
+      mostrarProdutos(true);
       $("catalogo").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
@@ -1057,14 +1254,19 @@
       el.produtos.innerHTML = `<div class="estado">Não foi possível carregar os produtos agora. Tente novamente em instantes.</div>`;
     });
 
-    el.busca.addEventListener("input", mostrarProdutos);
+    el.busca.addEventListener("input", () => mostrarProdutos(true));
     document.querySelectorAll("[data-filtro]").forEach(botao => { botao.addEventListener("click", () => selecionar(botao.dataset.filtro)); });
     document.querySelectorAll("[data-destaque]").forEach(botao => { botao.addEventListener("click", () => selecionar(botao.dataset.destaque)); });
     document.querySelectorAll("[data-link]").forEach(link => { link.addEventListener("click", evento => { evento.preventDefault(); selecionar(link.dataset.link); }); });
     
     el.produtos.addEventListener("click", evento => {
       const botao = evento.target.closest("[data-adicionar]");
-      if(botao) adicionar(botao.dataset.adicionar, botao);
+      if(botao){
+        adicionar(botao.dataset.adicionar, botao);
+        return;
+      }
+      const alvoProduto = evento.target.closest("[data-ver-produto]");
+      if(alvoProduto) abrirProduto(alvoProduto.dataset.verProduto);
     });
 
     el.itens.addEventListener("click", evento => {
@@ -1089,11 +1291,31 @@
     });
 
     el.enviar.addEventListener("click", enviar);
-    document.addEventListener("keydown", evento => { if(evento.key === "Escape") fechar(); });
+    document.addEventListener("keydown", evento => { if(evento.key === "Escape"){ fecharProduto(); fechar(); } });
     
     [el.nome, el.endereco, el.pagamento, el.obs].forEach(campo => {
       campo.addEventListener("input", salvarCliente);
       campo.addEventListener("change", salvarCliente);
+    });
+
+    if(el.carregarMais){
+      el.carregarMais.addEventListener("click", () => {
+        limiteVisivel += POR_PAGINA;
+        mostrarProdutos();
+      });
+    }
+
+    if(el.limparFiltroRapido) el.limparFiltroRapido.addEventListener("click", () => selecionar("todos"));
+    if(el.produtoModalFechar) el.produtoModalFechar.addEventListener("click", fecharProduto);
+    if(el.produtoModalFundo) el.produtoModalFundo.addEventListener("click", evento => { if(evento.target === el.produtoModalFundo) fecharProduto(); });
+    if(el.produtoModalMiniaturas) el.produtoModalMiniaturas.addEventListener("click", evento => {
+      const botao = evento.target.closest("[data-modal-img]");
+      if(!botao) return;
+      el.produtoModalImagem.src = botao.dataset.modalImg;
+      el.produtoModalMiniaturas.querySelectorAll('.produto-miniatura').forEach(b=>b.classList.toggle('ativa', b===botao));
+    });
+    if(el.produtoModalAdicionar) el.produtoModalAdicionar.addEventListener("click", () => {
+      if(produtoModalAtual) adicionar(produtoModalAtual.id, el.produtoModalAdicionar);
     });
 
     $("ano").textContent = new Date().getFullYear();
@@ -1106,6 +1328,7 @@
     // FEEDBACK VIA WHATSAPP - compatível com GitHub Pages
     (function(){
       const caixa = document.getElementById("feedbackTexto");
+      const tipo = document.getElementById("feedbackTipo");
       const botaoFeedback = document.getElementById("btnFeedback");
       const numeroWhats = "5515997931042";
 
@@ -1120,7 +1343,8 @@
           }
 
           const mensagem =
-            "*FEEDBACK - ONÇA PRODUTOS DE LIMPEZA*\n\n" +
+            "*FEEDBACK - ONÇA PRODUTOS DE LIMPEZA*\n" +
+            "Tipo: " + (tipo ? tipo.value : "Feedback") + "\n\n" +
             texto +
             "\n\n_Enviado pelo site da Onça Produtos de Limpeza_";
 
