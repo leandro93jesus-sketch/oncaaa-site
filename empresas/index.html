@@ -28,7 +28,7 @@ section.conteudo{padding:45px 0}.titulo{text-align:center;margin:0 0 24px;color:
 <article class="card"><h3>Condomínios e prestadores</h3><p>Solicite um orçamento de acordo com a demanda do local ou serviço.</p></article>
 </div></div></section>
 <section class="conteudo" id="catalogo-empresarial"><div class="container"><h2 class="titulo">Produtos para sua empresa</h2><p class="sub">O mesmo catálogo da nossa loja, sem valores de varejo. Selecione as quantidades para solicitar um orçamento personalizado.</p><div class="catalogo-controles"><input id="busca-empresa" type="search" placeholder="Buscar produto pelo nome" aria-label="Buscar produtos"><a class="btn" href="#orcamento">Ver orçamento</a></div><p id="status-produtos" class="status-catalogo" role="status">Carregando produtos...</p><div class="produtos-grade" id="produtos-empresa"></div></div></section>
-<section class="conteudo orcar" id="orcamento"><div class="container"><h2 class="titulo">Solicite um orçamento</h2><p class="sub">Preencha os dados e envie seu pedido diretamente para o WhatsApp comercial. Os valores empresariais são informados somente no orçamento, conforme produtos e quantidades.</p><div class="painel"><div id="selecionados" class="selecionados oculto" aria-live="polite"></div><form id="form-empresas">
+<section class="conteudo orcar" id="orcamento"><div class="container"><h2 class="titulo">Solicite um orçamento</h2><p class="sub">Preencha os dados e envie seu pedido diretamente para o WhatsApp comercial. Os valores empresariais são informados somente no orçamento, conforme produtos e quantidades.</p><div class="painel"><div style="background:#e8f7ed;border:2px solid #168c48;border-radius:12px;padding:18px;margin-bottom:22px;text-align:center;color:#145c30"><strong style="display:block;font-size:18px">🚚 Prazo de entrega</strong><p style="margin:7px 0 0">Os pedidos serão entregues em até <strong>2 dias úteis após a confirmação do pedido.</strong></p></div><div id="selecionados" class="selecionados oculto" aria-live="polite"></div><form id="form-empresas">
 <div class="form-grid"><div class="campo"><label for="empresa">Nome da empresa *</label><input id="empresa" name="empresa" maxlength="120" required autocomplete="organization"></div><div class="campo"><label for="responsavel">Responsável *</label><input id="responsavel" name="responsavel" maxlength="100" required autocomplete="name"></div></div>
 <div class="form-grid"><div class="campo"><label for="cidade">Cidade *</label><input id="cidade" name="cidade" maxlength="100" placeholder="Ex.: Votorantim" required></div><div class="campo"><label for="telefone">Telefone para retorno</label><input id="telefone" name="telefone" maxlength="30" inputmode="tel" autocomplete="tel"></div></div>
 <div class="campo"><label for="produtos">Produtos e quantidades desejados *</label><textarea id="produtos" name="produtos" required maxlength="2000" placeholder="Ex.: 10 unidades de água sanitária 5 L&#10;15 unidades de desinfetante 5 L"></textarea></div>
@@ -57,7 +57,7 @@ const texto=document.getElementById("produtos");
 const pedidos=new Map();
 let produtos=[];
 function imagem(produto){
- const brutos=[produto.imagem,produto.img,produto.foto,produto.url,produto.image,produto.imageUrl,produto.fotoUrl,produto.urlImagem,produto.link,...(Array.isArray(produto.imagens)?produto.imagens:[]),...(Array.isArray(produto.fotos)?produto.fotos:[])];
+ const brutos=[produto.imagem,produto.img,produto.foto,produto.url,produto.image,produto.imageUrl,produto.fotoUrl,produto.urlImagem,produto.link,...(Array.isArray(produto.imagens)?produto.imagens:[]),...(Array.isArray(produto.maisFotos)?produto.maisFotos:[]),...(Array.isArray(produto.fotos)?produto.fotos:[]),...(Array.isArray(produto.galeria)?produto.galeria:[])];
  let url=String(brutos.find(v=>typeof v==="string"&&v.trim())||"img/sem-foto.jpeg").trim();
  const drive=url.match(/drive\.google\.com\/file\/d\/([^/]+)/)||url.match(/[?&]id=([^&]+)/);
  if(drive)return "https://drive.google.com/uc?export=view&id="+encodeURIComponent(drive[1]);
@@ -77,7 +77,7 @@ function render(){
  const itens=produtos.filter(p=>nome(p).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().includes(termo));
  grade.replaceChildren();
  const frag=document.createDocumentFragment();
- for(const p of itens.slice(0,200)){
+ for(const p of itens){
   const card=document.createElement("article");card.className="produto-empresa";
   const img=document.createElement("img");img.src=imagem(p);img.alt=nome(p);img.loading="lazy";img.onerror=()=>{img.onerror=null;img.src="../img/sem-foto.jpeg"};
   const title=document.createElement("h3");title.textContent=nome(p);
