@@ -296,15 +296,107 @@ const QUESTIONS = (()=>{
     const b=n.toString(2);
     add(calculated,'Programação avançada','medium','Qual a representação binária do número decimal '+n+'?',b,[b+'0',b+'1','0'+b],'Binário é base 2; '+n+' em base 2 = '+b+'.');
   }
+
+  // Comandos: interpretação de cadeias de contatos em série de comando.
+  for(const asset of ['M1','M2','K01','B4M03','B4J02','BC1']){
+    for(const s of [0,1])for(const stop of [0,1])for(const overload of [0,1]){
+      const on=!!(s&&stop&&overload);
+      const answer=on?'Energizada':'Desenergizada';
+      const all=['Energizada','Desenergizada','Falha de comunicação','Tensão duplicada'];
+      add(calculated,'Comandos elétricos',asset.startsWith('B4')?'hard':'medium',
+        'Na cadeia de comando da bobina '+asset+', os contatos de start, parada e térmico estão '+(s?'fechado':'aberto')+', '+(stop?'fechado':'aberto')+' e '+(overload?'fechado':'aberto')+', respectivamente. Sem selo, a bobina fica:',
+        answer, all.filter(v=>v!==answer),'Os três contatos estão em série; só há comando quando os três estão fechados.');
+    }
+  }
+  // Ladder: leitura de lógica booleana com endereços simbólicos.
+  for(const symbol of [['A','B'],['START','STOP'],['SENSOR_OK','FALHA'],['PERMISSIVO','BLOQUEIO'],['I_01','I_02'],['PRESENCA','EMERGENCIA']]){
+    for(const aa of [0,1])for(const bb of [0,1]){
+      for(const logic of ['XIC(A) E XIO(B)','XIC(A) OU XIC(B)']){
+        const output=logic.includes(' E ')?(aa===1&&bb===0):(aa===1||bb===1);
+        const statement=logic.replaceAll('A',symbol[0]).replaceAll('B',symbol[1]);
+        const correct=output?'Verdadeiro':'Falso';
+        const opts=['Verdadeiro','Falso','Necessariamente 24 V','Não é possível avaliar'];
+        add(calculated,'CLP e Ladder',logic.includes(' E ')?'hard':'medium',
+          'Em Ladder, '+symbol[0]+' = '+aa+' e '+symbol[1]+' = '+bb+'. O resultado lógico de '+statement+' é:',
+          correct,opts.filter(v=>v!==correct),
+          'XIC testa bit=1; XIO testa bit=0. Série é E; paralelo é OU.');
+      }
+    }
+  }
+  // Logix 5000: interpretação da conclusão de temporizadores com rung ativo.
+  for(const pre of [1000,2000,3000,4000,5000,6000,8000,10000,12000,16000]){
+    for(const frac of [0,0.25,0.5,1]){
+      const acc=pre*frac; const done=acc>=pre;
+      const ans=done?'1 (concluído)':'0 (ainda contando)';
+      const opts=['1 (concluído)','0 (ainda contando)','O valor deve ser 20 mA','O timer vira TOF'];
+      add(calculated,'Rockwell','hard',
+        'TON do Studio 5000 com rung verdadeiro, PRE='+pre+' ms e ACC='+acc+' ms. Como está o bit .DN?',
+        ans,opts.filter(v=>v!==ans),
+        'O TON conclui quando o acumulado alcança PRE com a condição de habilitação verdadeira.');
+    }
+  }
+  // Supervisório: alarmes com regra explicitamente definida, sem inferir histerese.
+  for(const tag of ['TEMP_M1','TEMP_M2','PRESSAO','NIVEL','VAZAO','CORRENTE']){
+    for(const limit of [65,75,85,95,105,115,125]){
+      const current=limit+([-10,-1,0,4,11,20][Math.abs(limit+tag.length)%6]);
+      const alarm=current>=limit;
+      const ans=alarm?'Ativo':'Inativo';
+      const opts=['Ativo','Inativo','Sem comunicação','Tag inexistente'];
+      add(calculated,'FactoryTalk','hard',
+        'No FactoryTalk View, uma expressão de alarme é '+tag+' >= '+limit+'. O valor atual da tag é '+current+'. O alarme fica:',
+        ans,opts.filter(v=>v!==ans),
+        'A expressão booleana é verdadeira quando o valor atual é maior ou igual ao limite configurado.');
+    }
+  }
+  // Programação ST: avaliações booleanas de expressão totalmente especificada.
+  for(const pair of [['A','B','C'],['START','STOP','PERMISSIVO'],['X1','X2','X3'],['SENSOR1','SENSOR2','AUTO']]){
+    for(const a of [0,1])for(const b of [0,1])for(const c of [0,1]){
+      const outcome=(!!a&&!b)||!!c;
+      const ans=outcome?'TRUE':'FALSE';
+      const opts=['TRUE','FALSE','Erro de sintaxe','Não é possível calcular'];
+      add(calculated,'Programação avançada','hard',
+        'Em Structured Text, '+pair[0]+'='+String(!!a).toUpperCase()+', '+pair[1]+'='+String(!!b).toUpperCase()+' e '+pair[2]+'='+String(!!c).toUpperCase()+'. Qual resultado de ('+pair[0]+' AND NOT '+pair[1]+') OR '+pair[2]+'?',
+        ans,opts.filter(v=>v!==ans),
+        'NOT inverte o segundo bit; AND exige ambos; OR aceita qualquer condição verdadeira.');
+    }
+  }
+  // Instrumentação: conversão de sinal em porcentagem da faixa.
+  for(const max of [10,20,50,100,200,300,500,1000]){
+    for(const ma of [4,8,12,16,20]){
+      const pct=(ma-4)*100/16;
+      numeric('Sensores e instrumentação','medium',
+        'Um transmissor linear de 0 a '+max+' unidades fornece '+ma+' mA na faixa 4–20 mA. Qual porcentagem da faixa?',pct,'%',
+        'Percentual = ('+ma+' − 4) / 16 × 100 = '+pct+'%.',5);
+    }
+  }
+  // Inversores/motores: velocidade síncrona conforme frequência e número de polos.
+  for(const hz of [30,35,45,55,65,75]){
+    for(const poles of [2,4,6,8]){
+      numeric('Máquinas e inversores','hard',
+        'Motor de '+poles+' polos em inversor ajustado a '+hz+' Hz. Qual é a rotação síncrona teórica?',
+        120*hz/poles,'rpm','nₛ = 120 × frequência / polos = '+(120*hz/poles)+' rpm.',100);
+    }
+  }
   const groups={};
   for(const q of calculated)(groups[q.category]??=[]).push(q);
   let selected=[...curated];
-  // Distribuição round-robin impede que só cálculos básicos preencham o banco.
+  const targets={
+    'Básica':80,'Instalações e segurança':55,'Comandos elétricos':55,
+    'Máquinas e inversores':55,'Sensores e instrumentação':50,
+    'CLP e Ladder':65,'Rockwell':50,'FactoryTalk':40,'Programação avançada':50
+  };
+  // Distribuição pedagógica: 500 conceitos com peso forte em automação.
+  for(const category of Object.keys(targets)){
+    let current=curated.filter(q=>q.category===category).length;
+    while(current<targets[category] && groups[category]?.length){
+      selected.push(groups[category].shift());current++;
+    }
+  }
   while(selected.length<500){
     let progress=false;
-    for(const category of ['Sensores e instrumentação','Rockwell','Máquinas e inversores','Programação avançada','Instalações e segurança','Básica']){
-      if(selected.length>=500) break;
-      if(groups[category]?.length){selected.push(groups[category].shift());progress=true;}
+    for(const category of Object.keys(groups)){
+      if(selected.length>=500)break;
+      if(groups[category].length){selected.push(groups[category].shift());progress=true;}
     }
     if(!progress)break;
   }
