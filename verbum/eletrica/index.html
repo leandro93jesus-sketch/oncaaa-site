@@ -107,7 +107,7 @@ button,input,select{font:inherit}button{cursor:pointer}.app-shell{min-height:100
       <option value="easy">Iniciante</option>
       <option value="medium">Intermediário</option>
       <option value="hard">Avançado</option>
-      <option value="challenge">Desafio técnico</option>
+      
     </select></label><button class="primary big full" id="startLocalBtn">Começar partida</button>
         </div>
       </section>
@@ -149,7 +149,7 @@ button,input,select{font:inherit}button{cursor:pointer}.app-shell{min-height:100
       <option value="easy">Iniciante</option>
       <option value="medium">Intermediário</option>
       <option value="hard">Avançado</option>
-      <option value="challenge">Desafio técnico</option>
+      
     </select></label><button class="primary full" id="createRoomBtn">Criar sala online</button>
             <p class="fineprint" style="margin-top:12px">Para salas online, abra este arquivo no Chrome/Edge/Safari com internet. A prévia interna do ChatGPT pode bloquear a conexão.</p>
           </div>
@@ -293,7 +293,7 @@ const QUESTIONS = (()=>{
   }
   for(const n of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,20,24,31,32]){
     const b=n.toString(2);
-    add(calculated,'Programação avançada','medium','Qual a representação binária do número decimal '+n+'?',b,[String(n),String(n)+'0','0'+b],'Binário é base 2; '+n+' em base 2 = '+b+'.');
+    add(calculated,'Programação avançada','medium','Qual a representação binária do número decimal '+n+'?',b,[b+'0',b+'1','0'+b],'Binário é base 2; '+n+' em base 2 = '+b+'.');
   }
   const groups={};
   for(const q of calculated)(groups[q.category]??=[]).push(q);
