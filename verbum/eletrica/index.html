@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101f35">
+  <meta name="description" content="Verbum Elétrica PRO — elétrica básica e avançada, comandos, CLP, Rockwell, FactoryTalk e programação.">
+  <title>Verbum Elétrica PRO — Desafio da Automação</title>
+  <style>
+:root{
+  --bg:#0f1428;--panel:#171e38;--panel2:#202a49;--ink:#f7f4ea;--muted:#aab4ce;--gold:#67d5e6;--gold2:#a5edfa;
+  --blue:#4969df;--blue2:#6f8cff;--green:#36c98f;--red:#ef6a79;--line:#303b61;--shadow:0 22px 70px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}[hidden]{display:none!important}html{background:var(--bg);color-scheme:dark}body{margin:0;min-width:320px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 0%,#1e2c55 0,transparent 32%),radial-gradient(circle at 90% 5%,#2b2145 0,transparent 28%),var(--bg);color:var(--ink)}
+button,input,select{font:inherit}button{cursor:pointer}.app-shell{min-height:100vh}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,44px);border-bottom:1px solid rgba(255,255,255,.08);background:rgba(15,20,40,.84);backdrop-filter:blur(18px);position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:12px;background:none;border:0;color:inherit;text-align:left;padding:0}.brand-mark{display:grid;place-items:center;width:42px;height:42px;border:2px solid var(--gold);border-radius:12px;color:var(--gold2);font-family:Georgia,serif;font-weight:800;font-size:24px}.brand strong{display:block;letter-spacing:.12em;font-size:15px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.08em;margin-top:2px}.top-actions{display:flex;gap:8px}.screen{display:none;padding:clamp(22px,4vw,48px);max-width:1400px;margin:auto}.screen.active{display:block}.hero-card{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.7fr);gap:32px;background:linear-gradient(145deg,rgba(32,42,73,.96),rgba(20,28,54,.96));border:1px solid rgba(255,255,255,.09);border-radius:30px;padding:clamp(28px,5vw,64px);box-shadow:var(--shadow);overflow:hidden;position:relative}.hero-card:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(214,180,90,.14),transparent 65%);right:-160px;top:-180px}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:850;color:var(--gold2)}h1,h2,p{margin-top:0}.hero-card h1{font-size:clamp(40px,6vw,82px);line-height:.98;letter-spacing:-.045em;margin:18px 0 18px;max-width:820px}.hero-card p{font-size:clamp(16px,2vw,20px);line-height:1.7;color:#d6def3;max-width:780px}.hero-actions,.row-actions,.result-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}button{border-radius:14px;border:1px solid transparent;min-height:44px;padding:10px 16px;font-weight:800;transition:.2s transform,.2s border-color,.2s background}.primary{background:linear-gradient(135deg,var(--gold),#be9440);color:#171522}.secondary{background:linear-gradient(135deg,var(--blue),#334fae);color:#fff}.ghost{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.13);color:#edf1ff}.small{min-height:36px;padding:7px 11px;font-size:12px}.big{min-height:54px;padding:14px 20px}.full{width:100%}button:hover{transform:translateY(-1px)}button:disabled{cursor:not-allowed;opacity:.5;transform:none}.verse-card{align-self:center;background:rgba(8,12,28,.62);border:1px solid rgba(214,180,90,.35);border-radius:24px;padding:26px;position:relative;z-index:1}.verse-card span{font-size:10px;letter-spacing:.14em;color:var(--gold2);font-weight:900}.verse-card blockquote{font-family:Georgia,serif;font-size:24px;line-height:1.45;margin:18px 0;color:#fff}.verse-card cite{font-style:normal;color:var(--gold2);font-weight:800}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.feature-grid article{padding:18px 20px;border-radius:18px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}.feature-grid b,.feature-grid span{display:block}.feature-grid span{color:var(--muted);font-size:14px;margin-top:5px}.panel{background:linear-gradient(145deg,rgba(28,37,68,.97),rgba(18,25,49,.97));border:1px solid rgba(255,255,255,.09);border-radius:26px;padding:clamp(22px,4vw,36px);box-shadow:var(--shadow)}.panel.narrow{max-width:760px;margin:auto}.section-heading h2,.panel h2{font-size:clamp(28px,4vw,44px);margin:8px 0 10px}.section-heading p,.fineprint{color:var(--muted);line-height:1.6}.player-inputs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}.field{display:grid;gap:8px;margin:18px 0;color:#dce3f7;font-weight:800;font-size:13px}.field input,.field select,select{width:100%;background:#0d1430;border:1px solid #39456d;color:#fff;border-radius:13px;min-height:48px;padding:10px 13px;outline:none}.field input:focus,.field select:focus{border-color:var(--gold)}.player-inputs input{background:#0d1430;border:1px solid #39456d;color:#fff;border-radius:13px;min-height:48px;padding:10px 13px}.online-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}.code-input{text-transform:none;letter-spacing:.04em}.lobby-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.status-pill{padding:8px 12px;border-radius:999px;background:rgba(54,201,143,.12);border:1px solid rgba(54,201,143,.35);color:#82edc5;font-size:12px;font-weight:900}.room-code-box{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:16px;background:#0d1430;border:1px solid #39456d;border-radius:16px;margin:20px 0}.room-code-box span{color:var(--muted);font-size:12px}.room-code-box strong{font-size:18px;word-break:break-all}.lobby-players{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px 0}.lobby-player{padding:14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}.game-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px;align-items:start}.scoreboard{display:grid;gap:10px;position:sticky;top:94px}.score-player{padding:14px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.08)}.score-player.active{border-color:var(--gold);background:rgba(214,180,90,.09)}.score-player.eliminated{opacity:.48;filter:grayscale(.35)}.score-player.eliminated .name{text-decoration:line-through}.knockout-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(239,106,121,.12);border:1px solid rgba(239,106,121,.32);color:#ffb3bd;font-size:11px;font-weight:900;margin-left:8px}.score-player .name{font-weight:900}.score-player .stats{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-top:6px}.game-card{min-height:620px;background:linear-gradient(145deg,rgba(28,37,68,.98),rgba(14,21,43,.98));border:1px solid rgba(255,255,255,.09);border-radius:28px;padding:clamp(20px,4vw,40px);box-shadow:var(--shadow)}.game-meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:12px}.turn-label{font-weight:900;color:#fff}.special-banner{padding:12px 16px;border-radius:14px;background:linear-gradient(135deg,rgba(214,180,90,.22),rgba(73,105,223,.16));border:1px solid rgba(214,180,90,.4);font-weight:900;margin-bottom:14px}.timer-wrap{height:8px;background:#0b1127;border-radius:99px;overflow:hidden;margin-bottom:22px}.timer-bar{height:100%;width:100%;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .35s linear}.question-head{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tag,.points{font-size:11px;font-weight:900;letter-spacing:.06em;border-radius:999px;padding:7px 10px;background:rgba(73,105,223,.16);border:1px solid rgba(111,140,255,.3)}.difficulty{background:rgba(214,180,90,.12);border-color:rgba(214,180,90,.34);color:var(--gold2)}.points{margin-left:auto;background:rgba(54,201,143,.12);border-color:rgba(54,201,143,.3);color:#8bf1cb}.question{font-size:clamp(27px,4vw,48px);line-height:1.12;letter-spacing:-.025em;margin:24px 0 26px}.answers{display:grid;grid-template-columns:1fr 1fr;gap:12px}.answer{min-height:78px;text-align:left;padding:16px 18px;background:#111a37;border:1px solid #354269;color:#fff;font-size:16px}.answer:hover{border-color:#728cf0;background:#17244a}.answer.correct{border-color:var(--green);background:rgba(54,201,143,.16)}.answer.wrong{border-color:var(--red);background:rgba(239,106,121,.15)}.answer.hidden-option{visibility:hidden;pointer-events:none}.power-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.power{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#fff}.power small{color:var(--gold2)}.feedback{margin-top:20px;padding:14px 16px;border-radius:14px;font-weight:900}.feedback.ok{background:rgba(54,201,143,.13);border:1px solid rgba(54,201,143,.32);color:#99f6d4}.feedback.bad{background:rgba(239,106,121,.12);border:1px solid rgba(239,106,121,.3);color:#ffb3bd}.reference{margin-top:8px;color:var(--muted);font-size:13px}.result-panel{text-align:center;max-width:900px;margin:auto}.trophy{font-size:78px}.result-ranking{display:grid;gap:10px;margin:26px 0;text-align:left}.result-row{display:grid;grid-template-columns:60px 1fr auto;gap:14px;align-items:center;padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}.result-row:first-child{border-color:rgba(214,180,90,.5);background:rgba(214,180,90,.09)}.result-row strong{font-size:20px}.result-row small{display:block;color:var(--muted);margin-top:4px}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#050a1a;border:1px solid #334169;border-radius:12px;padding:12px 16px;color:#fff;z-index:100;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:920px){.hero-card,.online-grid,.game-layout{grid-template-columns:1fr}.scoreboard{position:static;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));order:2}.game-card{order:1}.feature-grid{grid-template-columns:1fr 1fr}.verse-card{margin-top:4px}}
+@media(max-width:620px){.screen{padding:18px 12px}.topbar{height:66px;padding:0 12px}.brand small{display:none}.top-actions .small{padding:6px 8px}.hero-card{padding:26px 20px;border-radius:22px}.hero-card h1{font-size:42px}.feature-grid,.player-inputs,.answers{grid-template-columns:1fr}.room-code-box{grid-template-columns:1fr}.game-card{padding:20px 15px;border-radius:20px;min-height:560px}.question{font-size:29px}.answer{min-height:64px}.scoreboard{grid-template-columns:1fr 1fr}.game-meta{gap:10px}.result-row{grid-template-columns:45px 1fr auto}}
+
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" id="brandHome" aria-label="Ir para a tela inicial">
+        <span class="brand-mark">V</span>
+        <span><strong>VERBUM</strong><small>ELÉTRICA & AUTOMAÇÃO PRO</small></span>
+      </button>
+      <div class="top-actions">
+        <button class="ghost small" id="installBtn" hidden>Instalar</button>
+        <button class="ghost small" id="soundBtn" aria-pressed="true">🔊 Som</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen active" id="homeScreen">
+        <div class="hero-card">
+          <div>
+            <span class="eyebrow">500 questões • 9 áreas técnicas</span>
+            <h1>Quem domina a elétrica e a automação?</h1>
+            <p>Do básico ao avançado: elétrica, segurança, comandos, motores, inversores, CLP Ladder, Rockwell, FactoryTalk e programação. Jogue sozinho ou desafie amigos online.</p>
+            <div class="hero-actions">
+              <button class="primary big" data-go="localSetupScreen">Jogar no mesmo aparelho</button>
+              <button class="secondary big" data-go="onlineScreen">Jogar com amigos online</button>
+            </div>
+          </div>
+          <div class="verse-card">
+            <span>DICA TÉCNICA DESTA PARTIDA</span>
+            <blockquote id="homeVerse"></blockquote>
+            <cite id="homeVerseRef"></cite>
+          </div>
+        </div>
+
+        <div class="feature-grid">
+          <article><b>🔥 Sequência</b><span>Acertos seguidos dão bônus.</span></article>
+          <article><b>👑 Desafio Verbum</b><span>A cada 5 perguntas, pontuação dobrada.</span></article>
+          <article><b>⚡ Relâmpago</b><span>Perguntas especiais com menos tempo.</span></article>
+          <article><b>🛡️ Eliminar 2</b><span>Uma ajuda estratégica por partida.</span></article>
+          <article><b>⏭️ Pular</b><span>Troca a pergunta sem recuperar o tempo.</span></article>
+          <article><b>🏆 Desempate</b><span>O jogo resolve empates automaticamente.</span></article>
+          <article><b>💥 Errou, Caiu</b><span>Errou ou deixou o tempo acabar: está eliminado. O último vence.</span></article>
+        </div>
+      </section>
+
+      <section class="screen" id="localSetupScreen">
+        <div class="panel narrow">
+          <div class="section-heading">
+            <span class="eyebrow">PARTIDA LOCAL</span>
+            <h2>Cadastre os jogadores</h2>
+            <p>Use quantos jogadores quiser. O sistema organiza os turnos automaticamente.</p>
+          </div>
+          <div id="localPlayers" class="player-inputs"></div>
+          <div class="row-actions">
+            <button class="secondary" id="addLocalPlayer">+ Adicionar jogador</button>
+            <button class="ghost" id="removeLocalPlayer">− Remover último</button>
+          </div>
+          <label class="field">Modalidade
+            <select id="localGameRule">
+              <option value="classic" selected>Clássico — pontos e rodadas</option>
+              <option value="knockout">💥 Errou, Caiu — último jogador vence</option>
+            </select>
+          </label>
+          <label class="field" id="localQppField">Perguntas por jogador
+            <select id="questionsPerPlayer">
+              <option value="5">5 — partida rápida</option>
+              <option value="10" selected>10 — padrão</option>
+              <option value="15">15 — completa</option>
+              <option value="20">20 — campeonato</option>
+            </select>
+          </label>
+          <p class="fineprint" id="localKnockoutHelp" hidden>💥 No Errou, Caiu, resposta errada ou tempo esgotado elimina o jogador. O botão Pular fica desativado. O último jogador restante vence.</p>
+          <label class="field">Tema de estudo
+  <select id="localTopic">
+    <option value="all">⚡ Todos os temas (misturado)</option>
+    <option value="Básica">Eletricidade básica</option>
+    <option value="Instalações e segurança">Instalações e segurança</option>
+    <option value="Comandos elétricos">Comandos elétricos</option>
+    <option value="Máquinas e inversores">Motores e inversores</option>
+    <option value="Sensores e instrumentação">Sensores e instrumentação</option>
+    <option value="CLP e Ladder">CLP e Ladder</option>
+    <option value="Rockwell">Rockwell — Studio 5000 / RSLogix</option>
+    <option value="FactoryTalk">FactoryTalk View ME/SE</option>
+    <option value="Programação avançada">Programação avançada — ST, lógica, Python</option>
+  </select></label>
+  <label class="field">Nível
+    <select id="localLevel">
+      <option value="progressive">📈 Progressivo (básico ao avançado)</option>
+      <option value="easy">Iniciante</option>
+      <option value="medium">Intermediário</option>
+      <option value="hard">Avançado</option>
+      <option value="challenge">Desafio técnico</option>
+    </select></label><button class="primary big full" id="startLocalBtn">Começar partida</button>
+        </div>
+      </section>
+
+      <section class="screen" id="onlineScreen">
+        <div class="online-grid">
+          <div class="panel">
+            <span class="eyebrow">CRIAR SALA</span>
+            <h2>Seja o organizador</h2>
+            <label class="field">Seu nome<input id="hostName" maxlength="24" placeholder="Ex.: Leandro"></label>
+            <label class="field">Modalidade
+              <select id="onlineGameRule">
+                <option value="classic" selected>Clássico — pontos e rodadas</option>
+                <option value="knockout">💥 Errou, Caiu — último jogador vence</option>
+              </select>
+            </label>
+            <label class="field" id="onlineQppField">Perguntas por jogador
+              <select id="onlineQpp">
+                <option value="5">5</option><option value="10" selected>10</option><option value="15">15</option><option value="20">20</option>
+              </select>
+            </label>
+            <p class="fineprint" id="onlineKnockoutHelp" hidden>💥 Errou ou deixou o tempo acabar: eliminado. O último jogador restante vence.</p>
+            <label class="field">Tema de estudo
+  <select id="onlineTopic">
+    <option value="all">⚡ Todos os temas (misturado)</option>
+    <option value="Básica">Eletricidade básica</option>
+    <option value="Instalações e segurança">Instalações e segurança</option>
+    <option value="Comandos elétricos">Comandos elétricos</option>
+    <option value="Máquinas e inversores">Motores e inversores</option>
+    <option value="Sensores e instrumentação">Sensores e instrumentação</option>
+    <option value="CLP e Ladder">CLP e Ladder</option>
+    <option value="Rockwell">Rockwell — Studio 5000 / RSLogix</option>
+    <option value="FactoryTalk">FactoryTalk View ME/SE</option>
+    <option value="Programação avançada">Programação avançada — ST, lógica, Python</option>
+  </select></label>
+  <label class="field">Nível
+    <select id="onlineLevel">
+      <option value="progressive">📈 Progressivo (básico ao avançado)</option>
+      <option value="easy">Iniciante</option>
+      <option value="medium">Intermediário</option>
+      <option value="hard">Avançado</option>
+      <option value="challenge">Desafio técnico</option>
+    </select></label><button class="primary full" id="createRoomBtn">Criar sala online</button>
+            <p class="fineprint" style="margin-top:12px">Para salas online, abra este arquivo no Chrome/Edge/Safari com internet. A prévia interna do ChatGPT pode bloquear a conexão.</p>
+          </div>
+          <div class="panel">
+            <span class="eyebrow">ENTRAR EM SALA</span>
+            <h2>Use o código do organizador</h2>
+            <label class="field">Seu nome<input id="guestName" maxlength="24" placeholder="Ex.: Ana"></label>
+            <label class="field">Código da sala<input id="roomCodeInput" class="code-input" autocomplete="off" placeholder="Cole o código aqui"></label>
+            <button class="secondary full" id="joinRoomBtn">Entrar na sala</button>
+          </div>
+        </div>
+        <div class="panel" id="onlineLobby" hidden>
+          <div class="lobby-head">
+            <div><span class="eyebrow">SALA ONLINE</span><h2 id="lobbyTitle">Aguardando jogadores</h2></div>
+            <span class="status-pill" id="networkStatus">Conectando…</span>
+          </div>
+          <div class="room-code-box" id="roomCodeBox" hidden>
+            <span>Código da sala</span><strong id="roomCodeText"></strong>
+            <button class="ghost" id="copyRoomCode">Copiar código</button>
+          </div>
+          <div class="row-actions" id="roomShareActions" hidden>
+            <button class="secondary" id="shareRoomBtn">🔗 Compartilhar convite</button>
+            <button class="ghost" id="endRoomBtn">Encerrar sala</button>
+          </div>
+          <div class="lobby-players" id="lobbyPlayers"></div>
+          <button class="primary big full" id="startOnlineBtn" hidden>Iniciar partida</button>
+          <p class="fineprint">Crie a sala, compartilhe o código ou o link e aguarde seus amigos entrarem.</p>
+        </div>
+      </section>
+
+      <section class="screen" id="gameScreen">
+        <div class="game-layout">
+          <aside class="scoreboard" id="scoreboard"></aside>
+          <section class="game-card">
+            <div class="game-meta">
+              <span id="turnLabel" class="turn-label"></span>
+              <span id="progressLabel"></span>
+            </div>
+            <div class="special-banner" id="specialBanner" hidden></div>
+            <div class="timer-wrap"><div class="timer-bar" id="timerBar"></div></div>
+            <div class="question-head">
+              <span class="tag" id="categoryTag"></span>
+              <span class="tag difficulty" id="difficultyTag"></span>
+              <span class="points" id="pointsTag"></span>
+            </div>
+            <h2 class="question" id="questionText"></h2>
+            <div class="answers" id="answers"></div>
+            <div class="power-row">
+              <button class="power" id="eliminateBtn">🛡️ Eliminar 2 <small id="eliminateCount"></small></button>
+              <button class="power" id="skipBtn">⏭️ Pular <small id="skipCount"></small></button>
+            </div>
+            <div class="feedback" id="feedback" hidden></div>
+            <div class="reference" id="reference" hidden></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="screen" id="resultScreen">
+        <div class="panel result-panel">
+          <span class="eyebrow">FIM DA PARTIDA</span>
+          <div class="trophy">🏆</div>
+          <h2 id="winnerTitle">Resultado</h2>
+          <div id="resultRanking" class="result-ranking"></div>
+          <div class="result-actions">
+            <button class="primary" id="playAgainBtn">Jogar novamente</button>
+            <button class="secondary" data-go="homeScreen">Voltar ao início</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script>
+
+const QUESTIONS = (()=>{
+  const manualRows = [["Básica","easy","Qual é a unidade de medida da tensão elétrica?","Volt (V)","Ampere (A)","Ohm (Ω)","Watt (W)","Tensão é medida em volts."],["Básica","easy","Qual é a unidade da corrente elétrica?","Ampere (A)","Volt (V)","Hertz (Hz)","Farad (F)","Corrente elétrica é medida em amperes."],["Básica","easy","Qual é a unidade da resistência elétrica?","Ohm (Ω)","Watt (W)","Volt (V)","Joule (J)","Resistência elétrica é medida em ohms."],["Básica","easy","Qual instrumento mede tensão elétrica?","Voltímetro","Alicate de crimpar","Megôhmetro em função de isolamento","Tacômetro","Voltímetro mede diferença de potencial entre dois pontos."],["Básica","easy","O amperímetro convencional é ligado como?","Em série com a carga","Em paralelo com a carga","Em série apenas com o terra","Em paralelo com fusível aberto","Amperímetro inserido no circuito mede a corrente que o atravessa."],["Básica","easy","O voltímetro é conectado como?","Em paralelo aos pontos de medição","Em série com a carga","No lugar do disjuntor","Apenas no condutor de proteção","Voltímetro mede diferença de potencial entre dois pontos."],["Básica","easy","Qual grandeza o watt representa?","Potência","Tensão","Resistência","Frequência","Watt é unidade de potência."],["Básica","easy","O que significa corrente contínua (CC)?","Corrente de polaridade constante no tempo","Corrente que sempre tem 60 Hz","Corrente exclusivamente trifásica","Corrente sem tensão","Na CC a polaridade não se alterna periodicamente."],["Básica","easy","O que caracteriza corrente alternada (CA) senoidal?","Polaridade e valor variam periodicamente","A corrente nunca muda de sentido","Não existe frequência","Só existe em baterias","Uma CA senoidal alterna polaridade ciclicamente."],["Básica","easy","Qual a frequência nominal mais comum da rede elétrica brasileira?","60 Hz","20 Hz","100 Hz","400 Hz","A frequência nominal usual da rede brasileira é 60 Hz."],["Básica","easy","Uma pilha comum fornece principalmente:","Corrente contínua","Corrente alternada de 60 Hz","Trifásico","Tensão sem polaridade","Pilhas possuem terminais positivo e negativo."],["Básica","easy","O que é circuito aberto?","Caminho interrompido sem circulação de corrente","Curto-circuito","Ligação de três fases","Aumento de frequência","Circuito aberto interrompe o caminho da corrente."],["Básica","easy","O que é curto-circuito?","Ligação de baixa impedância entre potenciais diferentes","Aumento normal da resistência","Carga desligada por comando","Condutor sem continuidade","Curto-circuito pode produzir correntes perigosamente altas."],["Básica","easy","Qual é a relação correta da lei de Ohm?","V = R × I","V = R ÷ I","V = P × t","V = f × I","Lei de Ohm: tensão igual a resistência vezes corrente."],["Básica","easy","Em um circuito série, o que é igual em todas as cargas?","A corrente","A tensão individual","A resistência individual","A potência individual","Em série a mesma corrente atravessa todos os elementos."],["Básica","easy","Em um circuito paralelo, o que é igual nos ramos?","A tensão","A resistência","A corrente","A potência","Ramos em paralelo compartilham a mesma diferença de potencial."],["Básica","medium","Ao acrescentar resistores em série, a resistência equivalente:","Aumenta","Sempre diminui","Fica sempre zero","Vira frequência","Em série as resistências são somadas."],["Básica","medium","Dois resistores iguais em paralelo têm resistência equivalente:","Metade de um deles","O dobro de um deles","A soma mais 10 Ω","Sempre zero","Para dois resistores iguais em paralelo: Req = R/2."],["Básica","medium","Potência elétrica ativa em CC é calculada por:","P = V × I","P = V ÷ I","P = R + I","P = frequência × tempo","Em CC, potência em watts é tensão em volts vezes corrente em amperes."],["Básica","medium","Energia elétrica consumida é comumente faturada em:","kWh","kW/h","Hz","kVA/h","kWh mede energia: potência em kW multiplicada pelo tempo em horas."],["Básica","medium","O que um capacitor ideal armazena?","Energia em campo elétrico","Energia em campo magnético","Resistência infinita obrigatória","Rotação mecânica","Capacitores armazenam energia em campo elétrico."],["Básica","medium","O que um indutor ideal armazena?","Energia em campo magnético","Energia em campo elétrico somente","Tensão fixa de rede","Corrente sem campo","Indutores armazenam energia em campo magnético."],["Básica","hard","Em uma carga puramente resistiva em CA senoidal, tensão e corrente estão:","Em fase","Defasadas exatamente 90°","Defasadas 180°","Sem frequência definida","Cargas resistivas ideais não introduzem defasagem."],["Básica","hard","Qual é a fórmula da potência aparente monofásica?","S = Vef × Ief","S = V × I × cos φ","S = I ÷ V","S = R × t","Potência aparente é produto dos valores eficazes de tensão e corrente."],["Básica","hard","O fator de potência de carga senoidal é relacionado a:","cos φ entre tensão e corrente","Velocidade do motor somente","Seção do condutor somente","Cor da isolação","Para formas de onda senoidais, FP = cos do ângulo de defasagem."],["Instalações e segurança","easy","Qual a função principal do condutor de proteção (PE)?","Prover caminho de proteção para faltas e equipotencialização","Substituir o neutro em operação normal","Servir como fase adicional","Reduzir frequência","O PE faz parte do sistema de proteção contra choques."],["Instalações e segurança","easy","A cor usual reservada ao condutor de proteção no Brasil é:","Verde ou verde-amarela","Vermelha","Cinza","Branca","O condutor de proteção deve ter identificação apropriada."],["Instalações e segurança","easy","Qual dispositivo interrompe sobrecorrentes, conforme suas características?","Disjuntor","Interruptor simples","Tomada comum","Lâmpada sinalizadora","Disjuntores protegem circuitos contra sobrecorrentes conforme sua curva e capacidade."],["Instalações e segurança","easy","Para que serve o dispositivo diferencial residual (DR)?","Detectar desequilíbrio de corrente e desligar em condição prevista","Regular tensão","Medir rotação","Corrigir fator de potência","DR detecta diferença entre correntes de ida e retorno."],["Instalações e segurança","easy","O que deve ser feito antes da intervenção em instalação desenergizada?","Aplicar procedimento de seccionamento, bloqueio e verificação de ausência de tensão","Apenas desligar pelo aplicativo","Tocar o condutor para conferir","Retirar o PE","Desenergização segura exige procedimento formal e verificação com instrumento adequado."],["Instalações e segurança","easy","O EPI substitui as medidas de proteção coletiva?","Não, é complementar","Sim, sempre","Apenas em circuitos CC","Somente acima de 440 V","Proteção coletiva e procedimentos têm prioridade; EPI complementa."],["Instalações e segurança","medium","Por que não se deve usar o PE como neutro de carga?","Pode comprometer a proteção e energizar partes acessíveis","Porque o PE tem sempre 0 Ω","Porque a tensão dobra","Porque reduz a frequência","O PE não se destina a conduzir corrente de funcionamento normal."],["Instalações e segurança","medium","A seletividade entre proteções busca:","Desligar preferencialmente o dispositivo mais próximo da falta","Desarmar todos os disjuntores juntos","Aumentar potência do motor","Eliminar aterramento","A coordenação adequada limita a região afetada por uma falta."],["Instalações e segurança","medium","Antes de medir resistência com multímetro, deve-se:","Desenergizar o circuito e descarregar energia armazenada conforme procedimento","Medir em circuito energizado","Colocar ponteira na escala A","Curto-circuitar o barramento","Medição de ohms em circuito energizado pode ser perigosa e danificar instrumento."],["Instalações e segurança","medium","Qual é o objetivo do bloqueio e etiquetagem (LOTO)?","Prevenir energização ou movimento inesperados durante intervenção","Aumentar velocidade do CLP","Trocar a tensão nominal","Ajustar fator de potência","LOTO controla fontes perigosas de energia conforme procedimento."],["Instalações e segurança","medium","Qual característica do instrumento importa ao medir em quadro elétrico?","Categoria de medição e classificação adequadas ao ponto","Somente a cor do gabinete","Somente ter tela iluminada","Somente a marca do cabo","Categoria CAT e limites devem corresponder ao ambiente de medição."],["Instalações e segurança","hard","Por que verificar ausência de tensão após seccionar?","Porque um circuito pode continuar energizado por outras fontes ou falhas","Porque disjuntores sempre falham","Porque tensão só existe sem carga","Porque PE elimina qualquer risco","A constatação deve ser feita com instrumento/procedimento apropriado."],["Instalações e segurança","hard","Uma isolação danificada em carcaça metálica pode causar:","Tensão de toque perigosa","Aumento automático da frequência","Conexão Modbus","Redução garantida da corrente","Falhas de isolação podem energizar massas."],["Instalações e segurança","hard","O que é corrente de fuga?","Corrente que percorre caminhos de isolação ou terra fora do trajeto ideal","Corrente nominal do motor","Corrente de partida obrigatória","Potência reativa","Correntes de fuga podem ser monitoradas por proteção diferencial residual."],["Comandos elétricos","easy","O que significa contato NA?","Normalmente aberto","Normalmente aterrado","Neutro auxiliar","Nunca acionado","NA é aberto na condição de repouso."],["Comandos elétricos","easy","O que significa contato NF?","Normalmente fechado","Normalmente fusível","Neutro de fase","Nunca fechado","NF é fechado na condição de repouso."],["Comandos elétricos","easy","Qual componente comuta cargas pela energização de uma bobina?","Contator","Voltímetro","Borne comum","Capacitor de filtro","Um contator possui bobina de comando e contatos de potência."],["Comandos elétricos","easy","Qual é a função de um botão de parada NF no circuito de comando?","Abrir o circuito ao ser pressionado","Fechar contato na parada","Aumentar corrente do motor","Ajustar frequência","É comum usar contato NF na parada para abrir o comando ao atuar."],["Comandos elétricos","easy","O que é selo elétrico de um contator?","Contato auxiliar que mantém a bobina energizada após soltar o start","Ligação direta da fase no PE","Fusão da bobina","Curto permanente do botão","O selo mantém o estado até que a cadeia de comando seja aberta."],["Comandos elétricos","medium","No circuito de selo, o contato auxiliar NA do contator é ligado:","Em paralelo com o botão de partida","Em paralelo com o botão de parada","Em série com a lâmpada de emergência","Entre PE e neutro","O contato de selo contorna o botão de partida, não a parada."],["Comandos elétricos","medium","Qual é a função de intertravamento elétrico entre dois contatores reversores?","Impedir acionamento simultâneo incompatível","Aumentar velocidade","Eliminar proteção térmica","Alterar frequência de rede","Intertravamento previne fechamento simultâneo dos contatores opostos."],["Comandos elétricos","medium","Em comando reversor trifásico, a inversão de giro é obtida por:","Troca de duas fases na alimentação do motor","Aumento do número de polos","Troca do PE com fase","Instalação de duas bobinas em série","Inverter a sequência de duas fases muda o campo girante."],["Comandos elétricos","medium","O relé térmico convencional é voltado principalmente para:","Proteção contra sobrecarga prolongada do motor","Proteção exclusiva contra surto atmosférico","Medição de temperatura ambiente","Conexão Ethernet","Relé térmico detecta sobrecarga conforme características e ajuste."],["Comandos elétricos","medium","Um temporizador TON normalmente fornece saída quando:","A entrada permanece verdadeira pelo tempo programado","A entrada cai instantaneamente","A saída analógica ultrapassa 20 mA","A CPU reinicia","TON é temporizador de retardo na energização."],["Comandos elétricos","medium","Um temporizador TOF normalmente atrasa:","O desligamento da saída após retirada do comando","A partida inicial da CPU","A alimentação do motor","A leitura do encoder","TOF é retardo na desenergização."],["Comandos elétricos","medium","O contato auxiliar NF de K2 na bobina de K1 é exemplo de:","Intertravamento elétrico","Circuito de força estrela","Conversor analógico","Ligação a terra","O contato NF de K2 impede que K1 seja energizado quando K2 está ativo."],["Comandos elétricos","hard","No comando estrela-triângulo, a finalidade é:","Reduzir a corrente de partida em condições apropriadas","Subir a frequência da rede","Trocar CA por CC","Eliminar torque de partida","A partida estrela-triângulo reduz tensão por enrolamento e também o torque."],["Comandos elétricos","hard","A bobina de contator 24 Vcc deve receber:","Alimentação CC compatível com sua especificação","440 Vca diretamente","Qualquer tensão até 690 V","Tensão entre fases sem medir","Bobina deve receber a tensão e o tipo de alimentação nominais."],["Comandos elétricos","hard","Em falha do circuito de selo, após soltar start o motor desliga. Uma causa possível é:","Contato auxiliar de selo não fechando","PE com boa continuidade","Relé térmico ajustado corretamente","Contato de parada saudável","A falta de retenção pode ser causada pelo auxiliar NA ou sua ligação."],["Comandos elétricos","hard","Em diagramas, contatos 13-14 frequentemente indicam:","Contato auxiliar NA","Contato principal trifásico","Terminais de aterramento","Sensor analógico","Na identificação usual, 13-14 representa auxiliar normalmente aberto."],["Comandos elétricos","hard","Em diagramas, contatos 21-22 frequentemente indicam:","Contato auxiliar NF","Entrada analógica 0-10 V","Bobina de contator","Saída PWM","Na identificação usual, 21-22 representa auxiliar normalmente fechado."],["Máquinas e inversores","easy","Qual é a função geral de um inversor de frequência?","Controlar velocidade de motor CA por frequência e tensão adequadas","Medir resistência de isolação","Trocar fase por PE","Atuar apenas como fusível","Inversor controla alimentação do motor conforme estratégia de controle."],["Máquinas e inversores","easy","O que é motor de indução trifásico?","Máquina em que o rotor recebe corrente por indução","Motor exclusivo de CC","Motor sem campo magnético","Sensor com três contatos","Rotor de indução interage com campo girante do estator."],["Máquinas e inversores","medium","Em motor de indução, escorregamento é:","Diferença relativa entre velocidade síncrona e velocidade do rotor","Frequência da tensão de comando","Resistência de isolamento","Corrente no cabo PE","Motor assíncrono gira abaixo da velocidade síncrona em motorização normal."],["Máquinas e inversores","medium","Qual informação da placa do motor é indispensável na parametrização do inversor?","Tensão, corrente, frequência e rotação nominais","Cor do eixo","Nome do operador","Marca do botão de parada","Os dados nominais orientam a proteção e o modelo do motor."],["Máquinas e inversores","medium","A rampa de aceleração no inversor define:","Como a referência de velocidade varia ao acelerar","Corrente de fuga no PE","Número de terminais de comando","Brilho do display","Rampa limita a taxa de variação da referência."],["Máquinas e inversores","medium","Qual é a finalidade do circuito de frenagem com resistor, quando previsto?","Dissipar energia regenerada no barramento CC","Aumentar a frequência nominal da rede","Substituir isolamento do motor","Tornar a rede bifásica","Resistor de frenagem dissipa energia excedente."],["Máquinas e inversores","medium","O que uma soft-starter controla principalmente?","A tensão durante partida e parada do motor","A frequência continuamente como um inversor","A imagem de uma câmera","A posição de encoder absoluto","Soft-starter normalmente atua por controle de tensão com semicondutores."],["Máquinas e inversores","medium","Por que parametrizar corretamente corrente nominal do motor?","Para adequar a proteção e o controle","Para mudar quantidade de polos físicos","Para aumentar sempre o torque","Para eliminar curto-circuito","Proteção eletrônica depende dos dados corretos de placa."],["Máquinas e inversores","hard","O que é frenagem regenerativa em acionamentos?","Retorno de energia da carga ao acionamento ou à rede quando suportado","Desligamento de qualquer relé","Aumento da tensão no PE","Ausência de torque","Cargas podem devolver energia durante desaceleração e descida."],["Máquinas e inversores","hard","O que é controle vetorial de motor em inversor?","Estratégia que estima/controla grandezas associadas ao fluxo e torque","Chave manual de duas posições","Medição somente da temperatura","Controle por contato seco apenas","Controle vetorial proporciona controle de torque e fluxo."],["Máquinas e inversores","hard","O que indica a velocidade síncrona de motor CA?","Velocidade do campo girante determinada por frequência e polos","Velocidade fixa independente de frequência","Temperatura do enrolamento","Tensão entre PE e neutro","ns = 120×f/número de polos em rpm."],["Máquinas e inversores","hard","Um inversor acusa sobretensão no barramento CC na desaceleração. Uma causa possível é:","Energia regenerada sem dissipação suficiente","Frequência do encoder nula apenas","Contato NA no painel","Baixa luminosidade","Desaceleração rápida de carga inercial pode elevar o barramento CC."],["Sensores e instrumentação","easy","O sensor indutivo detecta preferencialmente:","Objetos metálicos","Somente madeira seca","Apenas luz ultravioleta","Apenas umidade","Sensores indutivos detectam metais pela interação eletromagnética."],["Sensores e instrumentação","easy","O sensor capacitivo pode detectar:","Materiais metálicos e não metálicos conforme ajuste","Somente corrente elétrica","Exclusivamente motores ligados","Apenas redes Ethernet","Sensor capacitivo responde à variação da capacitância."],["Sensores e instrumentação","easy","O sensor fotoelétrico usa principalmente:","Luz para detectar objetos","Campo magnético terrestre","Variação de resistência do PE","Corrente de partida","Sensores fotoelétricos utilizam emissão e recepção luminosa."],["Sensores e instrumentação","medium","Um transmissor industrial 4–20 mA usa 4 mA no zero da escala para:","Permitir zero vivo e distinguir certas falhas de fio","Anular a necessidade de alimentação","Indicar temperatura fixa de 4 °C","Fixar tensão de 4 V","Zero vivo é um benefício da faixa 4–20 mA."],["Sensores e instrumentação","medium","Qual o benefício de usar sinal 4–20 mA em processos industriais?","Boa imunidade a quedas de tensão em longos cabos dentro dos limites","A tensão sempre fica em 220 V","Não exige aterramento adequado","Não precisa de calibração","Malhas de corrente são comuns em instrumentação industrial."],["Sensores e instrumentação","medium","Qual a saída nominal alta de uma malha 4–20 mA?","20 mA","16 mA","10 V","4 V","20 mA corresponde ao topo de escala nominal."],["Sensores e instrumentação","medium","O que um encoder incremental normalmente fornece?","Pulsos ligados ao deslocamento ou rotação","Medição direta de resistência de isolação","Apenas um contato de emergência","Tensão fixa de 220 V","Pulsos A/B possibilitam medir posição relativa e velocidade."],["Sensores e instrumentação","medium","O contato PNP de sensor de 3 fios geralmente:","Fornece positivo à entrada quando ativo","Comuta sempre para 0 V quando ativo","É saída exclusivamente analógica","É contato mecânico reversor","Sensores PNP tipicamente fornecem corrente para a carga."],["Sensores e instrumentação","medium","O contato NPN de sensor de 3 fios geralmente:","Comuta a saída para o negativo quando ativo","Entrega 220 Vca sempre","É um sinal 4–20 mA","Tem contato seco obrigatório","Sensores NPN tipicamente drenam corrente para 0 V."],["Sensores e instrumentação","hard","O que significa histerese em uma chave de processo?","Diferença entre limiares de atuação e retorno","Perda total de sinal","Variação exclusiva de frequência","Atraso da CPU na inicialização","Histerese evita chaveamentos repetitivos ao redor do ponto."],["Sensores e instrumentação","hard","Qual instrumento é adequado para medir pressão de processo?","Transmissor de pressão","Sensor de cor RGB","Tacômetro óptico somente","Medidor de isolamento","Transmissor converte pressão em sinal adequado ao controle."],["CLP e Ladder","easy","O que significa CLP?","Controlador Lógico Programável","Comando Linear de Potência","Controle Local de Pressão","Comutador Lógico de Proteção","CLP é computador industrial usado em automação."],["CLP e Ladder","easy","Para que serve uma entrada digital do CLP?","Ler estado discreto de sensor ou contato","Alimentar diretamente motor de 50 cv","Substituir barramento de força","Regular corrente de solda","Entradas digitais leem níveis discretos compatíveis."],["CLP e Ladder","easy","Para que serve uma saída digital do CLP?","Comandar sinal discreto para dispositivo compatível","Ler corrente por TC obrigatoriamente","Armazenar arquivo PDF","Medir tensão de linha diretamente","Saídas digitais podem comandar relés ou atuadores intermediários."],["CLP e Ladder","easy","Em Ladder, contato normalmente aberto lógico costuma testar:","Bit verdadeiro para continuidade lógica","Tensão física do CLP apenas","Bit falso para continuidade","Terra físico no quadro","Contato XIC em Rockwell é verdadeiro quando bit está 1."],["CLP e Ladder","easy","Em Ladder, contato normalmente fechado lógico costuma testar:","Bit falso para continuidade lógica","Bit verdadeiro obrigatoriamente","Tensão da rede elétrica","Posição física do disjuntor","Contato XIO em Rockwell é verdadeiro quando bit está 0."],["CLP e Ladder","medium","O que significa ciclo de varredura do CLP?","Sequência cíclica de leitura, execução e atualização conforme arquitetura","Somente varredura de antivírus","Velocidade nominal do motor","Frequência da energia elétrica","Scan de CLP inclui processamento de lógica e tarefas de E/S."],["CLP e Ladder","medium","Uma bobina OTE do Logix 5000 normalmente:","Escreve no bit conforme condição do degrau","Mantém saída permanentemente ao desligar condição","É sempre contador","Lê temperatura analógica","OTE reflete a condição lógica avaliada no rung."],["CLP e Ladder","medium","Em Logix 5000, a instrução XIC é verdadeira quando o bit está:","1","0","Em falha sempre","Sempre alternando","Examine If Closed testa condição de bit energizado."],["CLP e Ladder","medium","Em Logix 5000, a instrução XIO é verdadeira quando o bit está:","0","1","Em sobretemperatura sempre","Em 220 V apenas","Examine If Open testa condição de bit desenergizado."],["CLP e Ladder","medium","Qual a diferença principal entre TON e TOF?","TON atrasa ligar e TOF atrasa desligar","TON conta pulsos e TOF mede pressão","Ambos sempre desligam imediatamente","TON exige motor síncrono","TON e TOF são temporizadores com comportamentos distintos."],["CLP e Ladder","medium","Uma instrução CTU geralmente realiza:","Contagem crescente por transições qualificadas","Conversão de frequência","Regulagem de fator de potência","Bloqueio mecânico","CTU aumenta o acumulado a cada condição de contagem."],["CLP e Ladder","medium","Uma intertravamento de software substitui sozinho a função de segurança necessária?","Não, segurança requer arquitetura validada apropriada","Sim, qualquer bit substitui dispositivos","Sim, basta uma senha","Apenas no modo manual","Funções de segurança exigem avaliação de risco e componentes adequados."],["CLP e Ladder","medium","Em Ladder, dois contatos em série implementam:","Lógica E (AND)","Lógica OU (OR)","Contador regressivo","Conversão analógica","Os dois contatos precisam estar logicamente verdadeiros."],["CLP e Ladder","medium","Em Ladder, dois ramos paralelos de contatos implementam:","Lógica OU (OR)","Lógica E (AND)","Função logarítmica","Modbus TCP","Basta um ramo logicamente verdadeiro."],["CLP e Ladder","medium","O que é debounce de entrada?","Tratamento de oscilações rápidas de contato ou sinal","Aumento de potência na saída","Geração de tensões trifásicas","Redução da resistência de fio","Debounce evita múltiplos eventos por bouncing."],["CLP e Ladder","hard","Em uma rotina com duas OTE no mesmo bit, o principal risco é:","A última escrita conforme execução prevalecer inesperadamente","O motor acelerar acima da placa","A frequência dobrar","O bit virar necessariamente analógico","Múltiplas escritas podem criar conflito e dificultar diagnóstico."],["CLP e Ladder","hard","Qual a utilidade de máquina de estados em programação de CLP?","Representar etapas e transições de processo com regras explícitas","Substituir análise de risco","Eliminar lógica de falhas","Trocar entradas digitais por analógicas","Estados organizam sequências de operação."],["CLP e Ladder","hard","Ao detectar perda de comunicação de rede, lógica robusta deve:","Tratar diagnóstico e adotar comportamento seguro definido pelo projeto","Ignorar a falha para sempre","Forçar todas saídas ligadas","Apagar programa automaticamente","Falhas de rede exigem estratégia de recuperação e condição segura."],["Rockwell","easy","Studio 5000 Logix Designer é utilizado principalmente para:","Programar controladores da família Logix","Editar somente fotos","Ajustar exclusivamente inversores WEG","Calibrar células de carga sem CLP","Logix Designer atende controladores ControlLogix e CompactLogix compatíveis."],["Rockwell","easy","Qual família é típica do RSLogix 500?","MicroLogix e SLC 500 compatíveis","ControlLogix modernos exclusivamente","Siemens S7-1500","Arduino Uno","RSLogix 500 é associado a famílias SLC/MicroLogix."],["Rockwell","medium","Em Studio 5000, o termo tag se refere a:","Variável nomeada e tipada usada no controlador","Terminal de parafuso físico apenas","Cabo coaxial","Número da placa do motor","Tags organizam dados acessados pela lógica."],["Rockwell","medium","O que significa Online em um projeto de CLP?","Conexão com controlador para observar e, se autorizado, interagir com execução","Somente abrir arquivo local","Colocar IP fixo no notebook","Instalar impressora","Modo Online permite monitorar estados no controlador."],["Rockwell","medium","A instrução OTL em Logix 5000 normalmente:","Trava o bit em 1 até ação de destravamento","Escreve sempre bit conforme rung","Destrava o bit","Mede período","OTL é retentiva e normalmente requer OTU para desabilitar."],["Rockwell","medium","A instrução OTU em Logix 5000 normalmente:","Destrava o bit retentivo","Trava bit em 1","Conta pulsos","Faz controle PID","OTU remove a retenção do bit."],["Rockwell","medium","Qual bit de temporizador TON Logix 5000 indica conclusão?",".DN",".ACC",".PRE",".ENB",".DN indica condição de tempo concluído na instrução."],["Rockwell","medium","Qual campo de temporizador contém tempo acumulado no Logix 5000?",".ACC",".DN",".PRE",".CU",".ACC é o acumulador do temporizador."],["Rockwell","medium","Qual campo de temporizador contém o tempo ajustado no Logix 5000?",".PRE",".DN",".ACC",".TT",".PRE é o valor preset."],["Rockwell","medium","No Studio 5000, uma rotina Ladder integra:","Um programa dentro de uma task no projeto","Somente a placa de rede externa","A lista de materiais","Uma pasta de Windows independente","A organização Logix utiliza tasks, programs e routines."],["Rockwell","medium","RSLinx Classic é conhecido principalmente por:","Comunicação entre aplicações e dispositivos industriais compatíveis","Desenho 3D mecânico","Proteção de motores por relé","Conversão elétrica CC/CA","RSLinx Classic fornece drivers e comunicação com dispositivos."],["Rockwell","hard","O bit .TT de TON Logix 5000 indica:","Temporizador contando enquanto ainda não concluiu","Temporizador permanentemente resetado","Saída física em curto","Falha de memória fatal","Timer Timing indica condição de temporização ativa."],["Rockwell","hard","Por que evitar alterar lógica online sem procedimento?","Mudanças podem afetar processo e segurança imediatamente","Porque o compilador sempre falha","Porque toda alteração online apaga o CLP","Porque não há versão do projeto","Alterações online requerem controle de mudanças e testes."],["Rockwell","hard","Em Logix 5000, a diferença entre Controller Tags e Program Tags é:","Escopo global do controlador versus escopo local do programa","Bits analógicos versus físicos","Variáveis de 8 bits versus de 64 bits","Rede Ethernet versus serial","A escolha de escopo controla visibilidade e organização."],["Rockwell","hard","O que um UDT representa em Logix 5000?","Tipo de dado estruturado definido pelo usuário","Um cabo USB especial","Um botão de parada","Um dispositivo de proteção DR","UDT agrupa campos relacionados em uma estrutura."],["Rockwell","hard","A finalidade de uma AOI no Studio 5000 é:","Encapsular lógica reutilizável com parâmetros","Substituir eletricidade","Impedir leitura de tags","Gerar sinal trifásico","Add-On Instruction organiza e reutiliza lógica."],["FactoryTalk","easy","FactoryTalk View é uma plataforma de:","Interface Homem-Máquina e supervisão","Partida direta de motor","Distribuição de energia primária","Medição mecânica","FactoryTalk View desenvolve visualização e operação do processo."],["FactoryTalk","medium","FactoryTalk View ME é voltado principalmente para:","Aplicações HMI de máquina","Somente relatórios fiscais","Programação exclusiva de CNC","Desenho de circuitos impressos","ME é Machine Edition."],["FactoryTalk","medium","FactoryTalk View SE é voltado principalmente para:","Aplicações de supervisão distribuída e estações","Somente medição com multímetro","Firmware de roteador doméstico","Controle de resistores","SE é Site Edition."],["FactoryTalk","medium","Qual a função de um tag associado a botão no supervisório?","Vincular a ação visual a um dado ou comando do sistema","Converter 440 V em 24 V","Eliminar permissivos do CLP","Aumentar memória RAM","A escrita de tags pode disparar comandos quando programada e autorizada."],["FactoryTalk","medium","Um objeto de animação de cor no HMI pode:","Indicar visualmente o estado de um bit ou condição","Substituir circuito de segurança","Reduzir corrente elétrica automaticamente","Calibrar motor","A animação pode vincular aparência a expressão/tag."],["FactoryTalk","medium","Qual componente é usado para exibir histórico de variáveis?","Trend ou tendência","Contator mecânico","Fusível NH","Borne de passagem","Tendências ajudam a analisar comportamento do processo."],["FactoryTalk","medium","Uma tela de alarmes normalmente serve para:","Exibir condições de falha ou alerta configuradas","Converter tensão","Ligar fases ao PE","Regular vazão sem lógica","Alarmes oferecem informação para operação e diagnóstico."],["FactoryTalk","medium","Uma receita no supervisório geralmente é:","Conjunto salvo de parâmetros de processo","Uma rotina de backup de firmware necessariamente","Um contato NF físico","Um transmissor 4–20 mA","Receitas permitem aplicar configurações de produção quando autorizado."],["FactoryTalk","hard","Antes de enviar comando de partida pelo HMI, o sistema deve:","Respeitar permissivos e intertravamentos definidos no CLP e segurança","Ignorar todos os alarmes","Forçar saída diretamente","Desativar proteção térmica","HMI não substitui lógica de segurança."],["FactoryTalk","hard","Qual é o benefício de objetos globais no FactoryTalk View?","Reutilizar elementos e manter padrão entre telas","Aumentar tensão do motor","Substituir CLP por HTML","Criar fisicamente contatos","Objetos globais padronizam elementos replicados."],["FactoryTalk","hard","O que é um faceplate de motor no HMI?","Tela/objeto padronizado para operação e diagnóstico do equipamento","Placa de identificação do motor somente","Tipo de disjuntor de potência","Cabo da IHM","Faceplates centralizam informações e comandos relacionados."],["FactoryTalk","hard","Para diagnosticar X de falha ou objeto sem dado no HMI, qual verificação é adequada?","Comunicação, tag, caminho e qualidade do dado","Trocar o PE pela fase","Aumentar rotação do motor","Ignorar o alarme","Objetos sem dados frequentemente exigem verificar conectividade e referências."],["Programação avançada","easy","Em programação, uma variável booleana armazena:","Verdadeiro ou falso","Somente números decimais","Arquivos grandes","Endereço físico obrigatório","Booleanos representam dois estados lógicos."],["Programação avançada","easy","Qual operador lógico só é verdadeiro quando ambas condições são verdadeiras?","AND","OR","NOT","XOR","AND exige ambas entradas verdadeiras."],["Programação avançada","easy","Qual operador lógico é verdadeiro quando pelo menos uma condição é verdadeira?","OR","AND","NOT","MOD","OR exige ao menos uma entrada verdadeira."],["Programação avançada","medium","Em Structured Text IEC 61131-3, qual instrução representa condição?","IF ... THEN ... END_IF","LOOP FOREVER obrigatório","PRINT SCREEN","WIRE MOTOR","Structured Text usa estruturas de controle como IF e CASE."],["Programação avançada","medium","Qual instrução ST é adequada para selecionar uma entre várias condições discretas?","CASE","RTO","XIC","JMP sempre","CASE permite decisão por múltiplos casos."],["Programação avançada","medium","Qual vantagem de funções reutilizáveis?","Reduzir duplicação de lógica e facilitar manutenção","Dispensar testes","Ignorar tipos de dados","Eliminar documentação","Reuso consistente melhora manutenção."],["Programação avançada","medium","O que é borda de subida de um sinal digital?","Transição de 0 para 1","Transição de 1 para 0","Qualquer nível constante em 1","Qualquer nível constante em 0","A detecção de borda gera evento na transição ascendente."],["Programação avançada","medium","O que é borda de descida de um sinal digital?","Transição de 1 para 0","Transição de 0 para 1","Aumento da tensão nominal","Somente sinal analógico","Borda de descida identifica mudança de 1 para 0."],["Programação avançada","hard","Por que uma máquina de estados ajuda a controlar sequências?","Define estados, transições, ações e falhas de forma explícita","Dispensa watchdog e diagnóstico","Impede automaticamente todo defeito físico","Substitui dispositivos de proteção","FSM torna mais previsíveis sequências de processo."],["Programação avançada","hard","O que é condição de corrida em sistemas concorrentes?","Resultado depende da ordem de execução de operações","Corrida física entre motores","Sobrecarga de fase","Falha de isolação","A ordem de acesso a estado compartilhado pode alterar resultado."],["Programação avançada","hard","Em Python, o que resulta de len([10,20,30])?","3","30","60","0","A função len retorna a quantidade de elementos."],["Programação avançada","medium","Em Python, qual símbolo inicia comentário de uma linha?","#","//","--","/**/","Em Python o caractere # inicia comentário fora de strings."],["Programação avançada","medium","Em JavaScript, === compara:","Valor e tipo sem coerção","Somente o tipo","Somente o valor com conversão","Endereço físico","Igualdade estrita considera tipo e valor."],["Programação avançada","hard","O que é watchdog em software embarcado ou CLP?","Mecanismo que detecta atraso ou travamento de execução","Dispositivo que mede watts","Temporizador usado apenas em semáforo","Medidor de potência reativa","Watchdog ajuda a detectar execução fora do tempo."],["Programação avançada","hard","Por que registrar logs de falhas com timestamp?","Para reconstruir sequência temporal de eventos","Para aumentar velocidade física do motor","Para dispensar análise de causa","Para substituir proteção","Registros temporais facilitam diagnóstico de falhas intermitentes."],["Programação avançada","hard","O que é tratamento de exceções em software?","Estratégia para lidar com erros sem comportamento inesperado","Troca de três fases","Dispositivo elétrico de proteção","Aumento do ciclo de varredura sempre","Tratamento de falhas torna software mais previsível."],["Programação avançada","hard","Em comunicação industrial, o que é timeout?","Prazo máximo de espera por uma resposta","Tensão máxima do inversor","Corrente de pico de partida","Nome de entrada física","Timeout delimita espera e exige tratamento de perda de comunicação."],["Programação avançada","challenge","Qual é a prática correta ao escrever em saídas críticas via SCADA?","Controlar permissões e manter intertravamentos validados no controlador","Confiar apenas no botão gráfico","Desativar verificações para reduzir latência","Duplicar saídas de segurança via software comum","Comandos críticos demandam controle de acesso e arquitetura segura."],["Programação avançada","challenge","Ao desenvolver lógica de reset de falha, o reset deve:","Exigir condições seguras e não provocar partida inesperada","Ligar imediatamente todas as saídas","Ignorar sinal de emergência","Desabilitar todas as proteções","Reset não deve iniciar movimento perigoso automaticamente."],["Programação avançada","challenge","O que significa princípio fail-safe?","Falhas previstas devem levar sistema a condição segura definida","Falhas devem ser sempre ignoradas","Tudo deve ficar energizado na falha","Não é necessário diagnosticar erro","Comportamento seguro é definido por avaliação de risco e projeto."]];
+  const curated=[],calculated=[];
+  function add(target,category,difficulty,question,correct,wrong,explanation) {
+    const options=[String(correct),...wrong.map(String)];
+    if(options.length!==4 || new Set(options).size!==4) throw Error('Alternativas repetidas: '+question);
+    const id='e'+String(curated.length+calculated.length+1).padStart(4,'0');
+    // Deslocamento determinístico para evitar posição fixa da resposta.
+    const shift=(curated.length+calculated.length)*7%4;
+    const rotated=options.slice(shift).concat(options.slice(0,shift));
+    const answer=rotated.indexOf(options[0]);
+    target.push({id,conceptId:id,question,options:rotated,answer,category,difficulty,reference:explanation});
+  }
+  manualRows.forEach(row=>{
+    const [category,difficulty,question,correct,w1,w2,w3,reference]=row;
+    add(curated,category,difficulty,question,correct,[w1,w2,w3],reference);
+  });
+  function numeric(category,difficulty,question,n,unit,explanation,step=0) {
+    const delta=step || Math.max(1,Math.round(n*0.2*100)/100);
+    const fmt=x=>Number(Number(x).toFixed(3)).toLocaleString('pt-BR',{maximumFractionDigits:3})+(unit?' '+unit:'');
+    const nums=[n,n+delta,n+2*delta,n+3*delta];
+    add(calculated,category,difficulty,question,fmt(nums[0]),nums.slice(1).map(fmt),explanation);
+  }
+  // Exercícios de Ohm, potência e energia: parâmetros distintos, sem repetição literal.
+  for(const v of [12,24,36,48,60,110,120,127,220,230,240,380,400,440,480]){
+    for(const i of [1,2,3,4,5,6,8,10]){
+      if(v%i!==0) continue;
+      numeric('Básica',v>=220?'medium':'easy', 'Um resistor de '+(v/i)+' Ω é alimentado por '+v+' V em CC. Qual é a corrente?',i,'A','Pela lei de Ohm: I = V/R = '+v+'/'+(v/i)+' = '+i+' A.',1);
+    }
+  }
+  for(const v of [12,24,48,110,127,220,230,380,440,480]){
+    for(const i of [1,2,3,4,5,6,8,10,12]){
+      numeric('Básica',v*i>=1500?'medium':'easy','Uma carga de CC recebe '+v+' V e consome '+i+' A. Qual sua potência?',v*i,'W','P = V × I = '+v+' × '+i+' = '+(v*i)+' W.',v);
+    }
+  }
+  for(const r1 of [2,3,4,5,6,8,10,12,15,20]){
+    for(const r2 of [3,4,5,6,8,10,12,15,20]){
+      if(r2<=r1) continue;
+      numeric('Básica','easy','Resistores de '+r1+' Ω e '+r2+' Ω ligados em série têm resistência equivalente de:',r1+r2,'Ω','Em série, Req = R1 + R2 = '+(r1+r2)+' Ω.',r1);
+    }
+  }
+  for(const watts of [400,500,600,750,1000,1200,1500,2000,2500,3000,4000]){
+    for(const hrs of [1,2,3,4,5,6,8]){
+      const kwh=watts*hrs/1000;
+      numeric('Instalações e segurança','medium','Um equipamento de '+watts+' W fica ligado por '+hrs+' h. Quanta energia consome?',kwh,'kWh','Energia = ('+watts+'/1000) × '+hrs+' = '+kwh+' kWh.',0.5);
+    }
+  }
+  for(const ohms of [4,6,8,10,12,16,20,24,30,40,50,60]){
+    numeric('Básica','medium','Dois resistores iguais de '+ohms+' Ω estão em paralelo. Qual Req?',ohms/2,'Ω','Dois resistores iguais em paralelo: Req = '+ohms+'/2 = '+(ohms/2)+' Ω.',1);
+  }
+  for(const max of [10,20,40,100,200,400,1000]){
+    for(const pct of [25,50,75,100]){
+      const ma=4+(pct/100)*16;
+      numeric('Sensores e instrumentação','medium','Um transmissor 4–20 mA mede 0 a '+max+' unidades. Qual corrente representa '+pct+'% da escala?',ma,'mA','I = 4 + 16 × '+pct+'/100 = '+ma+' mA.',2);
+    }
+  }
+  for(const seconds of [1,2,3,4,5,6,8,10,12,15,20,25,30,45,60]){
+    numeric('Rockwell','medium','Em TON do Logix 5000, qual PRE em milissegundos representa '+seconds+' s?',seconds*1000,'ms','Em Logix 5000, PRE é expresso em milissegundos: '+seconds+'×1000 ms.',1000);
+  }
+  for(const hz of [10,20,25,40,50,60,100,125,200,250]){
+    for(const poles of [2,4,6,8]){
+      if((120*hz)%poles!==0)continue;
+      numeric('Máquinas e inversores','hard','Motor de CA com '+poles+' polos alimentado em '+hz+' Hz. Qual velocidade síncrona?',120*hz/poles,'rpm','nₛ = 120 × f/polos = '+(120*hz/poles)+' rpm.',100);
+    }
+  }
+  for(const n of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,20,24,31,32]){
+    const b=n.toString(2);
+    add(calculated,'Programação avançada','medium','Qual a representação binária do número decimal '+n+'?',b,[String(n),String(n)+'0','0'+b],'Binário é base 2; '+n+' em base 2 = '+b+'.');
+  }
+  const groups={};
+  for(const q of calculated)(groups[q.category]??=[]).push(q);
+  let selected=[...curated];
+  // Distribuição round-robin impede que só cálculos básicos preencham o banco.
+  while(selected.length<500){
+    let progress=false;
+    for(const category of ['Sensores e instrumentação','Rockwell','Máquinas e inversores','Programação avançada','Instalações e segurança','Básica']){
+      if(selected.length>=500) break;
+      if(groups[category]?.length){selected.push(groups[category].shift());progress=true;}
+    }
+    if(!progress)break;
+  }
+  // Embaralhamento determinístico preserva os 500 conceitos originais em cada visita.
+  let seed=20261014;
+  for(let j=selected.length-1;j>0;j--){seed=(seed*1664525+1013904223)>>>0;const k=seed%(j+1);[selected[j],selected[k]]=[selected[k],selected[j]];}
+  return selected;
+})();
+
+
+
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
+const screens = $$('.screen');
+const els = {
+  homeVerse: $('#homeVerse'), homeVerseRef: $('#homeVerseRef'), localPlayers: $('#localPlayers'), qpp: $('#questionsPerPlayer'),
+  scoreboard: $('#scoreboard'), turnLabel: $('#turnLabel'), progressLabel: $('#progressLabel'), specialBanner: $('#specialBanner'),
+  timerBar: $('#timerBar'), categoryTag: $('#categoryTag'), difficultyTag: $('#difficultyTag'), pointsTag: $('#pointsTag'),
+  questionText: $('#questionText'), answers: $('#answers'), eliminateBtn: $('#eliminateBtn'), skipBtn: $('#skipBtn'),
+  eliminateCount: $('#eliminateCount'), skipCount: $('#skipCount'), feedback: $('#feedback'), reference: $('#reference'),
+  resultRanking: $('#resultRanking'), winnerTitle: $('#winnerTitle'), toast: $('#toast'), onlineLobby: $('#onlineLobby'),
+  networkStatus: $('#networkStatus'), roomCodeBox: $('#roomCodeBox'), roomCodeText: $('#roomCodeText'), lobbyPlayers: $('#lobbyPlayers'),
+  startOnlineBtn: $('#startOnlineBtn'), lobbyTitle: $('#lobbyTitle')
+};
+
+const VERSES = [
+  ['Nunca trate o botão de emergência como substituto do bloqueio de energia.', 'Segurança em manutenção'],
+  ['Em CC: tensão = resistência × corrente.', 'Lei de Ohm'],
+  ['Em Ladder, dois contatos em série equivalem à função lógica E.', 'Lógica de CLP'],
+  ['Em transmissores 4–20 mA, 12 mA representam 50% da faixa.', 'Instrumentação'],
+  ['Em Logix 5000, .PRE é ajuste do timer e .ACC é valor acumulado.', 'Studio 5000'],
+  ['Sempre confirme tensão e categoria adequada dos instrumentos de medição.', 'Medição segura'],
+  ['FactoryTalk View exibe tags; permissivos e segurança pertencem ao controle.', 'Supervisório'],
+  ['Antes de editar o CLP online, controle riscos, versão e procedimento.', 'Boa prática industrial']
+];
+const DIFF_LABEL = { easy:'Iniciante', medium:'Intermediário', hard:'Avançado', challenge:'Desafio' };
+const BASE_POINTS = { easy:1, medium:2, hard:3, challenge:4 };
+
+let localPlayerCount = 2;
+let state = null;
+let timerHandle = null;
+let soundOn = true;
+let installPrompt = null;
+let peer = null;
+let hostConn = null;
+let connections = new Map();
+let onlineRole = null;
+let currentRoomCode = '';
+let myPlayerId = null;
+let lobbyState = { players:[], qpp:10, gameRule:'classic' };
+let lastGameConfig = null;
+
+function showScreen(id){
+  screens.forEach(s=>s.classList.toggle('active', s.id===id));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function toast(msg){
+  els.toast.textContent = msg; els.toast.classList.add('show');
+  clearTimeout(toast.t); toast.t=setTimeout(()=>els.toast.classList.remove('show'),2200);
+}
+function safeName(v, fallback='Jogador'){ return (v||'').trim().slice(0,24) || fallback; }
+function escapeHtml(s=''){ return s.replace(/[&<>'"]/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c])); }
+function shuffle(a){ const x=[...a]; for(let i=x.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [x[i],x[j]]=[x[j],x[i]]; } return x; }
+function beep(freq=520,dur=.08){
+  if(!soundOn) return;
+  try{ const C=window.AudioContext||window.webkitAudioContext; const ac=new C(); const o=ac.createOscillator(); const g=ac.createGain(); o.frequency.value=freq; g.gain.setValueAtTime(.05,ac.currentTime); g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+dur); o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+dur);setTimeout(()=>ac.close(),300);}catch{}
+}
+
+function setVerse(){ const v=VERSES[Math.floor(Math.random()*VERSES.length)]; els.homeVerse.textContent='“'+v[0]+'”'; els.homeVerseRef.textContent=v[1]; }
+function renderLocalInputs(){
+  const old=[...els.localPlayers.querySelectorAll('input')].map(i=>i.value);
+  els.localPlayers.innerHTML='';
+  for(let i=0;i<localPlayerCount;i++){
+    const input=document.createElement('input'); input.maxLength=24; input.placeholder=`Jogador ${i+1}`; input.value=old[i]||'';
+    els.localPlayers.appendChild(input);
+  }
+}
+function playerTemplate(p){
+  return { id:p.id, name:p.name, score:0, streak:0, maxStreak:0, correct:0, wrong:0, eliminate:1, skip:1, alive:true, eliminatedAt:null };
+}
+function normalizePlayers(players){
+  return players.map((p,i)=>typeof p==='string' ? playerTemplate({id:`local-${i}-${Date.now()}`,name:safeName(p,`Jogador ${i+1}`)}) : playerTemplate({id:p.id,name:safeName(p.name,`Jogador ${i+1}`)}));
+}
+function newGame(players,qpp,mode,gameRule='classic'){
+  clearInterval(timerHandle);
+  const topic=mode==='local'?($('#localTopic').value||'all'):(lobbyState.topic||'all');
+  const level=mode==='local'?($('#localLevel').value||'progressive'):(lobbyState.level||'progressive');
+  state={
+    mode, gameRule, topic, level, players:normalizePlayers(players), qpp:Number(qpp)||10, totalTurns:players.length*(Number(qpp)||10), completedTurns:0,
+    activeIndex:0, currentQuestion:null, usedConcepts:[], challenge:false, lightning:false, timeLeft:30, maxTime:30,
+    hiddenOptions:[], feedback:null, answered:false, inTiebreak:false, tieQueue:[], tieIndex:0, eliminationCounter:0
+  };
+  lastGameConfig={ players:players.map(p=>typeof p==='string'?p:{id:p.id,name:p.name}), qpp:Number(qpp)||10, mode, gameRule };
+  showScreen('gameScreen');
+  loadQuestion();
+}
+function isAuthority(){ return state && state.mode!=='online-client'; }
+function activePlayer(){ return state?.players[state.activeIndex]; }
+function canIAct(){
+  if(!state || state.answered) return false;
+  if(state.mode==='local') return true;
+  return activePlayer()?.id===myPlayerId;
+}
+function desiredDifficulty(){
+  if(state.level&&state.level!=='progressive')return state.level;
+  if(state.gameRule==='knockout') return state.completedTurns<state.players.length?'medium':'hard';
+  if(state.inTiebreak) return 'hard';
+  const progress=state.totalTurns?state.completedTurns/state.totalTurns:0;
+  if(progress<.25) return 'easy';
+  if(progress<.6) return Math.random()<.65?'medium':'easy';
+  if(progress<.85) return Math.random()<.7?'hard':'medium';
+  return 'hard';
+}
+function pickQuestion(){
+  const diff=desiredDifficulty();
+  const available=QUESTIONS.filter(q=>state.topic==='all'||q.category===state.topic);
+  const source=available.length?available:QUESTIONS;
+  const used=new Set(state.usedConcepts);
+  let pool=source.filter(q=>q.difficulty===diff && !used.has(q.conceptId));
+  if(!pool.length) pool=source.filter(q=>!used.has(q.conceptId));
+  if(!pool.length){ state.usedConcepts=[]; pool=source.filter(q=>q.difficulty===diff); }
+  if(!pool.length)pool=source;
+  const q=pool[Math.floor(Math.random()*pool.length)];
+  state.usedConcepts.push(q.conceptId);
+  return q;
+}
+function questionBasePoints(){ return BASE_POINTS[state.currentQuestion?.difficulty]||1; }
+function displayedPoints(){ return questionBasePoints()*(state.challenge?2:1)+(state.lightning?1:0); }
+
+function loadQuestion({preserveTime=false}={}){
+  if(!state) return;
+  state.currentQuestion=pickQuestion();
+  const turnNo=state.completedTurns+1;
+  state.challenge=state.inTiebreak || (turnNo%5===0);
+  state.lightning=state.inTiebreak || (turnNo%7===0);
+  state.hiddenOptions=[]; state.feedback=null; state.answered=false;
+  if(!preserveTime){ state.maxTime=state.lightning?12:30; state.timeLeft=state.maxTime; }
+  renderGame(); broadcastGame(); startTimer();
+}
+function startTimer(){
+  clearInterval(timerHandle);
+  if(!isAuthority() || !state || state.answered) return;
+  timerHandle=setInterval(()=>{
+    state.timeLeft=Math.max(0,state.timeLeft-1); renderTimer(); broadcastGame();
+    if(state.timeLeft<=0){ clearInterval(timerHandle); resolveAnswer(null); }
+  },1000);
+}
+function renderTimer(){ if(!state)return; els.timerBar.style.width=`${Math.max(0,(state.timeLeft/state.maxTime)*100)}%`; }
+function renderGame(){
+  if(!state || !state.currentQuestion) return;
+  els.scoreboard.innerHTML=state.players.map((p,i)=>`<div class="score-player ${i===state.activeIndex&&p.alive?'active':''} ${!p.alive?'eliminated':''}"><div class="name">${escapeHtml(p.name)} ${!p.alive?'💥':''}</div><div class="stats"><span>${state.gameRule==='knockout'?(p.alive?'EM JOGO':'ELIMINADO'):(p.score+' pts')}</span><span>🔥 ${p.streak}</span></div></div>`).join('');
+  els.turnLabel.innerHTML=`Vez de ${escapeHtml(activePlayer()?.name||'—')}${state.gameRule==='knockout'?'<span class="knockout-badge">💥 ERROU, CAIU</span>':''}`;
+  els.progressLabel.textContent=state.gameRule==='knockout' ? `${state.players.filter(p=>p.alive).length} jogador${state.players.filter(p=>p.alive).length!==1?'es':''} em jogo` : (state.inTiebreak ? 'Desempate automático' : `Pergunta ${Math.min(state.completedTurns+1,state.totalTurns)} de ${state.totalTurns}`);
+  let special=[]; if(state.challenge) special.push('👑 DESAFIO VERBUM — pontos dobrados'); if(state.lightning) special.push('⚡ RELÂMPAGO — responda rápido');
+  els.specialBanner.hidden=!special.length; els.specialBanner.textContent=special.join(' • ');
+  renderTimer();
+  els.categoryTag.textContent=state.currentQuestion.category;
+  els.difficultyTag.textContent=DIFF_LABEL[state.currentQuestion.difficulty]||state.currentQuestion.difficulty;
+  els.pointsTag.textContent=`${displayedPoints()}+ pontos`;
+  els.questionText.textContent=state.currentQuestion.question;
+  els.answers.innerHTML='';
+  state.currentQuestion.options.forEach((opt,i)=>{
+    const b=document.createElement('button'); b.className='answer'; b.textContent=opt;
+    if(state.hiddenOptions.includes(i)) b.classList.add('hidden-option');
+    if(state.feedback){
+      b.disabled=true;
+      if(i===state.currentQuestion.answer) b.classList.add('correct');
+      if(state.feedback.selected===i && !state.feedback.correct) b.classList.add('wrong');
+    } else b.addEventListener('click',()=>playerAction('answer',i));
+    els.answers.appendChild(b);
+  });
+  const p=activePlayer();
+  els.eliminateCount.textContent=`(${p?.eliminate||0}x)`; els.skipCount.textContent=`(${p?.skip||0}x)`;
+  const act=canIAct();
+  els.eliminateBtn.disabled=!act || !p?.eliminate || state.hiddenOptions.length>0;
+  els.skipBtn.disabled=!act || !p?.skip || state.gameRule==='knockout';
+  if(state.feedback){
+    els.feedback.hidden=false; els.reference.hidden=false;
+    els.feedback.className='feedback '+(state.feedback.correct?'ok':'bad');
+    els.feedback.textContent=state.feedback.text;
+    els.reference.textContent=`💡 ${state.currentQuestion.reference}`;
+  } else { els.feedback.hidden=true; els.reference.hidden=true; }
+}
+function playerAction(type,payload){
+  if(!canIAct()) { if(state?.mode==='online-client') toast('Aguarde a sua vez.'); return; }
+  if(state.mode==='online-client'){
+    hostConn?.send({type:'action',action:type,payload});
+    return;
+  }
+  applyAction(type,payload,activePlayer()?.id);
+}
+function applyAction(type,payload,senderId){
+  if(!state || state.answered || activePlayer()?.id!==senderId) return;
+  if(type==='answer') resolveAnswer(Number(payload));
+  if(type==='eliminate') eliminateTwo();
+  if(type==='skip') skipQuestion();
+}
+function eliminateTwo(){
+  const p=activePlayer(); if(!p || p.eliminate<=0 || state.hiddenOptions.length) return;
+  const wrong=state.currentQuestion.options.map((_,i)=>i).filter(i=>i!==state.currentQuestion.answer);
+  state.hiddenOptions=shuffle(wrong).slice(0,2); p.eliminate--; beep(420,.1); renderGame(); broadcastGame();
+}
+function skipQuestion(){
+  const p=activePlayer(); if(!p || p.skip<=0) return;
+  p.skip--; beep(350,.08); loadQuestion({preserveTime:true});
+}
+function resolveAnswer(selected){
+  if(!state || state.answered) return;
+  clearInterval(timerHandle); state.answered=true;
+  const p=activePlayer();
+  const correct=selected===state.currentQuestion.answer;
+  let awarded=0;
+  if(correct){
+    p.correct++; p.streak++; p.maxStreak=Math.max(p.maxStreak,p.streak);
+    const streakBonus=p.streak>=3?2:(p.streak>=2?1:0);
+    awarded=questionBasePoints()*(state.challenge?2:1)+(state.lightning?1:0)+streakBonus;
+    p.score+=awarded; beep(760,.12);
+  } else {
+    p.wrong++; p.streak=0; beep(180,.16);
+    if(state.gameRule==='knockout' && p.alive){ p.alive=false; p.eliminatedAt=++state.eliminationCounter; }
+  }
+  const knockoutText=state.gameRule==='knockout' && !correct ? (selected===null?'⏱️ Tempo esgotado — você foi eliminado! 💥':'❌ Resposta errada — você foi eliminado! 💥') : null;
+  state.feedback={selected,correct,awarded,text:knockoutText || (correct?`✅ Correto! +${awarded} ponto${awarded!==1?'s':''}.`:(selected===null?'⏱️ Tempo esgotado.':`❌ Não foi dessa vez. A resposta correta está destacada.`))};
+  renderGame(); broadcastGame();
+  setTimeout(advanceTurn,3500);
+}
+function advanceTurn(){
+  if(!state || !isAuthority()) return;
+  if(state.gameRule==='knockout'){
+    const alive=state.players.filter(p=>p.alive);
+    if(alive.length<=1){ finishGame(); return; }
+    state.completedTurns++;
+    let next=state.activeIndex;
+    for(let i=0;i<state.players.length;i++){ next=(next+1)%state.players.length; if(state.players[next].alive) break; }
+    state.activeIndex=next;
+    loadQuestion(); return;
+  }
+  if(state.inTiebreak){
+    state.tieIndex++;
+    if(state.tieIndex>=state.tieQueue.length){ evaluateTiebreakRound(); return; }
+    state.activeIndex=state.players.findIndex(p=>p.id===state.tieQueue[state.tieIndex]);
+    loadQuestion(); return;
+  }
+  state.completedTurns++;
+  if(state.completedTurns>=state.totalTurns){ checkFinishOrTiebreak(); return; }
+  state.activeIndex=(state.activeIndex+1)%state.players.length;
+  loadQuestion();
+}
+function checkFinishOrTiebreak(){
+  const ranked=[...state.players].sort((a,b)=>b.score-a.score);
+  const top=ranked[0]?.score??0; const tied=ranked.filter(p=>p.score===top);
+  if(tied.length<=1){ finishGame(); return; }
+  state.inTiebreak=true; state.tieQueue=tied.map(p=>p.id); state.tieIndex=0;
+  state.activeIndex=state.players.findIndex(p=>p.id===state.tieQueue[0]);
+  toast('Empate! Começando o Desafio de Desempate.');
+  loadQuestion();
+}
+function evaluateTiebreakRound(){
+  const pool=state.players.filter(p=>state.tieQueue.includes(p.id)).sort((a,b)=>b.score-a.score);
+  const best=pool[0]?.score??0; const still=pool.filter(p=>p.score===best);
+  if(still.length===1){ finishGame(); return; }
+  state.tieQueue=still.map(p=>p.id); state.tieIndex=0; state.activeIndex=state.players.findIndex(p=>p.id===state.tieQueue[0]);
+  toast('O empate continua. Nova rodada decisiva!'); loadQuestion();
+}
+function matchLevel(score){ if(score>=55)return'Verbum PRO'; if(score>=40)return'Mestre da Automação'; if(score>=28)return'Técnico'; if(score>=16)return'Especialista'; return'Aprendiz'; }
+function finishGame(){
+  clearInterval(timerHandle); state.answered=true;
+  const ranked=state.gameRule==='knockout'
+    ? [...state.players].sort((a,b)=>(Number(b.alive)-Number(a.alive)) || ((b.eliminatedAt||0)-(a.eliminatedAt||0)) || b.correct-a.correct)
+    : [...state.players].sort((a,b)=>b.score-a.score || b.correct-a.correct);
+  state.finalRanking=ranked; broadcastGame({final:true}); renderResults(ranked); showScreen('resultScreen');
+}
+function renderResults(ranked){
+  const top=ranked[0]; els.winnerTitle.textContent=top?`🥇 ${top.name} venceu!`:'Resultado final';
+  els.resultRanking.innerHTML=ranked.map((p,i)=>`<div class="result-row"><strong>${i+1}º</strong><div><strong>${escapeHtml(p.name)}</strong><small>${state?.gameRule==='knockout'?(p.alive?'🏆 Sobreviveu até o final':`💥 Eliminado • ${p.correct} acertos`):`${p.correct} acertos • ${p.wrong} erros • melhor sequência ${p.maxStreak} • nível ${matchLevel(p.score)}`}</small></div><strong>${state?.gameRule==='knockout'?(p.alive?'VENCEU':'CAIU'):(p.score+' pts')}</strong></div>`).join('');
+}
+
+// Online P2P
+async function ensurePeer(){
+  if(window.Peer) return true;
+  toast('Conectando o modo online…');
+  const sources=[
+    'https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.5/peerjs.min.js',
+    'https://cdn.jsdelivr.net/npm/peerjs@1.5.5/dist/peerjs.min.js',
+    'https://unpkg.com/peerjs@1.5.5/dist/peerjs.min.js'
+  ];
+  for(const src of sources){
+    if(window.Peer) return true;
+    const ok=await new Promise(resolve=>{
+      const script=document.createElement('script');
+      script.src=src; script.async=true; script.dataset.peerjs='1';
+      let done=false;
+      const finish=v=>{if(done)return;done=true;resolve(v)};
+      script.onload=()=>finish(!!window.Peer);
+      script.onerror=()=>finish(false);
+      document.head.appendChild(script);
+      setTimeout(()=>finish(!!window.Peer),5000);
+    });
+    if(ok) return true;
+  }
+  toast('Modo online bloqueado neste navegador. Abra o arquivo no Chrome com internet.');
+  return false;
+}
+function peerCloudOptions(){
+  return {
+    host:'0.peerjs.com', port:443, path:'/', secure:true, key:'peerjs', debug:1,
+    config:{iceServers:[
+      {urls:'stun:stun.l.google.com:19302'},
+      {urls:'stun:stun1.l.google.com:19302'},
+      {urls:'stun:stun.cloudflare.com:3478'}
+    ],sdpSemantics:'unified-plan'}
+  };
+}
+function createCloudPeer(id){
+  return id ? new Peer(id,peerCloudOptions()) : new Peer(peerCloudOptions());
+}
+function armPeerOpenTimeout(target,button,message){
+  const timer=setTimeout(()=>{
+    if(target && !target.open){
+      setNetwork('Sem conexão');
+      if(button) button.disabled=false;
+      toast(message||'A conexão demorou demais. Abra no Chrome e tente novamente.');
+      try{target.destroy()}catch{}
+    }
+  },10000);
+  target.once?.('open',()=>clearTimeout(timer));
+  target.once?.('error',()=>clearTimeout(timer));
+}
+function setNetwork(text){ els.networkStatus.textContent=text; }
+function renderLobby(){
+  els.onlineLobby.hidden=false;
+  els.lobbyPlayers.innerHTML=lobbyState.players.map((p,i)=>`<div class="lobby-player"><b>${i===0?'👑 ':''}${escapeHtml(p.name)}</b><div class="fineprint">${i===0?'Organizador':'Jogador conectado'}</div></div>`).join('');
+  els.lobbyTitle.textContent=`${lobbyState.players.length} jogador${lobbyState.players.length!==1?'es':''} na sala`;
+}
+function broadcastLobby(){
+  if(onlineRole!=='host') return;
+  const msg={type:'lobby',players:lobbyState.players,qpp:lobbyState.qpp,gameRule:lobbyState.gameRule};
+  connections.forEach(c=>{if(c.open)c.send(msg)}); renderLobby();
+}
+function serializeState(){
+  if(!state)return null;
+  const {mode,...rest}=state; return rest;
+}
+function broadcastGame(extra={}){
+  if(onlineRole!=='host' || !state || state.mode!=='online-host') return;
+  const msg={type:'game',state:serializeState(),...extra};
+  connections.forEach(c=>{if(c.open)c.send(msg)});
+}
+function setupHostConnection(conn){
+  connections.set(conn.peer,conn);
+  conn.on('data',data=>{
+    if(data?.type==='join'){
+      if(!lobbyState.players.some(p=>p.id===conn.peer)) lobbyState.players.push({id:conn.peer,name:safeName(data.name,'Convidado')});
+      broadcastLobby();
+      if(state && state.mode==='online-host') conn.send({type:'game',state:serializeState()});
+    }
+    if(data?.type==='action' && state) applyAction(data.action,data.payload,conn.peer);
+  });
+  conn.on('close',()=>{
+    connections.delete(conn.peer);
+    lobbyState.players=lobbyState.players.filter(p=>p.id!==conn.peer);
+    broadcastLobby();
+    toast('Um jogador saiu da sala.');
+  });
+}
+function makeRoomCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let out='';
+  const bytes=new Uint8Array(6);
+  if(window.crypto?.getRandomValues) crypto.getRandomValues(bytes); else for(let i=0;i<6;i++)bytes[i]=Math.floor(Math.random()*256);
+  for(let i=0;i<6;i++) out+=chars[bytes[i]%chars.length];
+  return out;
+}
+function roomPeerId(code){ return 'verbum-eletrica-'+String(code||'').trim().toLowerCase().replace(/[^a-z0-9]/g,''); }
+function inviteLink(code=currentRoomCode){
+  try{ const u=new URL(location.href); u.searchParams.set('sala',code); u.searchParams.set('entrar','1'); return u.toString(); }
+  catch{return location.href;}
+}
+function resetOnlineUI(message='Sala encerrada'){
+  connections.forEach(c=>{try{c.close()}catch{}}); connections.clear();
+  try{hostConn?.close?.()}catch{}; hostConn=null;
+  try{peer?.destroy?.()}catch{}; peer=null; onlineRole=null; currentRoomCode=''; myPlayerId=null;
+  lobbyState={players:[],qpp:10,gameRule:'classic',topic:'all',level:'progressive'}; state=null;
+  els.roomCodeBox.hidden=true; $('#roomShareActions').hidden=true; els.startOnlineBtn.hidden=true;
+  els.onlineLobby.hidden=true; $('#createRoomBtn').disabled=false; $('#joinRoomBtn').disabled=false; setNetwork('Desconectado');
+  if(message) toast(message);
+}
+function endRoom(){
+  if(onlineRole==='host') connections.forEach(c=>{if(c.open)c.send({type:'room-closed'});});
+  resetOnlineUI('Sala encerrada.'); showScreen('onlineScreen');
+}
+
+async function createRoom(){
+  if(!(await ensurePeer()))return;
+  const name=safeName($('#hostName').value,'Organizador');
+  $('#createRoomBtn').disabled=true; setNetwork('Criando sala…'); els.onlineLobby.hidden=false;
+  peer?.destroy?.(); connections.clear(); onlineRole='host';
+  let attempts=0;
+  const openHost=()=>{
+    attempts++; currentRoomCode=makeRoomCode();
+    peer=createCloudPeer(roomPeerId(currentRoomCode));
+    armPeerOpenTimeout(peer,$('#createRoomBtn'),'Não consegui abrir a sala. Abra no Chrome com internet e tente novamente.');
+    peer.on('open',id=>{
+      myPlayerId=`host:${id}`; lobbyState={players:[{id:myPlayerId,name}],qpp:Number($('#onlineQpp').value)||10,gameRule:$('#onlineGameRule').value||'classic',topic:$('#onlineTopic').value||'all',level:$('#onlineLevel').value||'progressive'};
+      els.roomCodeText.textContent=currentRoomCode; els.roomCodeBox.hidden=false; $('#roomShareActions').hidden=false;
+      els.startOnlineBtn.hidden=false; setNetwork('Sala aberta'); renderLobby();
+      try{history.replaceState(null,'',inviteLink(currentRoomCode));}catch{}
+    });
+    peer.on('connection',setupHostConnection);
+    peer.on('error',e=>{
+      if(e?.type==='unavailable-id' && attempts<5){try{peer.destroy()}catch{}; openHost(); return;}
+      setNetwork('Falha de conexão'); toast('Não foi possível criar a sala ('+(e?.type||'conexão')+'). Abra no Chrome e tente novamente.'); $('#createRoomBtn').disabled=false;
+    });
+  };
+  openHost();
+}
+async function joinRoom(){
+  if(!(await ensurePeer()))return;
+  const name=safeName($('#guestName').value,'Convidado'); const code=$('#roomCodeInput').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(code.length<4){toast('Digite o código da sala.');return;}
+  $('#roomCodeInput').value=code; $('#joinRoomBtn').disabled=true; els.onlineLobby.hidden=false; els.roomCodeBox.hidden=true; $('#roomShareActions').hidden=true; els.startOnlineBtn.hidden=true; setNetwork('Entrando…');
+  peer?.destroy?.(); peer=createCloudPeer(); armPeerOpenTimeout(peer,$('#joinRoomBtn'),'Não consegui conectar ao servidor da sala. Abra no Chrome com internet.'); onlineRole='client'; currentRoomCode=code;
+  peer.on('open',id=>{
+    myPlayerId=id; hostConn=peer.connect(roomPeerId(code),{reliable:true});
+    hostConn.on('open',()=>{setNetwork('Conectado');hostConn.send({type:'join',name});});
+    hostConn.on('data',data=>{
+      if(data?.type==='room-closed'){resetOnlineUI('O organizador encerrou a sala.');showScreen('onlineScreen');return;}
+      if(data?.type==='lobby'){lobbyState={players:data.players,qpp:data.qpp,gameRule:data.gameRule||'classic'};renderLobby();}
+      if(data?.type==='game'){
+        state={...data.state,mode:'online-client'};
+        if(data.final && state.finalRanking){renderResults(state.finalRanking);showScreen('resultScreen');}
+        else {showScreen('gameScreen');renderGame();}
+      }
+    });
+    hostConn.on('close',()=>{if(onlineRole==='client'){setNetwork('Desconectado');toast('A sala foi encerrada ou a conexão caiu.');$('#joinRoomBtn').disabled=false;}});
+    hostConn.on('error',()=>{setNetwork('Falha');toast('Não foi possível entrar. Confira o código da sala.');$('#joinRoomBtn').disabled=false;});
+  });
+  peer.on('error',e=>{setNetwork('Falha');toast(e?.type==='peer-unavailable'?'Sala não encontrada. Confira o código.':'Não foi possível entrar ('+(e?.type||'conexão')+'). Abra no Chrome.');$('#joinRoomBtn').disabled=false;});
+}
+
+// UI events
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.go)));
+$('#brandHome').addEventListener('click',()=>showScreen('homeScreen'));
+$('#addLocalPlayer').addEventListener('click',()=>{localPlayerCount++;renderLocalInputs();});
+$('#removeLocalPlayer').addEventListener('click',()=>{if(localPlayerCount>1){localPlayerCount--;renderLocalInputs();}});
+$('#startLocalBtn').addEventListener('click',()=>{
+  const names=[...els.localPlayers.querySelectorAll('input')].map((i,n)=>safeName(i.value,`Jogador ${n+1}`));
+  const gameRule=$('#localGameRule').value||'classic';
+  if(gameRule==='knockout' && names.length<2){toast('Errou, Caiu precisa de pelo menos 2 jogadores.');return;}
+  newGame(names,els.qpp.value,'local',gameRule);
+});
+els.eliminateBtn.addEventListener('click',()=>playerAction('eliminate')); els.skipBtn.addEventListener('click',()=>playerAction('skip'));
+$('#createRoomBtn').addEventListener('click',createRoom); $('#joinRoomBtn').addEventListener('click',joinRoom);
+els.startOnlineBtn.addEventListener('click',()=>{
+  if(onlineRole!=='host')return; if(!lobbyState.players.length)return;
+  if(lobbyState.gameRule==='knockout' && lobbyState.players.length<2){toast('Errou, Caiu precisa de pelo menos 2 jogadores.');return;}
+  newGame(lobbyState.players,lobbyState.qpp,'online-host',lobbyState.gameRule||'classic');
+});
+$('#copyRoomCode').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(els.roomCodeText.textContent);toast('Código copiado.');}catch{toast('Selecione e copie o código.');}});
+$('#shareRoomBtn').addEventListener('click',async()=>{
+  const text=`Entre na minha sala do Verbum Elétrica PRO! Código: ${currentRoomCode}`; const url=inviteLink();
+  try{if(navigator.share) await navigator.share({title:'Verbum Elétrica PRO',text,url}); else {await navigator.clipboard.writeText(`${text}\n${url}`);toast('Link de convite copiado.');}}catch{}
+});
+$('#endRoomBtn').addEventListener('click',endRoom);
+$('#soundBtn').addEventListener('click',()=>{soundOn=!soundOn;$('#soundBtn').textContent=soundOn?'🔊 Som':'🔇 Sem som';$('#soundBtn').setAttribute('aria-pressed',String(soundOn));});
+$('#playAgainBtn').addEventListener('click',()=>{
+  if(!lastGameConfig){showScreen('homeScreen');return;}
+  if(lastGameConfig.mode==='online-client'){toast('Somente o organizador pode reiniciar a partida.');showScreen('onlineScreen');return;}
+  newGame(lastGameConfig.players,lastGameConfig.qpp,lastGameConfig.mode,lastGameConfig.gameRule||'classic');
+});
+
+function syncRuleUI(){
+  const localKnockout=$('#localGameRule')?.value==='knockout';
+  if($('#localQppField')) $('#localQppField').hidden=localKnockout;
+  if($('#localKnockoutHelp')) $('#localKnockoutHelp').hidden=!localKnockout;
+  const onlineKnockout=$('#onlineGameRule')?.value==='knockout';
+  if($('#onlineQppField')) $('#onlineQppField').hidden=onlineKnockout;
+  if($('#onlineKnockoutHelp')) $('#onlineKnockoutHelp').hidden=!onlineKnockout;
+}
+$('#localGameRule')?.addEventListener('change',syncRuleUI);
+$('#onlineGameRule')?.addEventListener('change',syncRuleUI);
+syncRuleUI();
+
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;$('#installBtn').hidden=false;});
+$('#installBtn').addEventListener('click',async()=>{if(!installPrompt)return;installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$('#installBtn').hidden=true;});
+// PWA da edição elétrica será configurada em atualização própria.
+
+setVerse(); renderLocalInputs();
+try{
+  const params=new URLSearchParams(location.search); const invited=(params.get('sala')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+  if(invited){ $('#roomCodeInput').value=invited; showScreen('onlineScreen'); setTimeout(()=>$('#guestName').focus(),100); }
+}catch{}
+console.info(`Verbum Elétrica PRO carregado com ${QUESTIONS.length} perguntas.`);
+
+  </script>
+</body>
+</html>
